@@ -1,0 +1,1202 @@
+{
+  "season": 2019,
+  "team": "Kansas City Royals",
+  "division": "25+ Cactus",
+  "games": [
+    {
+      "date": "2019-10-16",
+      "time": "4:00pm",
+      "venue": "Tempe #6",
+      "home": "Tuscon Indians",
+      "away": "Kansas City Royals",
+      "linescore": {
+        "away": [
+          1,
+          1,
+          2,
+          1,
+          0,
+          1,
+          0,
+          2,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "result": "W",
+      "score": "8-2",
+      "batting": {
+        "away": [
+          {
+            "name": "Chad Jones",
+            "ab": 5,
+            "r": 1,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 4,
+            "r": 1,
+            "h": 1,
+            "rbi": 1,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 5,
+            "r": 1,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 5,
+            "r": 0,
+            "h": 3,
+            "rbi": 3,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Jacquoi Rhymer",
+            "ab": 5,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 5,
+            "r": 2,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Tim Martin",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Josh Carrasco",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 1,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Ronny Romo",
+            "ab": 2,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 2,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Andy Rocha",
+            "ab": 1,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 1,
+            "r": 0,
+            "h": 1,
+            "rbi": 2,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Angel Velazquez",
+            "ab": 0,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Andres Barrera",
+            "ab": 0,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0
+          }
+        ],
+        "home": []
+      },
+      "pitching": {
+        "away": [
+          {
+            "name": "Jake Wolf",
+            "decision": "W",
+            "ip": 9.0,
+            "h": 5,
+            "r": 2,
+            "er": 2,
+            "bb": 4,
+            "k": 3
+          }
+        ],
+        "home": []
+      },
+      "notes": {
+        "2b": [
+          "Webb",
+          "Carrasco",
+          "Rocha"
+        ],
+        "errors": [
+          "Jones",
+          "Lyday (2)"
+        ],
+        "hbp": [
+          "Donelon"
+        ]
+      },
+      "phase": "pool"
+    },
+    {
+      "date": "2019-10-17",
+      "time": "4:00pm",
+      "venue": "Tempe #2",
+      "home": "Kansas City Royals",
+      "away": "Cordova Redbirds",
+      "linescore": {
+        "away": [
+          1,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "home": [
+          4,
+          0,
+          0,
+          0,
+          4,
+          0,
+          6,
+          0
+        ]
+      },
+      "result": "W",
+      "score": "14-3",
+      "batting": {
+        "away": [],
+        "home": [
+          {
+            "name": "Chad Jones",
+            "ab": 4,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 3,
+            "r": 3,
+            "h": 2,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "John Lazarro",
+            "ab": 4,
+            "r": 3,
+            "h": 4,
+            "rbi": 2,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 3,
+            "r": 3,
+            "h": 2,
+            "rbi": 2,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Josh Carrasco",
+            "ab": 2,
+            "r": 2,
+            "h": 0,
+            "rbi": 1,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Ronny Romo",
+            "ab": 3,
+            "r": 0,
+            "h": 1,
+            "rbi": 4,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 2,
+            "r": 0,
+            "h": 2,
+            "rbi": 1,
+            "bb": 2,
+            "k": 0
+          },
+          {
+            "name": "Nick Deichler",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Angel Velazquez",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2
+          },
+          {
+            "name": "Tim Martin",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Jacquoi Rhymer",
+            "ab": 1,
+            "r": 0,
+            "h": 1,
+            "rbi": 1,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 2,
+            "r": 0,
+            "h": 1,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0
+          }
+        ]
+      },
+      "pitching": {
+        "away": [],
+        "home": [
+          {
+            "name": "James Jones",
+            "decision": "W",
+            "ip": 5.0,
+            "h": 9,
+            "r": 3,
+            "er": 2,
+            "bb": 5,
+            "k": 4
+          },
+          {
+            "name": "Angel Velazquez",
+            "decision": "S",
+            "ip": 3.0,
+            "h": 0,
+            "r": 0,
+            "er": 0,
+            "bb": 1,
+            "k": 1
+          }
+        ]
+      },
+      "notes": {
+        "2b": [
+          "Webb",
+          "Lloyd",
+          "Romo",
+          "Lyday"
+        ],
+        "errors": [
+          "Jones (3)"
+        ],
+        "hbp": [
+          "Carrasco",
+          "Deichler"
+        ],
+        "sh": [
+          "Romo"
+        ],
+        "hb_pitching": [
+          "Velazquez"
+        ]
+      },
+      "phase": "pool"
+    },
+    {
+      "date": "2019-10-17",
+      "time": "7:30pm",
+      "venue": "Tempe #1",
+      "home": "Chicago Cyclones",
+      "away": "Kansas City Royals",
+      "linescore": {
+        "away": [
+          3,
+          0,
+          0,
+          2,
+          4,
+          12,
+          0,
+          0,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "result": "W",
+      "score": "21-3",
+      "batting": {
+        "away": [
+          {
+            "name": "Chad Jones",
+            "ab": 4,
+            "r": 3,
+            "h": 3,
+            "rbi": 1,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 4,
+            "r": 2,
+            "h": 1,
+            "rbi": 3,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "John Lazarro",
+            "ab": 4,
+            "r": 2,
+            "h": 4,
+            "rbi": 4,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 3,
+            "r": 1,
+            "h": 2,
+            "rbi": 3,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Josh Carrasco",
+            "ab": 4,
+            "r": 1,
+            "h": 2,
+            "rbi": 0,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Ronny Romo",
+            "ab": 5,
+            "r": 2,
+            "h": 2,
+            "rbi": 2,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Nick Deichler",
+            "ab": 4,
+            "r": 2,
+            "h": 1,
+            "rbi": 1,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 5,
+            "r": 1,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 4,
+            "r": 1,
+            "h": 1,
+            "rbi": 1,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 4,
+            "r": 1,
+            "h": 1,
+            "rbi": 1,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Angel Velazquez",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Andres Barrera",
+            "ab": 3,
+            "r": 2,
+            "h": 2,
+            "rbi": 3,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Jacquoi Rhymer",
+            "ab": 2,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 2,
+            "r": 2,
+            "h": 2,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0
+          }
+        ],
+        "home": []
+      },
+      "pitching": {
+        "away": [
+          {
+            "name": "Tim Martin",
+            "decision": "W",
+            "ip": 5.0,
+            "h": 3,
+            "r": 2,
+            "er": 2,
+            "bb": 3,
+            "k": 6
+          },
+          {
+            "name": "Angel Velazquez",
+            "decision": "",
+            "ip": 2.0,
+            "h": 1,
+            "r": 1,
+            "er": 1,
+            "bb": 0,
+            "k": 2
+          },
+          {
+            "name": "Andres Barrera",
+            "decision": "",
+            "ip": 1.0,
+            "h": 0,
+            "r": 0,
+            "er": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Chad Jones",
+            "decision": "",
+            "ip": 1.0,
+            "h": 1,
+            "r": 0,
+            "er": 0,
+            "bb": 0,
+            "k": 0
+          }
+        ],
+        "home": []
+      },
+      "notes": {
+        "2b": [
+          "Webb",
+          "Lazarro",
+          "Carrasco",
+          "Romo",
+          "Deichler",
+          "Barrera"
+        ],
+        "errors": [
+          "Jones"
+        ],
+        "hbp": [
+          "Lloyd"
+        ],
+        "sh": [
+          "Lazarro"
+        ]
+      },
+      "phase": "pool"
+    },
+    {
+      "date": "2019-10-18",
+      "time": "10:00am",
+      "venue": "Goodyear #4",
+      "home": "Tri Valley Diablos",
+      "away": "Kansas City Royals",
+      "linescore": {
+        "away": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          5,
+          0,
+          4,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "result": "W",
+      "score": "11-1",
+      "batting": {
+        "away": [
+          {
+            "name": "Chad Jones",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 4,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "John Lazarro",
+            "ab": 2,
+            "r": 2,
+            "h": 1,
+            "rbi": 0,
+            "bb": 2,
+            "k": 0
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 3,
+            "r": 2,
+            "h": 1,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Ronny Romo",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Josh Carrasco",
+            "ab": 3,
+            "r": 2,
+            "h": 2,
+            "rbi": 2,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 3,
+            "r": 2,
+            "h": 0,
+            "rbi": 1,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Nick Deichler",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 1,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 4,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "James Jones",
+            "ab": 4,
+            "r": 0,
+            "h": 3,
+            "rbi": 4,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Jacquoi Rhymer",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Angel Velazquez",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Tim Martin",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          }
+        ],
+        "home": []
+      },
+      "pitching": {
+        "away": [
+          {
+            "name": "Jackson Webb",
+            "decision": "W",
+            "ip": 9.0,
+            "h": 3,
+            "r": 1,
+            "er": 1,
+            "bb": 3,
+            "k": 6
+          }
+        ],
+        "home": []
+      },
+      "notes": {
+        "2b": [
+          "Lloyd",
+          "Jones"
+        ],
+        "sb": [
+          "Lazarro",
+          "Romo"
+        ],
+        "errors": [
+          "Jones",
+          "Webb"
+        ],
+        "hbp": [
+          "Lloyd"
+        ],
+        "sh": [
+          "Deichler"
+        ],
+        "hb_pitching": [
+          "Webb"
+        ]
+      },
+      "phase": "pool"
+    },
+    {
+      "date": "2019-10-18",
+      "time": "5:45pm",
+      "venue": "Goodyear #5",
+      "home": "Kansas City Royals",
+      "away": "Denver Redbirds",
+      "linescore": {
+        "away": [
+          2,
+          4,
+          2,
+          2,
+          3,
+          0,
+          0,
+          0
+        ],
+        "home": [
+          4,
+          0,
+          2,
+          6,
+          3,
+          1,
+          0,
+          0
+        ]
+      },
+      "result": "W",
+      "score": "16-13",
+      "batting": {
+        "away": [],
+        "home": [
+          {
+            "name": "Chad Jones",
+            "ab": 4,
+            "r": 3,
+            "h": 2,
+            "rbi": 2,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 4,
+            "r": 2,
+            "h": 2,
+            "rbi": 2,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "John Lazarro",
+            "ab": 4,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 4,
+            "r": 2,
+            "h": 3,
+            "rbi": 4,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Josh Carrasco",
+            "ab": 4,
+            "r": 2,
+            "h": 3,
+            "rbi": 2,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Nick Deichler",
+            "ab": 3,
+            "r": 0,
+            "h": 2,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 4,
+            "r": 1,
+            "h": 2,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 4,
+            "r": 2,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 4,
+            "r": 1,
+            "h": 3,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Jacquoi Rhymer",
+            "ab": 4,
+            "r": 1,
+            "h": 3,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Angel Velazquez",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "James Jones",
+            "ab": 0,
+            "r": 0,
+            "h": 0,
+            "rbi": 1,
+            "bb": 2,
+            "k": 0
+          },
+          {
+            "name": "Tim Martin",
+            "ab": 1,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 2,
+            "k": 1
+          }
+        ]
+      },
+      "pitching": {
+        "away": [],
+        "home": [
+          {
+            "name": "Josh Carrasco",
+            "decision": "",
+            "ip": 2.0,
+            "h": 8,
+            "r": 6,
+            "er": 2,
+            "bb": 0,
+            "k": 2
+          },
+          {
+            "name": "Tre Lyday",
+            "decision": "",
+            "ip": 1.2,
+            "h": 1,
+            "r": 4,
+            "er": 3,
+            "bb": 4,
+            "k": 3
+          },
+          {
+            "name": "Angel Velazquez",
+            "decision": "W",
+            "ip": 4.1,
+            "h": 8,
+            "r": 3,
+            "er": 3,
+            "bb": 2,
+            "k": 1
+          }
+        ]
+      },
+      "notes": {
+        "2b": [
+          "Lloyd",
+          "Carrasco"
+        ],
+        "3b": [
+          "Webb",
+          "Lloyd"
+        ],
+        "sb": [
+          "Lazarro",
+          "Carrasco"
+        ],
+        "errors": [
+          "Carrasco",
+          "Lyday",
+          "Adams"
+        ],
+        "hbp": [
+          "Jones"
+        ],
+        "sh": [
+          "Deichler"
+        ]
+      },
+      "phase": "pool"
+    },
+    {
+      "date": "2019-10-19",
+      "time": "9:30am",
+      "venue": "Salt River Rockies #3",
+      "home": "Kansas City Royals",
+      "away": "Antelope Valley Phillies",
+      "linescore": {
+        "away": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0
+        ],
+        "home": [
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "result": "L",
+      "score": "4-6",
+      "batting": {
+        "away": [],
+        "home": [
+          {
+            "name": "James Jones",
+            "ab": 4,
+            "r": 0,
+            "h": 3,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "John Lazarro",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Josh Carrasco",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Ronny Romo",
+            "ab": 4,
+            "r": 3,
+            "h": 3,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0
+          },
+          {
+            "name": "Nick Deichler",
+            "ab": 3,
+            "r": 0,
+            "h": 2,
+            "rbi": 1,
+            "bb": 1,
+            "k": 0
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 1
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 4,
+            "r": 0,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0
+          }
+        ]
+      },
+      "pitching": {
+        "away": [],
+        "home": [
+          {
+            "name": "Jake Wolf",
+            "decision": "L",
+            "ip": 9.0,
+            "h": 9,
+            "r": 6,
+            "er": 5,
+            "bb": 5,
+            "k": 5
+          }
+        ]
+      },
+      "notes": {
+        "2b": [
+          "Romo"
+        ],
+        "errors": [
+          "Deichler"
+        ],
+        "sh": [
+          "Carrasco"
+        ]
+      },
+      "phase": "playoff"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baseball Stats</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>⚾ Baseball Stats</h1>
+    <nav>
+      <a href="#seasons">Seasons</a>
+      <a href="#career">Career by Team</a>
+      <a href="#totals">Career Totals</a>
+      <a href="royals/">WS Royals</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="filters">
+      <label>Year:
+        <select id="yearFilter"><option value="">All</option></select>
+      </label>
+      <label>Team:
+        <select id="teamFilter"><option value="">All</option></select>
+      </label>
+      <label>
+        <input type="checkbox" id="hideTotals" checked> Hide yearly totals
+      </label>
+    </section>
+
+    <section id="seasons">
+      <h2>Season Stats</h2>
+      <div class="table-wrap">
+        <table id="seasonTable">
+          <thead><tr>
+            <th data-col="year">Year</th><th data-col="team">Team</th><th data-col="age">Age</th>
+            <th data-col="g">G</th><th data-col="avg">AVG</th><th data-col="h">H</th>
+            <th data-col="ab">AB</th><th data-col="hr">HR</th><th data-col="rbi">RBI</th>
+            <th data-col="obp">OBP</th><th data-col="slg">SLG</th><th data-col="ops">OPS</th>
+            <th data-col="2b">2B</th><th data-col="3b">3B</th><th data-col="sb">SB</th>
+            <th data-col="r">R</th><th data-col="bb">BB</th><th data-col="k">K</th>
+            <th data-col="hb">HBP</th><th data-col="s">SAC</th>
+            <th data-col="w">W</th><th data-col="l">L</th><th data-col="note">Note</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="career">
+      <h2>Career Stats by Team</h2>
+      <div class="table-wrap">
+        <table id="careerTable">
+          <thead><tr>
+            <th data-col="team">Team</th><th data-col="years">Yrs</th><th data-col="g">G</th>
+            <th data-col="avg">AVG</th><th data-col="h">H</th><th data-col="ab">AB</th>
+            <th data-col="hr">HR</th><th data-col="rbi">RBI</th><th data-col="obp">OBP</th>
+            <th data-col="slg">SLG</th><th data-col="ops">OPS</th>
+            <th data-col="2b">2B</th><th data-col="3b">3B</th><th data-col="sb">SB</th>
+            <th data-col="r">R</th><th data-col="bb">BB</th><th data-col="k">K</th>
+            <th data-col="hb">HBP</th><th data-col="s">SAC</th>
+            <th data-col="w">W</th><th data-col="l">L</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="totals">
+      <h2>Career Totals</h2>
+      <div id="totalsCard"></div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

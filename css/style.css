@@ -1,0 +1,113 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  line-height: 1.5;
+}
+
+header {
+  background: #16213e;
+  padding: 1.5rem 2rem;
+  border-bottom: 3px solid #e94560;
+}
+
+header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+
+nav a {
+  color: #e94560;
+  text-decoration: none;
+  margin-right: 1.5rem;
+  font-weight: 600;
+}
+nav a:hover { text-decoration: underline; }
+
+main { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+
+section { margin-bottom: 2rem; }
+
+h2 {
+  color: #e94560;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+#filters {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: #16213e;
+  border-radius: 8px;
+}
+
+#filters label { font-weight: 600; }
+
+#filters select {
+  background: #0f3460;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 0.3rem;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th, td {
+  padding: 0.4rem 0.6rem;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid #2a2a4a;
+}
+
+th {
+  background: #0f3460;
+  color: #e94560;
+  cursor: pointer;
+  position: sticky;
+  top: 0;
+  user-select: none;
+}
+th:hover { background: #1a4a80; }
+th.sort-asc::after { content: ' ▲'; }
+th.sort-desc::after { content: ' ▼'; }
+
+td:first-child, th:first-child,
+td:nth-child(2), th:nth-child(2) { text-align: left; }
+
+tr:hover { background: #16213e; }
+tr.total-row { background: #0f3460; font-weight: 700; }
+tr.champ-row { border-left: 3px solid gold; }
+
+#totalsCard, .totals-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.8rem;
+}
+
+.stat-card {
+  background: #16213e;
+  padding: 0.8rem;
+  border-radius: 8px;
+  text-align: center;
+}
+.stat-card .label { font-size: 0.75rem; color: #888; text-transform: uppercase; }
+.stat-card .value { font-size: 1.4rem; font-weight: 700; color: #e94560; }
+
+@media (max-width: 768px) {
+  header { padding: 1rem; }
+  main { padding: 0.5rem; }
+  #filters { flex-direction: column; gap: 0.5rem; }
+  table { font-size: 0.75rem; }
+  th, td { padding: 0.3rem 0.4rem; }
+}

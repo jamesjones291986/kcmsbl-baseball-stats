@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WS Royals - Baseball Stats</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header>
+    <h1>👑 WS Royals / Blues</h1>
+    <nav>
+      <a href="../">Personal Stats</a>
+      <a href="#batting">My Batting</a>
+      <a href="#pitching">My Pitching</a>
+      <a href="#gamelog">Game Log</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="batting">
+      <h2>My Batting by Season</h2>
+      <div class="table-wrap">
+        <table id="battingTable">
+          <thead><tr>
+            <th>Year</th><th>Age</th><th>G</th><th>AVG</th><th>H</th><th>AB</th>
+            <th>HR</th><th>RBI</th><th>OBP</th><th>SLG</th><th>OPS</th>
+            <th>2B</th><th>3B</th><th>SB</th><th>R</th><th>BB</th><th>K</th>
+            <th>HBP</th><th>W</th><th>L</th><th>Division</th><th>Note</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h2>Batting Totals</h2>
+      <div id="battingTotalsCard" class="totals-card-grid"></div>
+    </section>
+
+    <section id="pitching">
+      <h2>My Pitching by Season</h2>
+      <div class="table-wrap">
+        <table id="pitchingTable">
+          <thead><tr>
+            <th>Year</th><th>Age</th><th>G</th><th>ERA</th><th>W</th><th>L</th>
+            <th>SV</th><th>WHIP</th><th>IP</th><th>GS</th><th>CG</th><th>SHO</th>
+            <th>ER</th><th>R</th><th>K</th><th>BB</th><th>H</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h2>Pitching Totals</h2>
+      <div id="pitchingTotalsCard" class="totals-card-grid"></div>
+    </section>
+
+    <section id="gamelog">
+      <h2>Game Log</h2>
+      <label>Season:
+        <select id="seasonFilter"><option value="">All</option></select>
+      </label>
+      <div class="table-wrap">
+        <table id="gamelogTable">
+          <thead><tr>
+            <th>Date</th><th>Phase</th><th>Opponent</th><th>Result</th><th>Score</th><th>Venue</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="boxScore"></div>
+    </section>
+  </main>
+
+  <script>
+    const gameFiles = ['2019','2020'];
+    let allSeasons = [];
+
+    async function init() {
+      const [personalRes, ...gameResults] = await Promise.all([
+        fetch('../data/royals/seasons.json'),
+        ...gameFiles.map(y => fetch('../data/royals/games/' + y + '.json'))
+      ]);
+      const personal = await personalRes.json();
+      renderBatting(personal.batting);
+      renderPitching(personal.pitching);
+
+      for (const res of gameResults) {
+        allSeasons.push(await res.json());
+      }
+      populateSeasonFilter();
+      renderGameLog();
+    }
+
+    function fmt(v, d) { return v == null ? '-' : d ? v.toFixed(3) : v; }
+
+    function populateSeasonFilter() {
+      const sel = document.getElementById('seasonFilter');
+      allSeasons.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s.season;
+        o.textContent = s.season + ' - ' + s.division;
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', renderGameLog);
+    }
+
+    function renderGameLog() {
+      const filter = document.getElementById('seasonFilter').value;
+      const tbody = document.querySelector('#gamelogTable tbody');
+      let rows = [];
+      allSeasons.forEach(s => {
+        if (filter && s.season !== +filter) return;
+        s.games.forEach(g => {
+          const isHome = g.home === 'Kansas City Royals' || g.home === 'Kansas City Blues';
+          const opponent = isHome ? g.away : g.home;
+          rows.push({...g, opponent, seasonYear: s.season});
+        });
+      });
+      tbody.innerHTML = rows.map((g, i) => {
+        const cls = g.result === 'W' ? 'style="color:#4caf50"' : g.result === 'L' ? 'style="color:#e94560"' : '';
+        return `<tr style="cursor:pointer" onclick="showBox(${g.seasonYear},'${g.date}')">
+          <td style="text-align:left">${g.date}</td>
+          <td>${g.phase||''}</td>
+          <td style="text-align:left">${g.opponent}</td>
+          <td ${cls}>${g.result}</td>
+          <td>${g.score}</td>
+          <td style="text-align:left">${g.venue}</td>
+        </tr>`;
+      }).join('');
+      document.getElementById('boxScore').innerHTML = '';
+    }
+
+    function showBox(year, date) {
+      const season = allSeasons.find(s => s.season === year);
+      const game = season.games.find(g => g.date === date);
+      if (!game) return;
+      const isHome = game.home === 'Kansas City Royals' || game.home === 'Kansas City Blues';
+      const us = isHome ? 'home' : 'away';
+      const them = isHome ? 'away' : 'home';
+
+      let html = '<h3>' + game.away + ' @ ' + game.home + '</h3>';
+      html += '<p>' + game.date + ' | ' + game.time + ' | ' + game.venue + '</p>';
+
+      // Linescore
+      const innings = Math.max(game.linescore.away.length, game.linescore.home.length);
+      html += '<table><thead><tr><th style="text-align:left">Team</th>';
+      for (let i = 1; i <= innings; i++) html += '<th>' + i + '</th>';
+      html += '<th>R</th><th>H</th></tr></thead><tbody>';
+      [['away', game.away], ['home', game.home]].forEach(([key, name]) => {
+        const ls = game.linescore[key];
+        html += '<tr><td style="text-align:left">' + name + '</td>';
+        for (let i = 0; i < innings; i++) html += '<td>' + (ls[i] ?? '') + '</td>';
+        const r = ls.reduce((a, b) => a + b, 0);
+        const batters = game.batting[key] || [];
+        const h = batters.reduce((a, b) => a + (b.h || 0), 0);
+        html += '<td>' + r + '</td><td>' + (batters.length ? h : '-') + '</td></tr>';
+      });
+      html += '</tbody></table>';
+
+      // Batting
+      const batters = game.batting[us];
+      if (batters.length) {
+        html += '<h4>Batting</h4><table><thead><tr><th style="text-align:left">Name</th><th>AB</th><th>R</th><th>H</th><th>RBI</th><th>BB</th><th>K</th></tr></thead><tbody>';
+        batters.forEach(b => {
+          html += '<tr><td style="text-align:left">' + b.name + '</td><td>' + b.ab + '</td><td>' + b.r + '</td><td>' + b.h + '</td><td>' + b.rbi + '</td><td>' + b.bb + '</td><td>' + b.k + '</td></tr>';
+        });
+        const tot = batters.reduce((t, b) => { ['ab','r','h','rbi','bb','k'].forEach(k => t[k] += b[k]||0); return t; }, {ab:0,r:0,h:0,rbi:0,bb:0,k:0});
+        html += '<tr class="total-row"><td style="text-align:left">Totals</td><td>' + tot.ab + '</td><td>' + tot.r + '</td><td>' + tot.h + '</td><td>' + tot.rbi + '</td><td>' + tot.bb + '</td><td>' + tot.k + '</td></tr>';
+        html += '</tbody></table>';
+      }
+
+      // Pitching
+      const pitchers = game.pitching[us];
+      if (pitchers.length) {
+        html += '<h4>Pitching</h4><table><thead><tr><th style="text-align:left">Name</th><th>Dec</th><th>IP</th><th>H</th><th>R</th><th>ER</th><th>BB</th><th>K</th></tr></thead><tbody>';
+        pitchers.forEach(p => {
+          html += '<tr><td style="text-align:left">' + p.name + '</td><td>' + (p.decision||'') + '</td><td>' + p.ip + '</td><td>' + p.h + '</td><td>' + p.r + '</td><td>' + p.er + '</td><td>' + p.bb + '</td><td>' + p.k + '</td></tr>';
+        });
+        html += '</tbody></table>';
+      }
+
+      // Notes
+      if (game.notes) {
+        const parts = [];
+        if (game.notes['2b']?.length) parts.push('2B: ' + game.notes['2b'].join(', '));
+        if (game.notes['3b']?.length) parts.push('3B: ' + game.notes['3b'].join(', '));
+        if (game.notes.sb?.length) parts.push('SB: ' + game.notes.sb.join(', '));
+        if (game.notes.cs?.length) parts.push('CS: ' + game.notes.cs.join(', '));
+        if (game.notes.errors?.length) parts.push('E: ' + game.notes.errors.join(', '));
+        if (game.notes.hbp?.length) parts.push('HBP: ' + game.notes.hbp.join(', '));
+        if (game.notes.sh?.length) parts.push('SH: ' + game.notes.sh.join(', '));
+        if (parts.length) html += '<p style="margin-top:0.5rem;color:#888">' + parts.join(' | ') + '</p>';
+      }
+
+      document.getElementById('boxScore').innerHTML = html;
+    }
+
+    function renderBatting(rows) {
+      const tbody = document.querySelector('#battingTable tbody');
+      tbody.innerHTML = rows.map(s => {
+        const cls = s.note && s.note.toLowerCase().includes('champion') ? 'champ-row' : '';
+        return '<tr class="' + cls + '"><td>' + s.year + '</td><td>' + s.age + '</td><td>' + s.g + '</td><td>' + fmt(s.avg,3) + '</td><td>' + s.h + '</td><td>' + s.ab + '</td><td>' + s.hr + '</td><td>' + s.rbi + '</td><td>' + fmt(s.obp,3) + '</td><td>' + fmt(s.slg,3) + '</td><td>' + fmt(s.ops,3) + '</td><td>' + s['2b'] + '</td><td>' + s['3b'] + '</td><td>' + s.sb + '</td><td>' + s.r + '</td><td>' + s.bb + '</td><td>' + s.k + '</td><td>' + s.hb + '</td><td>' + s.w + '</td><td>' + s.l + '</td><td style="text-align:left">' + (s.division||'') + '</td><td style="text-align:left">' + (s.note||'') + '</td></tr>';
+      }).join('');
+
+      const t = {g:0,h:0,ab:0,hr:0,rbi:0,'3b':0,'2b':0,sb:0,r:0,k:0,bb:0,hb:0,w:0,l:0};
+      rows.forEach(s => Object.keys(t).forEach(k => t[k] += s[k]||0));
+      t.avg = t.ab ? t.h/t.ab : 0;
+      t.obp = (t.ab+t.bb+t.hb) ? (t.h+t.bb+t.hb)/(t.ab+t.bb+t.hb) : 0;
+      const tb = t.h + t['2b'] + 2*t['3b'] + 3*t.hr;
+      t.slg = t.ab ? tb/t.ab : 0;
+      t.ops = t.obp + t.slg;
+      const cards = [['Seasons',rows.length],['Games',t.g],['AVG',t.avg.toFixed(3)],['Hits',t.h],['AB',t.ab],['HR',t.hr],['RBI',t.rbi],['OBP',t.obp.toFixed(3)],['SLG',t.slg.toFixed(3)],['OPS',t.ops.toFixed(3)],['2B',t['2b']],['3B',t['3b']],['SB',t.sb],['Runs',t.r],['BB',t.bb],['K',t.k],['HBP',t.hb],['Wins',t.w],['Losses',t.l]];
+      document.getElementById('battingTotalsCard').innerHTML = cards.map(([l,v]) => '<div class="stat-card"><div class="label">' + l + '</div><div class="value">' + v + '</div></div>').join('');
+    }
+
+    function renderPitching(rows) {
+      const tbody = document.querySelector('#pitchingTable tbody');
+      tbody.innerHTML = rows.map(s => '<tr><td>' + s.year + '</td><td>' + s.age + '</td><td>' + s.g + '</td><td>' + s.era.toFixed(2) + '</td><td>' + s.w + '</td><td>' + s.l + '</td><td>' + s.s + '</td><td>' + s.whip.toFixed(2) + '</td><td>' + s.ip + '</td><td>' + s.gs + '</td><td>' + s.cg + '</td><td>' + s.sho + '</td><td>' + s.er + '</td><td>' + s.r + '</td><td>' + s.k + '</td><td>' + s.bb + '</td><td>' + s.h + '</td></tr>').join('');
+
+      const t = {g:0,w:0,l:0,s:0,gs:0,cg:0,sho:0,er:0,r:0,k:0,bb:0,h:0,ip:0};
+      rows.forEach(s => Object.keys(t).forEach(k => t[k] += s[k]||0));
+      t.era = t.ip ? (t.er*9)/t.ip : 0;
+      t.whip = t.ip ? (t.bb+t.h)/t.ip : 0;
+      const cards = [['Games',t.g],['ERA',t.era.toFixed(2)],['W',t.w],['L',t.l],['SV',t.s],['WHIP',t.whip.toFixed(2)],['IP',t.ip],['GS',t.gs],['CG',t.cg],['SHO',t.sho],['ER',t.er],['R',t.r],['K',t.k],['BB',t.bb],['H',t.h]];
+      document.getElementById('pitchingTotalsCard').innerHTML = cards.map(([l,v]) => '<div class="stat-card"><div class="label">' + l + '</div><div class="value">' + v + '</div></div>').join('');
+    }
+
+    init();
+  </script>
+</body>
+</html>
