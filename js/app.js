@@ -1,18 +1,27 @@
 let seasons = [];
+let pitching = [];
 let sortCol = 'year';
 let sortAsc = true;
 
 async function init() {
-  const res = await fetch('data/personal/seasons.json');
-  seasons = await res.json();
+  const [seasonsRes, pitchingRes] = await Promise.all([
+    fetch('data/personal/seasons.json'),
+    fetch('data/personal/pitching.json')
+  ]);
+  seasons = await seasonsRes.json();
+  pitching = await pitchingRes.json();
   populateFilters();
   renderSeasons();
   renderCareer();
   renderTotals();
+  renderPitching();
+  renderPitchingCareer();
+  renderPitchingTotals();
 
   document.getElementById('yearFilter').addEventListener('change', renderSeasons);
   document.getElementById('teamFilter').addEventListener('change', renderSeasons);
   document.getElementById('hideTotals').addEventListener('change', renderSeasons);
+  document.getElementById('hidePitchingTotals').addEventListener('change', renderPitching);
 
   document.querySelectorAll('#seasonTable th').forEach(th => {
     th.addEventListener('click', () => sortTable(th.dataset.col, 'seasonTable'));
@@ -132,6 +141,72 @@ function renderTotals() {
   ];
 
   document.getElementById('totalsCard').innerHTML = cards.map(([label, val]) =>
+    `<div class="stat-card"><div class="label">${label}</div><div class="value">${val}</div></div>`
+  ).join('');
+}
+
+function renderPitching() {
+  const hideTotals = document.getElementById('hidePitchingTotals').checked;
+  const data = hideTotals ? pitching.filter(s => s.team !== 'Total') : pitching;
+  const tbody = document.querySelector('#pitchingTable tbody');
+  tbody.innerHTML = data.map(s => {
+    const cls = s.team === 'Total' ? 'total-row' : '';
+    return `<tr class="${cls}">
+      <td>${s.year}</td><td>${s.team}</td><td>${s.age}</td>
+      <td>${s.g}</td><td>${s.era.toFixed(2)}</td><td>${s.w}</td>
+      <td>${s.l}</td><td>${s.s}</td><td>${s.whip.toFixed(2)}</td>
+      <td>${s.ip}</td><td>${s.gs}</td><td>${s.cg}</td>
+      <td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td>
+      <td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderPitchingCareer() {
+  const indiv = pitching.filter(s => s.team !== 'Total');
+  const teams = {};
+  indiv.forEach(s => {
+    if (!teams[s.team]) teams[s.team] = { team: s.team, yearsSet: new Set(), g:0, w:0, l:0, s:0, ip:0, gs:0, cg:0, sho:0, er:0, r:0, k:0, bb:0, h:0 };
+    const t = teams[s.team];
+    t.yearsSet.add(s.year);
+    ['g','w','l','s','ip','gs','cg','sho','er','r','k','bb','h'].forEach(k => t[k] += s[k] || 0);
+  });
+  const data = Object.values(teams).map(t => {
+    t.years = t.yearsSet.size;
+    t.era = t.ip ? (t.er * 7) / t.ip : 0;
+    t.whip = t.ip ? (t.bb + t.h) / t.ip : 0;
+    delete t.yearsSet;
+    return t;
+  });
+  const tbody = document.querySelector('#pitchingCareerTable tbody');
+  tbody.innerHTML = data.map(t => `<tr>
+    <td>${t.team}</td><td>${t.years}</td><td>${t.g}</td>
+    <td>${t.era.toFixed(2)}</td><td>${t.w}</td><td>${t.l}</td>
+    <td>${t.s}</td><td>${t.whip.toFixed(2)}</td><td>${t.ip.toFixed(1)}</td>
+    <td>${t.gs}</td><td>${t.cg}</td><td>${t.sho}</td>
+    <td>${t.er}</td><td>${t.r}</td><td>${t.k}</td><td>${t.bb}</td><td>${t.h}</td>
+  </tr>`).join('');
+}
+
+function renderPitchingTotals() {
+  const indiv = pitching.filter(s => s.team !== 'Total');
+  const t = { g:0, w:0, l:0, s:0, ip:0, gs:0, cg:0, sho:0, er:0, r:0, k:0, bb:0, h:0 };
+  const yearsSet = new Set();
+  indiv.forEach(s => {
+    yearsSet.add(s.year);
+    Object.keys(t).forEach(k => t[k] += s[k] || 0);
+  });
+  t.era = t.ip ? (t.er * 7) / t.ip : 0;
+  t.whip = t.ip ? (t.bb + t.h) / t.ip : 0;
+
+  const cards = [
+    ['Years', yearsSet.size], ['Games', t.g], ['ERA', t.era.toFixed(2)],
+    ['W', t.w], ['L', t.l], ['S', t.s], ['WHIP', t.whip.toFixed(2)],
+    ['IP', t.ip.toFixed(1)], ['GS', t.gs], ['CG', t.cg], ['SHO', t.sho],
+    ['ER', t.er], ['R', t.r], ['K', t.k], ['BB', t.bb], ['H', t.h]
+  ];
+
+  document.getElementById('pitchingTotalsCard').innerHTML = cards.map(([label, val]) =>
     `<div class="stat-card"><div class="label">${label}</div><div class="value">${val}</div></div>`
   ).join('');
 }

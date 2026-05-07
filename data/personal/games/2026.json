@@ -1,0 +1,38 @@
+[
+  {
+    "date": "2026-05-03",
+    "team": "Federal Blues",
+    "opponent": "Phillies",
+    "ab": 3,
+    "h": 2,
+    "2b": 1,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 1,
+    "r": 2,
+    "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": { "ip": 1, "h": 2, "er": 1, "k": 0 }
+  },
+  {
+    "date": "2026-05-06",
+    "team": "CH A's",
+    "opponent": "Colt 45's",
+    "ab": 3,
+    "h": 2,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 1,
+    "r": 0,
+    "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": { "ip": 1, "h": 2, "er": 0, "k": 1 }
+  }
+]

@@ -13,6 +13,7 @@
       <a href="#seasons">Seasons</a>
       <a href="#career">Career by Team</a>
       <a href="#totals">Career Totals</a>
+      <a href="#pitching">Pitching</a>
       <a href="royals/">WS Royals</a>
     </nav>
   </header>
@@ -72,6 +73,45 @@
       <h2>Career Totals</h2>
       <div id="totalsCard"></div>
     </section>
+    <section id="pitching">
+      <h2>Pitching Stats</h2>
+      <label>
+        <input type="checkbox" id="hidePitchingTotals" checked> Hide yearly totals
+      </label>
+      <div class="table-wrap">
+        <table id="pitchingTable">
+          <thead><tr>
+            <th data-col="year">Year</th><th data-col="team">Team</th><th data-col="age">Age</th>
+            <th data-col="g">G</th><th data-col="era">ERA</th><th data-col="w">W</th>
+            <th data-col="l">L</th><th data-col="s">S</th><th data-col="whip">WHIP</th>
+            <th data-col="ip">IP</th><th data-col="gs">GS</th><th data-col="cg">CG</th>
+            <th data-col="sho">SHO</th><th data-col="er">ER</th><th data-col="r">R</th>
+            <th data-col="k">K</th><th data-col="bb">BB</th><th data-col="h">H</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="pitchingCareer">
+      <h2>Pitching Career by Team</h2>
+      <div class="table-wrap">
+        <table id="pitchingCareerTable">
+          <thead><tr>
+            <th>Team</th><th>Yrs</th><th>G</th><th>ERA</th><th>W</th><th>L</th>
+            <th>S</th><th>WHIP</th><th>IP</th><th>GS</th><th>CG</th>
+            <th>SHO</th><th>ER</th><th>R</th><th>K</th><th>BB</th><th>H</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="pitchingTotals">
+      <h2>Pitching Career Totals</h2>
+      <div id="pitchingTotalsCard"></div>
+    </section>
+
   </main>
 
   <script src="js/app.js"></script>
