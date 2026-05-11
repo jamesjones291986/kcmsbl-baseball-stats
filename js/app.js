@@ -145,6 +145,14 @@ function renderTotals() {
   ).join('');
 }
 
+function fmtIP(ip) {
+  const whole = Math.floor(ip);
+  const frac = Math.round((ip - whole) * 10);
+  if (frac === 3) return whole + '.1';
+  if (frac === 7) return whole + '.2';
+  return ip % 1 === 0 ? whole + '.0' : ip.toFixed(1);
+}
+
 function renderPitching() {
   const hideTotals = document.getElementById('hidePitchingTotals').checked;
   const data = hideTotals ? pitching.filter(s => s.team !== 'Total') : pitching;
@@ -155,7 +163,7 @@ function renderPitching() {
       <td>${s.year}</td><td>${s.team}</td><td>${s.age}</td>
       <td>${s.g}</td><td>${s.era.toFixed(2)}</td><td>${s.w}</td>
       <td>${s.l}</td><td>${s.s}</td><td>${s.whip.toFixed(2)}</td>
-      <td>${s.ip}</td><td>${s.gs}</td><td>${s.cg}</td>
+      <td>${fmtIP(s.ip)}</td><td>${s.gs}</td><td>${s.cg}</td>
       <td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td>
       <td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td>
     </tr>`;
@@ -182,7 +190,7 @@ function renderPitchingCareer() {
   tbody.innerHTML = data.map(t => `<tr>
     <td>${t.team}</td><td>${t.years}</td><td>${t.g}</td>
     <td>${t.era.toFixed(2)}</td><td>${t.w}</td><td>${t.l}</td>
-    <td>${t.s}</td><td>${t.whip.toFixed(2)}</td><td>${t.ip.toFixed(1)}</td>
+    <td>${t.s}</td><td>${t.whip.toFixed(2)}</td><td>${fmtIP(t.ip)}</td>
     <td>${t.gs}</td><td>${t.cg}</td><td>${t.sho}</td>
     <td>${t.er}</td><td>${t.r}</td><td>${t.k}</td><td>${t.bb}</td><td>${t.h}</td>
   </tr>`).join('');
@@ -202,7 +210,7 @@ function renderPitchingTotals() {
   const cards = [
     ['Years', yearsSet.size], ['Games', t.g], ['ERA', t.era.toFixed(2)],
     ['W', t.w], ['L', t.l], ['S', t.s], ['WHIP', t.whip.toFixed(2)],
-    ['IP', t.ip.toFixed(1)], ['GS', t.gs], ['CG', t.cg], ['SHO', t.sho],
+    ['IP', fmtIP(t.ip)], ['GS', t.gs], ['CG', t.cg], ['SHO', t.sho],
     ['ER', t.er], ['R', t.r], ['K', t.k], ['BB', t.bb], ['H', t.h]
   ];
 
