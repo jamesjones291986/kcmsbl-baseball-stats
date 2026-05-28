@@ -265,21 +265,55 @@ function fmtIP(ip) {
   return ip % 1 === 0 ? whole + '.0' : ip.toFixed(1);
 }
 
+let expandedPitchingYears = new Set();
+
+function togglePitchingYear(year) {
+  if (expandedPitchingYears.has(year)) expandedPitchingYears.delete(year);
+  else expandedPitchingYears.add(year);
+  renderPitching();
+}
+
 function renderPitching() {
-  const hideTotals = document.getElementById('hidePitchingTotals').checked;
-  const data = hideTotals ? pitching.filter(s => s.team !== 'Total') : pitching;
+  const showAll = document.getElementById('hidePitchingTotals').checked;
   const tbody = document.querySelector('#pitchingTable tbody');
-  tbody.innerHTML = data.map(s => {
-    const cls = s.team === 'Total' ? 'total-row' : '';
-    return `<tr class="${cls}">
-      <td>${s.year}</td><td>${s.team}</td><td>${s.age}</td>
-      <td>${s.g}</td><td>${s.era.toFixed(2)}</td><td>${s.w}</td>
-      <td>${s.l}</td><td>${s.s}</td><td>${s.whip.toFixed(2)}</td>
-      <td>${fmtIP(s.ip)}</td><td>${s.gs}</td><td>${s.cg}</td>
-      <td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td>
-      <td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td>
-    </tr>`;
-  }).join('');
+
+  const byYear = {};
+  pitching.forEach(s => {
+    if (!byYear[s.year]) byYear[s.year] = { total: null, teams: [] };
+    if (s.team === 'Total') byYear[s.year].total = s;
+    else byYear[s.year].teams.push(s);
+  });
+
+  let html = '';
+  Object.keys(byYear).sort((a, b) => a - b).forEach(year => {
+    const { total, teams } = byYear[year];
+    const hasMultipleTeams = teams.length > 1 && total;
+    const expanded = expandedPitchingYears.has(+year) || showAll;
+
+    const renderRow = (s, prefix, clickable) => {
+      const cls = clickable ? 'total-row expandable' : '';
+      const style = clickable ? 'cursor:pointer' : (!prefix ? 'background:#1a1a2e' : '');
+      const onclick = clickable ? `onclick="togglePitchingYear(${year})"` : '';
+      return `<tr class="${cls}" style="${style}" ${onclick}>
+        <td>${prefix || ''}${prefix ? ' ' + s.year : s.year}</td><td>${s.team}</td><td>${s.age}</td>
+        <td>${s.g}</td><td>${s.era.toFixed(2)}</td><td>${s.w}</td>
+        <td>${s.l}</td><td>${s.s}</td><td>${s.whip.toFixed(2)}</td>
+        <td>${fmtIP(s.ip)}</td><td>${s.gs}</td><td>${s.cg}</td>
+        <td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td>
+        <td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td>
+      </tr>`;
+    };
+
+    if (hasMultipleTeams && !expanded) {
+      html += renderRow(total, '▶', true);
+    } else if (hasMultipleTeams && expanded) {
+      html += renderRow(total, '▼', true);
+      teams.forEach(s => { html += renderRow(s, '', false); });
+    } else {
+      teams.forEach(s => { html += renderRow(s, '', false); });
+    }
+  });
+  tbody.innerHTML = html;
 }
 
 function renderPitchingCareer() {
