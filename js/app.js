@@ -3,13 +3,56 @@ let pitching = [];
 let sortCol = 'year';
 let sortAsc = true;
 
+const GAME_YEARS = [2026];
+
+function aggregateGames(games, year) {
+  const teams = {};
+  games.forEach(g => {
+    if (!teams[g.team]) teams[g.team] = { year, team: g.team, age: 40, g:0, h:0, ab:0, hr:0, rbi:0, '2b':0, '3b':0, sb:0, at:0, s:0, r:0, k:0, bb:0, hb:0, w:0, l:0, note:'', additional:'' };
+    const t = teams[g.team];
+    t.g++;
+    ['h','ab','hr','rbi','2b','3b','sb','s','r','k','bb','hb'].forEach(k => t[k] += g[k] || 0);
+    if (g.result) {
+      if (g.result.startsWith('W')) t.w++;
+      else if (g.result.startsWith('L')) t.l++;
+    }
+  });
+  const rows = Object.values(teams).map(t => {
+    t.avg = t.ab ? t.h / t.ab : 0;
+    t.obp = (t.ab + t.bb + t.hb) ? (t.h + t.bb + t.hb) / (t.ab + t.bb + t.hb) : 0;
+    const tb = t.h + t['2b'] + 2 * t['3b'] + 3 * t.hr;
+    t.slg = t.ab ? tb / t.ab : 0;
+    t.ops = t.obp + t.slg;
+    return t;
+  });
+  if (rows.length > 1) {
+    const total = { year, team: 'Total', age: rows[0].age, g:0, h:0, ab:0, hr:0, rbi:0, '2b':0, '3b':0, sb:0, at:0, s:0, r:0, k:0, bb:0, hb:0, w:0, l:0, note:'', additional:'' };
+    rows.forEach(r => ['g','h','ab','hr','rbi','2b','3b','sb','at','s','r','k','bb','hb','w','l'].forEach(k => total[k] += r[k]));
+    total.avg = total.ab ? total.h / total.ab : 0;
+    total.obp = (total.ab + total.bb + total.hb) ? (total.h + total.bb + total.hb) / (total.ab + total.bb + total.hb) : 0;
+    const tb = total.h + total['2b'] + 2 * total['3b'] + 3 * total.hr;
+    total.slg = total.ab ? tb / total.ab : 0;
+    total.ops = total.obp + total.slg;
+    rows.push(total);
+  }
+  return rows;
+}
+
 async function init() {
   const [seasonsRes, pitchingRes] = await Promise.all([
     fetch('data/personal/seasons.json'),
     fetch('data/personal/pitching.json')
   ]);
-  seasons = await seasonsRes.json();
+  seasons = (await seasonsRes.json()).filter(s => !GAME_YEARS.includes(s.year));
   pitching = await pitchingRes.json();
+
+  const gameResults = await Promise.all(GAME_YEARS.map(y =>
+    fetch(`data/personal/games/${y}.json`).then(r => r.ok ? r.json() : []).catch(() => [])
+  ));
+  GAME_YEARS.forEach((y, i) => {
+    if (gameResults[i].length) seasons.push(...aggregateGames(gameResults[i], y));
+  });
+  seasons.sort((a, b) => a.year - b.year || (a.team === 'Total' ? 1 : b.team === 'Total' ? -1 : a.team.localeCompare(b.team)));
   populateFilters();
   renderSeasons();
   renderCareer();
