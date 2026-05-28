@@ -90,16 +90,13 @@
       });
 
       // Batting
-      let cumH = 0, cumAB = 0, cumBB = 0, cumHB = 0, cum2B = 0, cum3B = 0, cumHR = 0;
       const tbody = document.querySelector('#gamelogTable tbody');
       tbody.innerHTML = filtered.map(g => {
-        cumH += g.h; cumAB += g.ab; cumBB += g.bb || 0; cumHB += g.hb || 0;
-        cum2B += g['2b'] || 0; cum3B += g['3b'] || 0; cumHR += g.hr || 0;
-        const avg = cumAB ? (cumH / cumAB).toFixed(3) : '-';
-        const pa = cumAB + cumBB + cumHB;
-        const obp = pa ? ((cumH + cumBB + cumHB) / pa).toFixed(3) : '-';
-        const tb = cumH + cum2B + 2 * cum3B + 3 * cumHR;
-        const slg = cumAB ? (tb / cumAB) : 0;
+        const avg = g.ab ? (g.h / g.ab).toFixed(3) : '-';
+        const pa = g.ab + (g.bb || 0) + (g.hb || 0);
+        const obp = pa ? ((g.h + (g.bb || 0) + (g.hb || 0)) / pa).toFixed(3) : '-';
+        const tb = g.h + (g['2b'] || 0) + 2 * (g['3b'] || 0) + 3 * (g.hr || 0);
+        const slg = g.ab ? tb / g.ab : 0;
         const ops = pa ? (parseFloat(obp) + slg).toFixed(3) : '-';
         const cls = g.result && g.result.startsWith('W') ? 'color:#4caf50' : g.result && g.result.startsWith('L') ? 'color:#e94560' : '';
         return `<tr>
@@ -117,13 +114,11 @@
       const pitchSection = document.getElementById('pitchingLog');
       if (pitched.length) {
         pitchSection.style.display = '';
-        let cumIP = 0, cumER = 0, cumPH = 0, cumPBB = 0;
         const ptbody = document.querySelector('#pitchingLogTable tbody');
         ptbody.innerHTML = pitched.map(g => {
           const p = g.pitching;
-          cumIP += p.ip; cumER += p.er; cumPH += p.h; cumPBB += (p.bb || 0);
-          const era = cumIP ? ((cumER * 7) / cumIP).toFixed(2) : '-';
-          const whip = cumIP ? ((cumPH + cumPBB) / cumIP).toFixed(2) : '-';
+          const era = p.ip ? ((p.er * 7) / p.ip).toFixed(2) : '-';
+          const whip = p.ip ? ((p.h + (p.bb || 0)) / p.ip).toFixed(2) : '-';
           const cls = g.result && g.result.startsWith('W') ? 'color:#4caf50' : g.result && g.result.startsWith('L') ? 'color:#e94560' : '';
           return `<tr>
             <td style="text-align:left">${g.date}</td><td style="text-align:left">${g.team}</td>
