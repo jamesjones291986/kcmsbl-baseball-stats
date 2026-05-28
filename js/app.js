@@ -88,14 +88,21 @@ function populateFilters() {
 function getFiltered() {
   const year = document.getElementById('yearFilter').value;
   const team = document.getElementById('teamFilter').value;
-  const hideTotals = document.getElementById('hideTotals').checked;
+  const showAll = document.getElementById('hideTotals').checked;
 
   return seasons.filter(s => {
-    if (hideTotals && s.team === 'Total') return false;
     if (year && s.year !== +year) return false;
     if (team && s.team !== team && s.team !== 'Total') return false;
     return true;
   });
+}
+
+let expandedYears = new Set();
+
+function toggleYear(year) {
+  if (expandedYears.has(year)) expandedYears.delete(year);
+  else expandedYears.add(year);
+  renderSeasons();
 }
 
 function fmt(val, decimals) {
@@ -105,22 +112,84 @@ function fmt(val, decimals) {
 
 function renderSeasons() {
   const data = getFiltered();
+  const showAll = document.getElementById('hideTotals').checked;
   const tbody = document.querySelector('#seasonTable tbody');
-  tbody.innerHTML = data.map(s => {
-    const cls = [];
-    if (s.team === 'Total') cls.push('total-row');
-    if (s.note && s.note.toLowerCase().includes('champ') && !s.note.toLowerCase().includes('lost')) cls.push('champ-row');
-    return `<tr class="${cls.join(' ')}">
-      <td>${s.year}</td><td>${s.team}</td><td>${s.age}</td>
-      <td>${s.g}</td><td>${fmt(s.avg, 3)}</td><td>${s.h}</td>
-      <td>${s.ab}</td><td>${s.hr}</td><td>${s.rbi}</td>
-      <td>${fmt(s.obp, 3)}</td><td>${fmt(s.slg, 3)}</td><td>${fmt(s.ops, 3)}</td>
-      <td>${s['2b']}</td><td>${s['3b']}</td><td>${s.sb}</td>
-      <td>${s.r}</td><td>${s.bb}</td><td>${s.k}</td>
-      <td>${s.hb}</td><td>${s.s}</td>
-      <td>${s.w}</td><td>${s.l}</td><td style="text-align:left">${s.note || ''}</td>
-    </tr>`;
-  }).join('');
+
+  // Group by year
+  const byYear = {};
+  data.forEach(s => {
+    if (!byYear[s.year]) byYear[s.year] = { total: null, teams: [] };
+    if (s.team === 'Total') byYear[s.year].total = s;
+    else byYear[s.year].teams.push(s);
+  });
+
+  let html = '';
+  Object.keys(byYear).sort((a, b) => a - b).forEach(year => {
+    const { total, teams } = byYear[year];
+    const hasMultipleTeams = teams.length > 1 && total;
+    const expanded = expandedYears.has(+year) || showAll;
+
+    if (hasMultipleTeams && !expanded) {
+      // Show only the total row, clickable to expand
+      const cls = ['total-row', 'expandable'];
+      if (total.note && total.note.toLowerCase().includes('champ') && !total.note.toLowerCase().includes('lost')) cls.push('champ-row');
+      html += `<tr class="${cls.join(' ')}" onclick="toggleYear(${year})" style="cursor:pointer">
+        <td>▶ ${total.year}</td><td>${total.team}</td><td>${total.age}</td>
+        <td>${total.g}</td><td>${fmt(total.avg, 3)}</td><td>${total.h}</td>
+        <td>${total.ab}</td><td>${total.hr}</td><td>${total.rbi}</td>
+        <td>${fmt(total.obp, 3)}</td><td>${fmt(total.slg, 3)}</td><td>${fmt(total.ops, 3)}</td>
+        <td>${total['2b']}</td><td>${total['3b']}</td><td>${total.sb}</td>
+        <td>${total.r}</td><td>${total.bb}</td><td>${total.k}</td>
+        <td>${total.hb}</td><td>${total.s}</td>
+        <td>${total.w}</td><td>${total.l}</td><td style="text-align:left">${total.note || ''}</td>
+      </tr>`;
+    } else if (hasMultipleTeams && expanded) {
+      // Show total row (expanded indicator) then team rows
+      const cls = ['total-row', 'expandable'];
+      if (total.note && total.note.toLowerCase().includes('champ') && !total.note.toLowerCase().includes('lost')) cls.push('champ-row');
+      html += `<tr class="${cls.join(' ')}" onclick="toggleYear(${year})" style="cursor:pointer">
+        <td>▼ ${total.year}</td><td>${total.team}</td><td>${total.age}</td>
+        <td>${total.g}</td><td>${fmt(total.avg, 3)}</td><td>${total.h}</td>
+        <td>${total.ab}</td><td>${total.hr}</td><td>${total.rbi}</td>
+        <td>${fmt(total.obp, 3)}</td><td>${fmt(total.slg, 3)}</td><td>${fmt(total.ops, 3)}</td>
+        <td>${total['2b']}</td><td>${total['3b']}</td><td>${total.sb}</td>
+        <td>${total.r}</td><td>${total.bb}</td><td>${total.k}</td>
+        <td>${total.hb}</td><td>${total.s}</td>
+        <td>${total.w}</td><td>${total.l}</td><td style="text-align:left">${total.note || ''}</td>
+      </tr>`;
+      teams.forEach(s => {
+        const tcls = [];
+        if (s.note && s.note.toLowerCase().includes('champ') && !s.note.toLowerCase().includes('lost')) tcls.push('champ-row');
+        html += `<tr class="${tcls.join(' ')}" style="background:#1a1a2e">
+          <td></td><td>${s.team}</td><td>${s.age}</td>
+          <td>${s.g}</td><td>${fmt(s.avg, 3)}</td><td>${s.h}</td>
+          <td>${s.ab}</td><td>${s.hr}</td><td>${s.rbi}</td>
+          <td>${fmt(s.obp, 3)}</td><td>${fmt(s.slg, 3)}</td><td>${fmt(s.ops, 3)}</td>
+          <td>${s['2b']}</td><td>${s['3b']}</td><td>${s.sb}</td>
+          <td>${s.r}</td><td>${s.bb}</td><td>${s.k}</td>
+          <td>${s.hb}</td><td>${s.s}</td>
+          <td>${s.w}</td><td>${s.l}</td><td style="text-align:left">${s.note || ''}</td>
+        </tr>`;
+      });
+    } else {
+      // Single team year — just show the team row
+      teams.forEach(s => {
+        const cls = [];
+        if (s.note && s.note.toLowerCase().includes('champ') && !s.note.toLowerCase().includes('lost')) cls.push('champ-row');
+        html += `<tr class="${cls.join(' ')}">
+          <td>${s.year}</td><td>${s.team}</td><td>${s.age}</td>
+          <td>${s.g}</td><td>${fmt(s.avg, 3)}</td><td>${s.h}</td>
+          <td>${s.ab}</td><td>${s.hr}</td><td>${s.rbi}</td>
+          <td>${fmt(s.obp, 3)}</td><td>${fmt(s.slg, 3)}</td><td>${fmt(s.ops, 3)}</td>
+          <td>${s['2b']}</td><td>${s['3b']}</td><td>${s.sb}</td>
+          <td>${s.r}</td><td>${s.bb}</td><td>${s.k}</td>
+          <td>${s.hb}</td><td>${s.s}</td>
+          <td>${s.w}</td><td>${s.l}</td><td style="text-align:left">${s.note || ''}</td>
+        </tr>`;
+      });
+    }
+  });
+  tbody.innerHTML = html;
 }
 
 function calcCareer() {
