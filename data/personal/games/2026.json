@@ -3,6 +3,7 @@
     "date": "2026-05-03",
     "team": "Federal Blues",
     "opponent": "Phillies",
+    "field": "Fenway",
     "ab": 3,
     "h": 2,
     "2b": 1,
@@ -21,6 +22,7 @@
     "date": "2026-05-06",
     "team": "CH A's",
     "opponent": "Colt 45's",
+    "field": "Royal",
     "ab": 3,
     "h": 2,
     "2b": 0,
@@ -34,5 +36,23 @@
     "sb": 0,
     "s": 0,
     "pitching": { "ip": 1, "h": 2, "er": 0, "k": 1 }
+  },
+  {
+    "date": "2026-05-27",
+    "team": "CH A's",
+    "opponent": "Astros",
+    "field": "Fenway",
+    "ab": 2,
+    "h": 2,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 1,
+    "r": 1,
+    "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0
   }
 ]
