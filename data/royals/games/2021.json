@@ -7,6 +7,7 @@
       "date": "2021-10-20",
       "time": "5:30pm",
       "venue": "Indian School #3",
+      "phase": "Pool Play",
       "home": "San Diego Knights",
       "away": "Kansas City Royals",
       "linescore": {
@@ -47,6 +48,7 @@
       "date": "2021-10-21",
       "time": "10:00am",
       "venue": "Salt River R6",
+      "phase": "Pool Play",
       "home": "San Diego North",
       "away": "Kansas City Royals",
       "linescore": {
@@ -88,6 +90,7 @@
       "date": "2021-10-21",
       "time": "2:00pm",
       "venue": "Salt River R5",
+      "phase": "Pool Play",
       "home": "Yanese Bandits",
       "away": "Kansas City Royals",
       "linescore": {
@@ -128,6 +131,7 @@
       "date": "2021-10-22",
       "time": "10:00am",
       "venue": "Salt River D4",
+      "phase": "Pool Play",
       "home": "Kansas City Royals",
       "away": "Venice Gaze",
       "linescore": {
@@ -168,6 +172,7 @@
       "date": "2021-10-22",
       "time": "2:00pm",
       "venue": "Salt River D4",
+      "phase": "Pool Play",
       "home": "Kansas City Royals",
       "away": "Capital City Angels",
       "linescore": {
