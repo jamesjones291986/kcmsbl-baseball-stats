@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WS Royals - Baseball Stats</title>
+  <title>WS Team - Baseball Stats</title>
   <link rel="stylesheet" href="../css/style.css">
   <style>
     .game-filters { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
@@ -23,7 +23,7 @@
 </head>
 <body>
   <header>
-    <h1>👑 WS Royals / Blues</h1>
+    <h1>👑 WS Team</h1>
     <nav>
       <a href="../">Personal Stats</a>
     </nav>
@@ -32,6 +32,7 @@
   <main>
     <div class="tabs">
       <button class="tab-btn active" data-tab="tab-stats">My Stats</button>
+      <button class="tab-btn" data-tab="tab-team">Team Stats</button>
       <button class="tab-btn" data-tab="tab-games">Game Log</button>
     </div>
 
@@ -67,6 +68,29 @@
         </div>
         <h2>Pitching Totals</h2>
         <div id="pitchingTotalsCard" class="totals-card-grid"></div>
+      </section>
+    </div>
+
+    <div id="tab-team" class="tab-content">
+      <section>
+        <div class="game-filters">
+          <label>Season:
+            <select id="teamSeasonFilter"><option value="">Career</option></select>
+          </label>
+          <label>View:
+            <select id="teamViewFilter">
+              <option value="batting">Batting</option>
+              <option value="pitching">Pitching</option>
+            </select>
+          </label>
+        </div>
+        <div class="record-summary" id="teamSeasonInfo"></div>
+        <div class="table-wrap">
+          <table id="teamStatsTable">
+            <thead id="teamStatsHead"></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </section>
     </div>
 
@@ -112,6 +136,8 @@
       }
       populateSeasonFilter();
       renderGameLog();
+      populateTeamSeasonFilter();
+      renderTeamStats();
     }
 
     function fmt(v, d) { return v == null ? '-' : d ? v.toFixed(3) : v; }
@@ -278,6 +304,147 @@
         document.getElementById(btn.dataset.tab).classList.add('active');
       });
     });
+
+    // Team Stats
+    function populateTeamSeasonFilter() {
+      const sel = document.getElementById('teamSeasonFilter');
+      allSeasons.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s.season;
+        o.textContent = s.season + ' — ' + s.team + ' (' + s.division + ')';
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', renderTeamStats);
+      document.getElementById('teamViewFilter').addEventListener('change', renderTeamStats);
+    }
+
+    let teamSortCol = 'h';
+    let teamSortAsc = false;
+
+    function renderTeamStats() {
+      const seasonVal = document.getElementById('teamSeasonFilter').value;
+      const view = document.getElementById('teamViewFilter').value;
+
+      const filtered = seasonVal ? allSeasons.filter(s => s.season === +seasonVal) : allSeasons;
+      const info = document.getElementById('teamSeasonInfo');
+      if (seasonVal && filtered.length) {
+        info.innerHTML = `<span>${filtered[0].team}</span> — ${filtered[0].division}`;
+      } else {
+        info.innerHTML = `<span>Career Totals</span> — All Seasons`;
+      }
+
+      if (view === 'batting') renderTeamBatting(filtered);
+      else renderTeamPitching(filtered);
+    }
+
+    function renderTeamBatting(seasons) {
+      const players = {};
+      seasons.forEach(s => {
+        s.games.forEach(g => {
+          const isHome = g.home === 'Kansas City Royals' || g.home === 'Kansas City Blues';
+          const side = isHome ? 'home' : 'away';
+          (g.batting[side] || []).forEach(b => {
+            if (!players[b.name]) players[b.name] = {name:b.name,g:0,ab:0,r:0,h:0,rbi:0,bb:0,k:0,'2b':0,'3b':0,hr:0};
+            const p = players[b.name];
+            p.g++;
+            ['ab','r','h','rbi','bb','k'].forEach(k => p[k] += b[k]||0);
+          });
+          // extras from notes
+          if (g.notes) {
+            const side2 = isHome ? 'home' : 'away';
+            if (g.batting[side2]?.length) {
+              ['2b','3b','hr'].forEach(cat => {
+                (g.notes[cat] || []).forEach(name => {
+                  const key = Object.keys(players).find(k => k.includes(name) || name.includes(k.split(' ').pop()));
+                  if (key) players[key][cat]++;
+                });
+              });
+            }
+          }
+        });
+      });
+
+      let data = Object.values(players);
+      data.forEach(p => {
+        p.avg = p.ab ? p.h / p.ab : 0;
+        p.obp = (p.ab+p.bb) ? (p.h+p.bb)/(p.ab+p.bb) : 0;
+        const tb = p.h + p['2b'] + 2*p['3b'] + 3*p.hr;
+        p.slg = p.ab ? tb/p.ab : 0;
+        p.ops = p.obp + p.slg;
+      });
+
+      data.sort((a, b) => {
+        const av = a[teamSortCol] ?? 0, bv = b[teamSortCol] ?? 0;
+        const cmp = typeof av === 'string' ? av.localeCompare(bv) : av - bv;
+        return teamSortAsc ? cmp : -cmp;
+      });
+
+      const thead = document.getElementById('teamStatsHead');
+      const cols = [['name','Name'],['g','G'],['avg','AVG'],['h','H'],['ab','AB'],['hr','HR'],['rbi','RBI'],['obp','OBP'],['slg','SLG'],['ops','OPS'],['2b','2B'],['3b','3B'],['r','R'],['bb','BB'],['k','K']];
+      thead.innerHTML = '<tr>' + cols.map(([col,label]) => {
+        const cls = teamSortCol === col ? (teamSortAsc ? 'sort-asc' : 'sort-desc') : '';
+        return `<th class="${cls}" onclick="sortTeam('${col}')">${label}</th>`;
+      }).join('') + '</tr>';
+
+      const tbody = document.querySelector('#teamStatsTable tbody');
+      tbody.innerHTML = data.map(p => `<tr>
+        <td style="text-align:left">${p.name}</td><td>${p.g}</td><td>${p.avg.toFixed(3)}</td>
+        <td>${p.h}</td><td>${p.ab}</td><td>${p.hr}</td><td>${p.rbi}</td>
+        <td>${p.obp.toFixed(3)}</td><td>${p.slg.toFixed(3)}</td><td>${p.ops.toFixed(3)}</td>
+        <td>${p['2b']}</td><td>${p['3b']}</td><td>${p.r}</td><td>${p.bb}</td><td>${p.k}</td>
+      </tr>`).join('');
+    }
+
+    function renderTeamPitching(seasons) {
+      const players = {};
+      seasons.forEach(s => {
+        s.games.forEach(g => {
+          const isHome = g.home === 'Kansas City Royals' || g.home === 'Kansas City Blues';
+          const side = isHome ? 'home' : 'away';
+          (g.pitching[side] || []).forEach(p => {
+            if (!players[p.name]) players[p.name] = {name:p.name,g:0,w:0,l:0,s:0,ip:0,h:0,r:0,er:0,bb:0,k:0};
+            const pl = players[p.name];
+            pl.g++;
+            ['ip','h','r','er','bb','k'].forEach(k => pl[k] += p[k]||0);
+            if (p.decision === 'W') pl.w++;
+            if (p.decision === 'L') pl.l++;
+            if (p.decision === 'S') pl.s++;
+          });
+        });
+      });
+
+      let data = Object.values(players);
+      data.forEach(p => {
+        p.era = p.ip ? (p.er * 9) / p.ip : 0;
+        p.whip = p.ip ? (p.bb + p.h) / p.ip : 0;
+      });
+
+      data.sort((a, b) => {
+        const av = a[teamSortCol] ?? 0, bv = b[teamSortCol] ?? 0;
+        const cmp = typeof av === 'string' ? av.localeCompare(bv) : av - bv;
+        return teamSortAsc ? cmp : -cmp;
+      });
+
+      const thead = document.getElementById('teamStatsHead');
+      const cols = [['name','Name'],['g','G'],['era','ERA'],['w','W'],['l','L'],['s','SV'],['whip','WHIP'],['ip','IP'],['h','H'],['r','R'],['er','ER'],['bb','BB'],['k','K']];
+      thead.innerHTML = '<tr>' + cols.map(([col,label]) => {
+        const cls = teamSortCol === col ? (teamSortAsc ? 'sort-asc' : 'sort-desc') : '';
+        return `<th class="${cls}" onclick="sortTeam('${col}')">${label}</th>`;
+      }).join('') + '</tr>';
+
+      const tbody = document.querySelector('#teamStatsTable tbody');
+      tbody.innerHTML = data.map(p => `<tr>
+        <td style="text-align:left">${p.name}</td><td>${p.g}</td><td>${p.era.toFixed(2)}</td>
+        <td>${p.w}</td><td>${p.l}</td><td>${p.s}</td><td>${p.whip.toFixed(2)}</td>
+        <td>${p.ip.toFixed(1)}</td><td>${p.h}</td><td>${p.r}</td><td>${p.er}</td><td>${p.bb}</td><td>${p.k}</td>
+      </tr>`).join('');
+    }
+
+    function sortTeam(col) {
+      if (teamSortCol === col) teamSortAsc = !teamSortAsc;
+      else { teamSortCol = col; teamSortAsc = col === 'name'; }
+      renderTeamStats();
+    }
 
     init();
   </script>
