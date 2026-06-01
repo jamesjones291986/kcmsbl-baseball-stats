@@ -347,20 +347,8 @@
             if (!players[b.name]) players[b.name] = {name:b.name,g:0,ab:0,r:0,h:0,rbi:0,bb:0,k:0,'2b':0,'3b':0,hr:0};
             const p = players[b.name];
             p.g++;
-            ['ab','r','h','rbi','bb','k'].forEach(k => p[k] += b[k]||0);
+            ['ab','r','h','rbi','bb','k','2b','3b','hr'].forEach(k => p[k] += b[k]||0);
           });
-          // extras from notes
-          if (g.notes) {
-            const side2 = isHome ? 'home' : 'away';
-            if (g.batting[side2]?.length) {
-              ['2b','3b','hr'].forEach(cat => {
-                (g.notes[cat] || []).forEach(name => {
-                  const key = Object.keys(players).find(k => k.includes(name) || name.includes(k.split(' ').pop()));
-                  if (key) players[key][cat]++;
-                });
-              });
-            }
-          }
         });
       });
 

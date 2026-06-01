@@ -11,35 +11,178 @@
       "home": "So Cal Titans",
       "away": "Kansas City Royals",
       "linescore": {
-        "away": [0, 1, 0, 0, 0, 1, 0, 0, 0],
-        "home": [0, 0, 1, 0, 0, 0, 2, 0, 0]
+        "away": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
       },
       "result": "L",
       "score": "2-3",
       "batting": {
         "away": [
-          {"name": "Joshua Carrasco", "ab": 4, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 2},
-          {"name": "Brett Fick", "ab": 2, "r": 1, "h": 0, "rbi": 0, "bb": 1, "k": 0},
-          {"name": "Ricardo Garcia", "ab": 4, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Dakota McFadden", "ab": 4, "r": 0, "h": 2, "rbi": 1, "bb": 0, "k": 1},
-          {"name": "Chris Lloyd", "ab": 4, "r": 1, "h": 0, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Jackson Webb", "ab": 3, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Brandon Adams", "ab": 3, "r": 0, "h": 0, "rbi": 1, "bb": 0, "k": 1},
-          {"name": "Tre Lyday", "ab": 3, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Johnny Brown", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "James Jones", "ab": 3, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 1}
+          {
+            "name": "Joshua Carrasco",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brett Fick",
+            "ab": 2,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Dakota McFadden",
+            "ab": 4,
+            "r": 0,
+            "h": 2,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 4,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 3,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 3,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Johnny Brown",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 3,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
         ],
         "home": []
       },
       "pitching": {
         "away": [
-          {"name": "Pete Gehle", "decision": "L", "ip": 8.0, "h": 6, "r": 3, "er": 3, "bb": 0, "k": 9}
+          {
+            "name": "Pete Gehle",
+            "decision": "L",
+            "ip": 8.0,
+            "h": 6,
+            "r": 3,
+            "er": 3,
+            "bb": 0,
+            "k": 9
+          }
         ],
         "home": []
       },
       "notes": {
-        "sb": ["Adams"],
-        "hbp": ["Webb"]
+        "sb": [
+          "Adams"
+        ],
+        "hbp": [
+          "Webb"
+        ]
       }
     },
     {
@@ -50,38 +193,198 @@
       "home": "Kansas City Royals",
       "away": "Long Island Black Sox",
       "linescore": {
-        "away": [0, 0, 0, 1, 0, 0, 2, 0, 1],
-        "home": [4, 0, 0, 4, 0, 1, 0, 5, 0]
+        "away": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1
+        ],
+        "home": [
+          4,
+          0,
+          0,
+          4,
+          0,
+          1,
+          0,
+          5,
+          0
+        ]
       },
       "result": "W",
       "score": "14-4",
       "batting": {
         "away": [],
         "home": [
-          {"name": "Joshua Carrasco", "ab": 5, "r": 2, "h": 2, "rbi": 1, "bb": 0, "k": 1},
-          {"name": "Ricardo Garcia", "ab": 4, "r": 1, "h": 2, "rbi": 0, "bb": 1, "k": 0},
-          {"name": "Brett Fick", "ab": 4, "r": 1, "h": 2, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Dakota McFadden", "ab": 2, "r": 2, "h": 2, "rbi": 6, "bb": 3, "k": 0},
-          {"name": "Chris Lloyd", "ab": 5, "r": 1, "h": 2, "rbi": 1, "bb": 0, "k": 1},
-          {"name": "Jackson Webb", "ab": 5, "r": 1, "h": 2, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Brandon Adams", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 2, "k": 1},
-          {"name": "Tre Lyday", "ab": 3, "r": 1, "h": 2, "rbi": 2, "bb": 2, "k": 0},
-          {"name": "Johnny Brown", "ab": 3, "r": 2, "h": 0, "rbi": 0, "bb": 2, "k": 0},
-          {"name": "James Jones", "ab": 3, "r": 1, "h": 1, "rbi": 1, "bb": 1, "k": 1},
-          {"name": "Emilio Gonzalez", "ab": 0, "r": 1, "h": 0, "rbi": 0, "bb": 0, "k": 0}
+          {
+            "name": "Joshua Carrasco",
+            "ab": 5,
+            "r": 2,
+            "h": 2,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 4,
+            "r": 1,
+            "h": 2,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brett Fick",
+            "ab": 4,
+            "r": 1,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Dakota McFadden",
+            "ab": 2,
+            "r": 2,
+            "h": 2,
+            "rbi": 6,
+            "bb": 3,
+            "k": 0,
+            "2b": 1,
+            "3b": 0,
+            "hr": 1
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 5,
+            "r": 1,
+            "h": 2,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 5,
+            "r": 1,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 2,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 3,
+            "r": 1,
+            "h": 2,
+            "rbi": 2,
+            "bb": 2,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Johnny Brown",
+            "ab": 3,
+            "r": 2,
+            "h": 0,
+            "rbi": 0,
+            "bb": 2,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 1,
+            "bb": 1,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Emilio Gonzalez",
+            "ab": 0,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
         ]
       },
       "pitching": {
         "away": [],
         "home": [
-          {"name": "Domingo Jimenez", "decision": "W", "ip": 9.0, "h": 5, "r": 4, "er": 2, "bb": 4, "k": 11}
+          {
+            "name": "Domingo Jimenez",
+            "decision": "W",
+            "ip": 9.0,
+            "h": 5,
+            "r": 4,
+            "er": 2,
+            "bb": 4,
+            "k": 11
+          }
         ]
       },
       "notes": {
-        "2b": ["McFadden"],
-        "hr": ["McFadden"],
-        "sb": ["Brown", "Brown"],
-        "hbp": ["Fick", "Gonzalez"]
+        "2b": [
+          "McFadden"
+        ],
+        "hr": [
+          "McFadden"
+        ],
+        "sb": [
+          "Brown",
+          "Brown"
+        ],
+        "hbp": [
+          "Fick",
+          "Gonzalez"
+        ]
       }
     },
     {
@@ -92,35 +395,187 @@
       "home": "Kansas City Royals",
       "away": "San Jose Giants",
       "linescore": {
-        "away": [1, 0, 0, 0, 0, 3, 3, 0, 0],
-        "home": [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        "away": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          3,
+          3,
+          0,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "result": "L",
       "score": "0-7",
       "batting": {
         "away": [],
         "home": [
-          {"name": "Joshua Carrasco", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 3},
-          {"name": "Ricardo Garcia", "ab": 3, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Brett Fick", "ab": 2, "r": 0, "h": 0, "rbi": 0, "bb": 1, "k": 0},
-          {"name": "Dakota McFadden", "ab": 3, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Chris Lloyd", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Jackson Webb", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Tre Lyday", "ab": 2, "r": 0, "h": 0, "rbi": 0, "bb": 1, "k": 2},
-          {"name": "Brandon Adams", "ab": 3, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 2},
-          {"name": "Johnny Brown", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 2},
-          {"name": "Emilio Gonzalez", "ab": 2, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Pete Gehle", "ab": 2, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 2}
+          {
+            "name": "Joshua Carrasco",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 3,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 3,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brett Fick",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Dakota McFadden",
+            "ab": 3,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Tre Lyday",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 3,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Johnny Brown",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Emilio Gonzalez",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Pete Gehle",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
         ]
       },
       "pitching": {
         "away": [],
         "home": [
-          {"name": "Aldo", "decision": "L", "ip": 8.0, "h": 14, "r": 7, "er": 7, "bb": 4, "k": 11}
+          {
+            "name": "Aldo",
+            "decision": "L",
+            "ip": 8.0,
+            "h": 14,
+            "r": 7,
+            "er": 7,
+            "bb": 4,
+            "k": 11
+          }
         ]
       },
       "notes": {
-        "sb": ["Lyday"]
+        "sb": [
+          "Lyday"
+        ]
       }
     },
     {
@@ -131,35 +586,187 @@
       "home": "Kansas City Royals",
       "away": "So Cal Titans",
       "linescore": {
-        "away": [3, 1, 0, 0, 0, 2, 0, 0, 0],
-        "home": [0, 0, 3, 0, 2, 0, 0, 0, 0]
+        "away": [
+          3,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          3,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "result": "L",
       "score": "5-6",
       "batting": {
         "away": [],
         "home": [
-          {"name": "Tre Lyday", "ab": 4, "r": 0, "h": 2, "rbi": 2, "bb": 0, "k": 1},
-          {"name": "Ricardo Garcia", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 1, "k": 2},
-          {"name": "Brett Fick", "ab": 4, "r": 0, "h": 2, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Dakota McFadden", "ab": 4, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Chris Lloyd", "ab": 4, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Jackson Webb", "ab": 4, "r": 1, "h": 0, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "James Jones", "ab": 4, "r": 0, "h": 1, "rbi": 1, "bb": 0, "k": 1},
-          {"name": "Brandon Adams", "ab": 0, "r": 2, "h": 0, "rbi": 0, "bb": 3, "k": 0},
-          {"name": "Joshua Carrasco", "ab": 3, "r": 1, "h": 1, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Emilio Gonzalez", "ab": 3, "r": 1, "h": 1, "rbi": 2, "bb": 0, "k": 1},
-          {"name": "Johnny Brown", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 1}
+          {
+            "name": "Tre Lyday",
+            "ab": 4,
+            "r": 0,
+            "h": 2,
+            "rbi": 2,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brett Fick",
+            "ab": 4,
+            "r": 0,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Dakota McFadden",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 1,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 4,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 0,
+            "r": 2,
+            "h": 0,
+            "rbi": 0,
+            "bb": 3,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Joshua Carrasco",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Emilio Gonzalez",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 2,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Johnny Brown",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
         ]
       },
       "pitching": {
         "away": [],
         "home": [
-          {"name": "Joshua Carrasco", "decision": "L", "ip": 9.0, "h": 10, "r": 6, "er": 6, "bb": 1, "k": 5}
+          {
+            "name": "Joshua Carrasco",
+            "decision": "L",
+            "ip": 9.0,
+            "h": 10,
+            "r": 6,
+            "er": 6,
+            "bb": 1,
+            "k": 5
+          }
         ]
       },
       "notes": {
-        "2b": ["McFadden"]
+        "2b": [
+          "McFadden"
+        ]
       }
     },
     {
@@ -170,38 +777,196 @@
       "home": "Long Island Black Sox",
       "away": "Kansas City Royals",
       "linescore": {
-        "away": [1, 0, 0, 0, 0, 0, 0, 5, 1],
-        "home": [0, 0, 1, 0, 2, 0, 0, 0, 1]
+        "away": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5,
+          1
+        ],
+        "home": [
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1
+        ]
       },
       "result": "W",
       "score": "7-4",
       "batting": {
         "away": [
-          {"name": "Tre Lyday", "ab": 4, "r": 1, "h": 1, "rbi": 0, "bb": 0, "k": 2},
-          {"name": "Ricardo Garcia", "ab": 3, "r": 1, "h": 1, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Brett Fick", "ab": 3, "r": 1, "h": 1, "rbi": 2, "bb": 1, "k": 0},
-          {"name": "Dakota McFadden", "ab": 4, "r": 1, "h": 2, "rbi": 4, "bb": 0, "k": 1},
-          {"name": "Chris Lloyd", "ab": 4, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 2},
-          {"name": "Jackson Webb", "ab": 4, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "James Jones", "ab": 3, "r": 1, "h": 1, "rbi": 0, "bb": 1, "k": 0},
-          {"name": "Brandon Adams", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 1, "k": 1},
-          {"name": "Joshua Carrasco", "ab": 4, "r": 0, "h": 1, "rbi": 1, "bb": 0, "k": 0},
-          {"name": "Emilio Gonzalez", "ab": 2, "r": 1, "h": 0, "rbi": 0, "bb": 2, "k": 0},
-          {"name": "Jesus Ozoria", "ab": 1, "r": 1, "h": 1, "rbi": 0, "bb": 0, "k": 0}
+          {
+            "name": "Tre Lyday",
+            "ab": 4,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brett Fick",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 2,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Dakota McFadden",
+            "ab": 4,
+            "r": 1,
+            "h": 2,
+            "rbi": 4,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 1
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 3,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Joshua Carrasco",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0,
+            "2b": 1,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Emilio Gonzalez",
+            "ab": 2,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 2,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jesus Ozoria",
+            "ab": 1,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
         ],
         "home": []
       },
       "pitching": {
         "away": [
-          {"name": "Jesus Ozoria", "decision": "W", "ip": 9.0, "h": 9, "r": 4, "er": 2, "bb": 2, "k": 10}
+          {
+            "name": "Jesus Ozoria",
+            "decision": "W",
+            "ip": 9.0,
+            "h": 9,
+            "r": 4,
+            "er": 2,
+            "bb": 2,
+            "k": 10
+          }
         ],
         "home": []
       },
       "notes": {
-        "2b": ["Carrasco"],
-        "hr": ["McFadden"],
-        "sb": ["Lyday"],
-        "hbp": ["Ozoria"]
+        "2b": [
+          "Carrasco"
+        ],
+        "hr": [
+          "McFadden"
+        ],
+        "sb": [
+          "Lyday"
+        ],
+        "hbp": [
+          "Ozoria"
+        ]
       }
     },
     {
@@ -212,23 +977,153 @@
       "home": "So Cal Titans",
       "away": "Kansas City Royals",
       "linescore": {
-        "away": [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        "home": [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        "away": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "result": "L",
       "score": "4-13",
       "batting": {
         "away": [
-          {"name": "Tre Lyday", "ab": 4, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 2},
-          {"name": "Ricardo Garcia", "ab": 4, "r": 2, "h": 1, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Brett Fick", "ab": 2, "r": 1, "h": 1, "rbi": 1, "bb": 2, "k": 0},
-          {"name": "Jackson Webb", "ab": 4, "r": 0, "h": 2, "rbi": 2, "bb": 0, "k": 2},
-          {"name": "Johnny Brown", "ab": 4, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Emilio Gonzalez", "ab": 4, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Chris Lloyd", "ab": 4, "r": 0, "h": 2, "rbi": 0, "bb": 0, "k": 0},
-          {"name": "Brandon Adams", "ab": 4, "r": 1, "h": 2, "rbi": 0, "bb": 0, "k": 2},
-          {"name": "Joshua Carrasco", "ab": 4, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 1},
-          {"name": "Jesus Ozoria", "ab": 4, "r": 0, "h": 1, "rbi": 1, "bb": 0, "k": 2}
+          {
+            "name": "Tre Lyday",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 1,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 4,
+            "r": 2,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brett Fick",
+            "ab": 2,
+            "r": 1,
+            "h": 1,
+            "rbi": 1,
+            "bb": 2,
+            "k": 0,
+            "2b": 1,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jackson Webb",
+            "ab": 4,
+            "r": 0,
+            "h": 2,
+            "rbi": 2,
+            "bb": 0,
+            "k": 2,
+            "2b": 2,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Johnny Brown",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Emilio Gonzalez",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Chris Lloyd",
+            "ab": 4,
+            "r": 0,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brandon Adams",
+            "ab": 4,
+            "r": 1,
+            "h": 2,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Joshua Carrasco",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jesus Ozoria",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 1,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
         ],
         "home": []
       },
@@ -237,8 +1132,15 @@
         "home": []
       },
       "notes": {
-        "2b": ["Lyday", "Fick", "Webb", "Webb"],
-        "sb": ["Garcia"]
+        "2b": [
+          "Lyday",
+          "Fick",
+          "Webb",
+          "Webb"
+        ],
+        "sb": [
+          "Garcia"
+        ]
       }
     }
   ]
