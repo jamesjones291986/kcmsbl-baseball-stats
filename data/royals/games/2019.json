@@ -182,7 +182,7 @@
             "hr": 0
           },
           {
-            "name": "Angel Velazquez",
+            "name": "Angel Velasquez",
             "ab": 0,
             "r": 0,
             "h": 0,
@@ -211,7 +211,7 @@
       "pitching": {
         "away": [
           {
-            "name": "Jake Wolf",
+            "name": "Jake Wulf",
             "decision": "W",
             "ip": 9.0,
             "h": 5,
@@ -369,7 +369,7 @@
             "hr": 0
           },
           {
-            "name": "Angel Velazquez",
+            "name": "Angel Velasquez",
             "ab": 2,
             "r": 0,
             "h": 0,
@@ -444,7 +444,7 @@
             "k": 4
           },
           {
-            "name": "Angel Velazquez",
+            "name": "Angel Velasquez",
             "decision": "S",
             "ip": 3.0,
             "h": 0,
@@ -633,7 +633,7 @@
             "hr": 0
           },
           {
-            "name": "Angel Velazquez",
+            "name": "Angel Velasquez",
             "ab": 1,
             "r": 0,
             "h": 0,
@@ -696,7 +696,7 @@
             "k": 6
           },
           {
-            "name": "Angel Velazquez",
+            "name": "Angel Velasquez",
             "decision": "",
             "ip": 2.0,
             "h": 1,
@@ -928,7 +928,7 @@
             "hr": 0
           },
           {
-            "name": "Angel Velazquez",
+            "name": "Angel Velasquez",
             "ab": 1,
             "r": 0,
             "h": 0,
@@ -1148,7 +1148,7 @@
             "hr": 0
           },
           {
-            "name": "Angel Velazquez",
+            "name": "Angel Velasquez",
             "ab": 1,
             "r": 0,
             "h": 0,
@@ -1209,7 +1209,7 @@
             "k": 3
           },
           {
-            "name": "Angel Velazquez",
+            "name": "Angel Velasquez",
             "decision": "W",
             "ip": 4.1,
             "h": 8,
@@ -1408,7 +1408,7 @@
         "away": [],
         "home": [
           {
-            "name": "Jake Wolf",
+            "name": "Jake Wulf",
             "decision": "L",
             "ip": 9.0,
             "h": 9,

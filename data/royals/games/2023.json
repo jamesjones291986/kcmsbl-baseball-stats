@@ -39,7 +39,7 @@
       "batting": {
         "away": [
           {
-            "name": "Joshua Carrasco",
+            "name": "Josh Carrasco",
             "ab": 4,
             "r": 0,
             "h": 0,
@@ -222,7 +222,7 @@
         "away": [],
         "home": [
           {
-            "name": "Joshua Carrasco",
+            "name": "Josh Carrasco",
             "ab": 5,
             "r": 2,
             "h": 2,
@@ -342,7 +342,7 @@
             "hr": 0
           },
           {
-            "name": "Emilio Gonzalez",
+            "name": "Emilio Gonzales",
             "ab": 0,
             "r": 1,
             "h": 0,
@@ -424,7 +424,7 @@
         "away": [],
         "home": [
           {
-            "name": "Joshua Carrasco",
+            "name": "Josh Carrasco",
             "ab": 3,
             "r": 0,
             "h": 0,
@@ -532,7 +532,7 @@
             "hr": 0
           },
           {
-            "name": "Emilio Gonzalez",
+            "name": "Emilio Gonzales",
             "ab": 2,
             "r": 0,
             "h": 0,
@@ -711,7 +711,7 @@
             "hr": 0
           },
           {
-            "name": "Joshua Carrasco",
+            "name": "Josh Carrasco",
             "ab": 3,
             "r": 1,
             "h": 1,
@@ -723,7 +723,7 @@
             "hr": 0
           },
           {
-            "name": "Emilio Gonzalez",
+            "name": "Emilio Gonzales",
             "ab": 3,
             "r": 1,
             "h": 1,
@@ -752,7 +752,7 @@
         "away": [],
         "home": [
           {
-            "name": "Joshua Carrasco",
+            "name": "Josh Carrasco",
             "decision": "L",
             "ip": 9.0,
             "h": 10,
@@ -901,7 +901,7 @@
             "hr": 0
           },
           {
-            "name": "Joshua Carrasco",
+            "name": "Josh Carrasco",
             "ab": 4,
             "r": 0,
             "h": 1,
@@ -913,7 +913,7 @@
             "hr": 0
           },
           {
-            "name": "Emilio Gonzalez",
+            "name": "Emilio Gonzales",
             "ab": 2,
             "r": 1,
             "h": 0,
@@ -1065,7 +1065,7 @@
             "hr": 0
           },
           {
-            "name": "Emilio Gonzalez",
+            "name": "Emilio Gonzales",
             "ab": 4,
             "r": 0,
             "h": 0,
@@ -1101,7 +1101,7 @@
             "hr": 0
           },
           {
-            "name": "Joshua Carrasco",
+            "name": "Josh Carrasco",
             "ab": 4,
             "r": 0,
             "h": 1,

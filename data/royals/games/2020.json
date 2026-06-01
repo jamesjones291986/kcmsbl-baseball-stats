@@ -213,7 +213,7 @@
         "away": [],
         "home": [
           {
-            "name": "Peter Gehle",
+            "name": "Pete Gehle",
             "decision": "W",
             "ip": 9.0,
             "h": 10,
@@ -1183,7 +1183,7 @@
             "hr": 0
           },
           {
-            "name": "Peter Gehle",
+            "name": "Pete Gehle",
             "ab": 1,
             "r": 0,
             "h": 0,
@@ -1411,7 +1411,7 @@
       "pitching": {
         "away": [
           {
-            "name": "Peter Gehle",
+            "name": "Pete Gehle",
             "decision": "L",
             "ip": 7.0,
             "h": 9,
