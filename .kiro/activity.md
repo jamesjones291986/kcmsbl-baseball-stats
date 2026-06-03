@@ -12,3 +12,6 @@
 ## Up Next
 - Update stats after each week's games
 - Add pitching stats when available
+
+## Future Ideas
+- Advance the website further — more features, better presentation
