@@ -77,5 +77,24 @@
     "sb": 1,
     "s": 0,
     "pitching": { "ip": 2, "h": 2, "er": 0, "k": 4 }
+  },
+  {
+    "date": "2026-06-03",
+    "team": "CH A's",
+    "opponent": "Hustlers",
+    "field": "Fenway",
+    "result": "L 0-5",
+    "ab": 3,
+    "h": 1,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 0,
+    "r": 0,
+    "bb": 0,
+    "k": 1,
+    "hb": 0,
+    "sb": 0,
+    "s": 0
   }
 ]
