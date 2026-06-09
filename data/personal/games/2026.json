@@ -96,5 +96,42 @@
     "hb": 0,
     "sb": 0,
     "s": 0
+  },
+  {
+    "date": "2026-06-08",
+    "team": "Federal Blues",
+    "opponent": "Gamblers",
+    "field": "Fenway",
+    "ab": 2,
+    "h": 1,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 0,
+    "r": 0,
+    "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": { "ip": 2, "h": 1, "er": 0, "k": 1, "bb": 1 }
+  },
+  {
+    "date": "2026-06-09",
+    "team": "CH A's",
+    "opponent": "Colt 45's",
+    "field": "Macken Park",
+    "ab": 4,
+    "h": 2,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 1,
+    "r": 2,
+    "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0
   }
 ]
