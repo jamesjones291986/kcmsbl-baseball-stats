@@ -38,19 +38,51 @@ function aggregateGames(games, year) {
   return rows;
 }
 
+function aggregatePitching(games, year) {
+  const teams = {};
+  games.forEach(g => {
+    if (!g.pitching) return;
+    const p = g.pitching;
+    if (!teams[g.team]) teams[g.team] = { year, team: g.team, age: 40, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
+    const t = teams[g.team];
+    t.g++;
+    t.ip += p.ip || 0;
+    t.h += p.h || 0;
+    t.er += p.er || 0;
+    t.k += p.k || 0;
+    t.bb += p.bb || 0;
+  });
+  const rows = Object.values(teams).map(t => {
+    t.era = t.ip > 0 ? +((t.er / (t.ip / 9)).toFixed(2)) : 0;
+    t.whip = t.ip > 0 ? +(((t.h + t.bb) / t.ip).toFixed(2)) : 0;
+    return t;
+  });
+  if (rows.length > 1) {
+    const total = { year, team: 'Total', age: rows[0].age, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
+    rows.forEach(r => ['g','ip','h','er','r','k','bb','w','l','s','gs','cg','sho'].forEach(k => total[k] += r[k]));
+    total.era = total.ip > 0 ? +((total.er / (total.ip / 9)).toFixed(2)) : 0;
+    total.whip = total.ip > 0 ? +(((total.h + total.bb) / total.ip).toFixed(2)) : 0;
+    rows.push(total);
+  }
+  return rows;
+}
+
 async function init() {
   const [seasonsRes, pitchingRes] = await Promise.all([
     fetch('data/personal/seasons.json'),
     fetch('data/personal/pitching.json')
   ]);
   seasons = (await seasonsRes.json()).filter(s => !GAME_YEARS.includes(s.year));
-  pitching = await pitchingRes.json();
+  pitching = (await pitchingRes.json()).filter(p => !GAME_YEARS.includes(p.year));
 
   const gameResults = await Promise.all(GAME_YEARS.map(y =>
     fetch(`data/personal/games/${y}.json`).then(r => r.ok ? r.json() : []).catch(() => [])
   ));
   GAME_YEARS.forEach((y, i) => {
-    if (gameResults[i].length) seasons.push(...aggregateGames(gameResults[i], y));
+    if (gameResults[i].length) {
+      seasons.push(...aggregateGames(gameResults[i], y));
+      pitching.push(...aggregatePitching(gameResults[i], y));
+    }
   });
   seasons.sort((a, b) => a.year - b.year || (a.team === 'Total' ? 1 : b.team === 'Total' ? -1 : a.team.localeCompare(b.team)));
   populateFilters();
