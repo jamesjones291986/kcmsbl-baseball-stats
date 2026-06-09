@@ -98,10 +98,11 @@
     "s": 0
   },
   {
-    "date": "2026-06-08",
+    "date": "2026-06-07",
     "team": "Federal Blues",
     "opponent": "Gamblers",
     "field": "Fenway",
+    "result": "L 1-4",
     "ab": 2,
     "h": 1,
     "2b": 0,
@@ -117,10 +118,11 @@
     "pitching": { "ip": 2, "h": 1, "er": 0, "k": 1, "bb": 1 }
   },
   {
-    "date": "2026-06-09",
+    "date": "2026-06-08",
     "team": "CH A's",
     "opponent": "Colt 45's",
     "field": "Macken Park",
+    "result": "W 10-4",
     "ab": 4,
     "h": 2,
     "2b": 0,
