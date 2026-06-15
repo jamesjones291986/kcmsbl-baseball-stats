@@ -51,6 +51,10 @@ function aggregatePitching(games, year) {
     t.er += p.er || 0;
     t.k += p.k || 0;
     t.bb += p.bb || 0;
+    if (p.w) t.w++;
+    if (p.l) t.l++;
+    if (p.s) t.s++;
+    if (p.gs) t.gs++;
   });
   const rows = Object.values(teams).map(t => {
     t.era = t.ip > 0 ? +((t.er / (t.ip / 9)).toFixed(2)) : 0;
