@@ -135,5 +135,25 @@
     "hb": 0,
     "sb": 0,
     "s": 0
+  },
+  {
+    "date": "2026-06-14",
+    "team": "Federal Blues",
+    "opponent": "KC Kings",
+    "field": "Fenway",
+    "result": "W 9-0",
+    "ab": 2,
+    "h": 1,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 1,
+    "r": 1,
+    "bb": 1,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": { "ip": 5, "h": 1, "er": 0, "k": 6, "bb": 1 }
   }
 ]
