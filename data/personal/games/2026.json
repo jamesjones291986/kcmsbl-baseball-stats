@@ -155,5 +155,25 @@
     "sb": 0,
     "s": 0,
     "pitching": { "ip": 5, "h": 1, "er": 0, "k": 6, "bb": 1, "w": 1, "gs": 1 }
+  },
+  {
+    "date": "2026-06-24",
+    "team": "A's",
+    "opponent": "Street Cats",
+    "field": "Fenway",
+    "result": "W 16-2",
+    "ab": 1,
+    "h": 0,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 1,
+    "r": 2,
+    "bb": 2,
+    "k": 0,
+    "hb": 1,
+    "sb": 0,
+    "s": 0,
+    "pitching": { "ip": 1, "h": 1, "er": 0, "k": 0, "bb": 0 }
   }
 ]
