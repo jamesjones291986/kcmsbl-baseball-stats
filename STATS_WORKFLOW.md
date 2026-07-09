@@ -14,6 +14,7 @@ Add a new entry with this format:
   "team": "Federal Blues",
   "opponent": "Ducks",
   "field": "Royal",
+  "time": "7:15pm",
   "result": "W 9-2",
   "ab": 3,
   "h": 0,
@@ -34,6 +35,7 @@ Add a new entry with this format:
 - Include `"pitching"` object only if pitched that game
 - `s` = sacrifice
 - `hb` = hit by pitch
+- `time` = game start time (e.g. "6:30pm", "8:45pm") — used for time-of-day splits
 - The app auto-computes batting season totals from game logs for years in `GAME_YEARS`
 
 ### 2. `data/personal/pitching.json` (only if pitched)
