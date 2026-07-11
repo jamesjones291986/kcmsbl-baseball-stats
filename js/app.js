@@ -3,7 +3,7 @@ let pitching = [];
 let sortCol = 'year';
 let sortAsc = true;
 
-const GAME_YEARS = [2025, 2026];
+// GAME_YEARS loaded from js/config.js
 
 function aggregateGames(games, year) {
   const teams = {};
