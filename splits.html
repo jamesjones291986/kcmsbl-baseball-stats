@@ -37,8 +37,22 @@
       <div class="table-wrap">
         <table id="splitsTable">
           <thead><tr>
-            <th>Split</th><th>G</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th>
-            <th>RBI</th><th>R</th><th>BB</th><th>K</th><th>SB</th><th>AVG</th><th>OBP</th><th>SLG</th><th>OPS</th>
+            <th class="sortable" data-col="label">Split</th>
+            <th class="sortable" data-col="g">G</th>
+            <th class="sortable" data-col="ab">AB</th>
+            <th class="sortable" data-col="h">H</th>
+            <th class="sortable" data-col="doubles">2B</th>
+            <th class="sortable" data-col="triples">3B</th>
+            <th class="sortable" data-col="hr">HR</th>
+            <th class="sortable" data-col="rbi">RBI</th>
+            <th class="sortable" data-col="r">R</th>
+            <th class="sortable" data-col="bb">BB</th>
+            <th class="sortable" data-col="k">K</th>
+            <th class="sortable" data-col="sb">SB</th>
+            <th class="sortable" data-col="avg">AVG</th>
+            <th class="sortable" data-col="obp">OBP</th>
+            <th class="sortable" data-col="slg">SLG</th>
+            <th class="sortable" data-col="ops">OPS</th>
           </tr></thead>
           <tbody></tbody>
         </table>
@@ -50,6 +64,22 @@
     const GAME_YEARS = [2025, 2026];
     let allGames = [];
     let currentSplit = 'field';
+    let sortCol = 'avg';
+    let sortDir = 'desc'; // desc = highest first
+
+    // Sort header click handler
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('sortable')) {
+        const col = e.target.dataset.col;
+        if (sortCol === col) {
+          sortDir = sortDir === 'desc' ? 'asc' : 'desc';
+        } else {
+          sortCol = col;
+          sortDir = col === 'label' ? 'asc' : 'desc'; // text defaults A-Z, numbers default high-low
+        }
+        renderSplits();
+      }
+    });
 
     // KC sunset times by month (approximate, 24h decimal)
     const KC_SUNSETS = {
@@ -133,6 +163,19 @@
       }
 
       const rows = computeSplits(filtered, keyFn);
+      // Sort
+      rows.sort((a, b) => {
+        const av = a[sortCol], bv = b[sortCol];
+        if (typeof av === 'string') {
+          return sortDir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+        }
+        return sortDir === 'asc' ? av - bv : bv - av;
+      });
+      // Update header arrows
+      document.querySelectorAll('.sortable').forEach(th => {
+        const arrow = th.dataset.col === sortCol ? (sortDir === 'desc' ? ' ▼' : ' ▲') : '';
+        th.textContent = th.textContent.replace(/ [▼▲]$/, '') + arrow;
+      });
       const tbody = document.querySelector('#splitsTable tbody');
       tbody.innerHTML = rows.map(r => `<tr>
         <td style="text-align:left;font-weight:500">${r.label}</td>

@@ -192,3 +192,7 @@ tr.expandable:hover { background: #4b5563; }
 }
 .split-tab:hover { background: #333; color: #fff; }
 .split-tab.active { background: #4caf50; color: #fff; border-color: #4caf50; }
+
+/* Sortable headers */
+.sortable { cursor: pointer; user-select: none; }
+.sortable:hover { color: #4caf50; }
