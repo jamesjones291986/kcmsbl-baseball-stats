@@ -52,6 +52,26 @@
         </table>
       </div>
     </section>
+
+    <section id="splits">
+      <h2>Splits</h2>
+      <div id="splitTabs" style="display:flex;gap:8px;margin-bottom:12px">
+        <button class="split-tab active" onclick="showSplit('field')">By Field</button>
+        <button class="split-tab" onclick="showSplit('opponent')">By Opponent</button>
+        <button class="split-tab" onclick="showSplit('daynight')">Day / Night</button>
+        <button class="split-tab" onclick="showSplit('team')">By Team</button>
+        <button class="split-tab" onclick="showSplit('time')">By Time</button>
+      </div>
+      <div class="table-wrap">
+        <table id="splitsTable">
+          <thead><tr>
+            <th>Split</th><th>G</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th>
+            <th>RBI</th><th>R</th><th>BB</th><th>K</th><th>SB</th><th>AVG</th><th>OBP</th><th>SLG</th><th>OPS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -78,6 +98,105 @@
       years.forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; yf.appendChild(o); });
       const tf = document.getElementById('teamFilter');
       teams.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; tf.appendChild(o); });
+    }
+
+    let currentSplit = 'field';
+
+    // KC sunset times by month (approximate, in 24h decimal hours)
+    // e.g. 20.75 = 8:45pm
+    const KC_SUNSETS = {
+      1: 17.25, 2: 18.0, 3: 19.5, 4: 20.0, 5: 20.5, 6: 20.75,
+      7: 20.75, 8: 20.25, 9: 19.5, 10: 18.75, 11: 17.25, 12: 17.0
+    };
+
+    function parseTime(timeStr) {
+      // '8:45pm' -> 20.75, '5:00pm' -> 17.0, '6:30pm' -> 18.5
+      if (!timeStr) return null;
+      const m = timeStr.match(/(\d+):(\d+)\s*(am|pm)/i);
+      if (!m) return null;
+      let h = parseInt(m[1]); const min = parseInt(m[2]); const ampm = m[3].toLowerCase();
+      if (ampm === 'pm' && h !== 12) h += 12;
+      if (ampm === 'am' && h === 12) h = 0;
+      return h + min / 60;
+    }
+
+    function getDayNight(game) {
+      // Day = sun is up for at least 1:15 of a 2-hour game
+      // i.e. sunset is at least 45 min after game start
+      const time = parseTime(game.time);
+      if (time === null) return 'Unknown';
+      const month = parseInt(game.date.split('-')[1]);
+      const sunset = KC_SUNSETS[month] || 19.5;
+      // Day if sunset >= start + 0.75 (45 min)
+      return (sunset >= time + 0.75) ? 'Day' : 'Night';
+    }
+
+    function computeSplits(games, keyFn) {
+      const groups = {};
+      games.forEach(g => {
+        const key = keyFn(g);
+        if (!key) return;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(g);
+      });
+      // Compute stats per group
+      const rows = [];
+      for (const [label, gms] of Object.entries(groups)) {
+        const ab = gms.reduce((s, g) => s + g.ab, 0);
+        const h = gms.reduce((s, g) => s + g.h, 0);
+        const doubles = gms.reduce((s, g) => s + (g['2b'] || 0), 0);
+        const triples = gms.reduce((s, g) => s + (g['3b'] || 0), 0);
+        const hr = gms.reduce((s, g) => s + (g.hr || 0), 0);
+        const rbi = gms.reduce((s, g) => s + (g.rbi || 0), 0);
+        const r = gms.reduce((s, g) => s + (g.r || 0), 0);
+        const bb = gms.reduce((s, g) => s + (g.bb || 0), 0);
+        const k = gms.reduce((s, g) => s + (g.k || 0), 0);
+        const sb = gms.reduce((s, g) => s + (g.sb || 0), 0);
+        const hbp = gms.reduce((s, g) => s + (g.hb || 0), 0);
+        const tb = h + doubles + 2 * triples + 3 * hr;
+        const pa = ab + bb + hbp;
+        const avg = ab ? (h / ab) : 0;
+        const obp = pa ? ((h + bb + hbp) / pa) : 0;
+        const slg = ab ? (tb / ab) : 0;
+        const ops = obp + slg;
+        rows.push({ label, g: gms.length, ab, h, doubles, triples, hr, rbi, r, bb, k, sb, avg, obp, slg, ops });
+      }
+      return rows.sort((a, b) => b.avg - a.avg);
+    }
+
+    function showSplit(type) {
+      currentSplit = type;
+      document.querySelectorAll('.split-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      renderSplits();
+    }
+
+    function renderSplits() {
+      const year = document.getElementById('yearFilter').value;
+      const team = document.getElementById('teamFilter').value;
+      const filtered = allGames.filter(g => {
+        if (year && g.year !== +year) return false;
+        if (team && g.team !== team) return false;
+        return true;
+      });
+
+      let keyFn;
+      switch (currentSplit) {
+        case 'field': keyFn = g => g.field || 'Unknown'; break;
+        case 'opponent': keyFn = g => g.opponent || 'Unknown'; break;
+        case 'daynight': keyFn = g => getDayNight(g); break;
+        case 'team': keyFn = g => g.team || 'Unknown'; break;
+        case 'time': keyFn = g => g.time || 'Unknown'; break;
+      }
+
+      const rows = computeSplits(filtered, keyFn);
+      const tbody = document.querySelector('#splitsTable tbody');
+      tbody.innerHTML = rows.map(r => `<tr>
+        <td style="text-align:left;font-weight:500">${r.label}</td>
+        <td>${r.g}</td><td>${r.ab}</td><td>${r.h}</td><td>${r.doubles}</td><td>${r.triples}</td><td>${r.hr}</td>
+        <td>${r.rbi}</td><td>${r.r}</td><td>${r.bb}</td><td>${r.k}</td><td>${r.sb}</td>
+        <td><strong>${r.avg.toFixed(3)}</strong></td><td>${r.obp.toFixed(3)}</td><td>${r.slg.toFixed(3)}</td><td>${r.ops.toFixed(3)}</td>
+      </tr>`).join('');
     }
 
     function render() {
@@ -129,6 +248,7 @@
       } else {
         pitchSection.style.display = 'none';
       }
+      renderSplits();
     }
 
     init();
