@@ -58,14 +58,14 @@ function aggregatePitching(games, year) {
     if (p.gs) t.gs++;
   });
   const rows = Object.values(teams).map(t => {
-    t.era = t.ip > 0 ? +((t.er / (t.ip / 9)).toFixed(2)) : 0;
+    t.era = t.ip > 0 ? +((t.er / (t.ip / 7)).toFixed(2)) : 0;
     t.whip = t.ip > 0 ? +(((t.h + t.bb) / t.ip).toFixed(2)) : 0;
     return t;
   });
   if (rows.length > 1) {
     const total = { year, team: 'Total', age: rows[0].age, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
     rows.forEach(r => ['g','ip','h','er','r','k','bb','w','l','s','gs','cg','sho'].forEach(k => total[k] += r[k]));
-    total.era = total.ip > 0 ? +((total.er / (total.ip / 9)).toFixed(2)) : 0;
+    total.era = total.ip > 0 ? +((total.er / (total.ip / 7)).toFixed(2)) : 0;
     total.whip = total.ip > 0 ? +(((total.h + total.bb) / total.ip).toFixed(2)) : 0;
     rows.push(total);
   }
