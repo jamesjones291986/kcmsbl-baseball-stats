@@ -35,6 +35,13 @@ function aggregateGames(games, year) {
     total.ops = total.obp + total.slg;
     rows.push(total);
   }
+  // Apply notes from config
+  if (typeof SEASON_NOTES !== 'undefined') {
+    rows.forEach(r => {
+      const key = `${r.year}|${r.team}`;
+      if (SEASON_NOTES[key]) r.note = SEASON_NOTES[key];
+    });
+  }
   return rows;
 }
 
