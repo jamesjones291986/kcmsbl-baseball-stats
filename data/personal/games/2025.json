@@ -877,6 +877,35 @@
     "s": 0
   },
   {
+    "date": "2025-09-21",
+    "team": "Federal Blues",
+    "opponent": "Killer Bees",
+    "field": "Fenway",
+    "time": "5:00pm",
+    "result": "W 4-11",
+    "ab": 0,
+    "h": 0,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 0,
+    "r": 0,
+    "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": {
+      "ip": 6,
+      "h": 8,
+      "er": 3,
+      "r": 4,
+      "k": 6,
+      "bb": 1,
+      "w": 1
+    }
+  },
+  {
     "date": "2025-09-28",
     "team": "Federal Blues",
     "opponent": "Rays",
