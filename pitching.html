@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pitching - Baseball Stats</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>⚾ Pitching</h1>
+    <nav>
+      <a href="./">Hitting</a>
+      <a href="gamelogs/">Game Logs</a>
+      <a href="splits.html">Splits</a>
+      <a href="royals/">WS Team</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero" id="pitchingHeroCard"></div>
+
+    <section>
+      <h2>Season Stats</h2>
+      <label style="display:inline-block;margin-bottom:0.8rem;">
+        <input type="checkbox" id="hidePitchingTotals"> Show all team rows
+      </label>
+      <div class="table-wrap">
+        <table id="pitchingTable">
+          <thead><tr>
+            <th data-col="year">Year</th><th data-col="team">Team</th><th data-col="age">Age</th>
+            <th data-col="g">G</th><th data-col="era">ERA</th><th data-col="w">W</th>
+            <th data-col="l">L</th><th data-col="s">S</th><th data-col="whip">WHIP</th>
+            <th data-col="ip">IP</th><th data-col="gs">GS</th><th data-col="cg">CG</th>
+            <th data-col="sho">SHO</th><th data-col="er">ER</th><th data-col="r">R</th>
+            <th data-col="k">K</th><th data-col="bb">BB</th><th data-col="h">H</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="pitchingCareer">
+      <h2>Career by Team</h2>
+      <div class="table-wrap">
+        <table id="pitchingCareerTable">
+          <thead><tr>
+            <th>Team</th><th>Yrs</th><th>G</th><th>ERA</th><th>W</th><th>L</th>
+            <th>S</th><th>WHIP</th><th>IP</th><th>GS</th><th>CG</th>
+            <th>SHO</th><th>ER</th><th>R</th><th>K</th><th>BB</th><th>H</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="pitchingTotals">
+      <h2>Career Totals</h2>
+      <div id="pitchingTotalsCard"></div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/pitching.js"></script>
+</body>
+</html>

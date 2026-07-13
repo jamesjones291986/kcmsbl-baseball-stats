@@ -94,15 +94,11 @@ async function init() {
   renderSeasons();
   renderCareer();
   renderTotals();
-  renderPitching();
-  renderPitchingCareer();
-  renderPitchingTotals();
   renderHero();
 
   document.getElementById('yearFilter').addEventListener('change', renderSeasons);
   document.getElementById('teamFilter').addEventListener('change', renderSeasons);
   document.getElementById('hideTotals').addEventListener('change', renderSeasons);
-  document.getElementById('hidePitchingTotals').addEventListener('change', renderPitching);
 
   document.querySelectorAll('#seasonTable th').forEach(th => {
     th.addEventListener('click', () => sortTable(th.dataset.col, 'seasonTable'));
@@ -425,10 +421,11 @@ function sortTable(col, tableId) {
 }
 
 function renderHero() {
-  const indiv = seasons.filter(s => s.team !== 'Total');
+  // Show current season stats (most recent GAME_YEAR) in the hero card
+  const currentYear = GAME_YEARS[GAME_YEARS.length - 1];
+  const currentSeasons = seasons.filter(s => s.year === currentYear && s.team !== 'Total');
   const t = { g:0, h:0, ab:0, hr:0, rbi:0, '3b':0, '2b':0, sb:0, r:0, k:0, bb:0, hb:0 };
-  const yearsSet = new Set();
-  indiv.forEach(s => { yearsSet.add(s.year); Object.keys(t).forEach(k => t[k] += s[k] || 0); });
+  currentSeasons.forEach(s => { Object.keys(t).forEach(k => t[k] += s[k] || 0); });
   t.avg = t.ab ? t.h / t.ab : 0;
   t.obp = (t.ab + t.bb + t.hb) ? (t.h + t.bb + t.hb) / (t.ab + t.bb + t.hb) : 0;
   const tb = t.h + t['2b'] + 2 * t['3b'] + 3 * t.hr;
@@ -436,9 +433,9 @@ function renderHero() {
   t.ops = t.obp + t.slg;
 
   const cards = [
-    ['Years', yearsSet.size], ['Games', t.g], ['AVG', t.avg.toFixed(3)],
+    [`${currentYear} Season`, `${t.g} G`], ['AVG', t.avg.toFixed(3)],
     ['OPS', t.ops.toFixed(3)], ['Hits', t.h], ['HR', t.hr],
-    ['RBI', t.rbi], ['Runs', t.r], ['SB', t.sb]
+    ['RBI', t.rbi], ['Runs', t.r], ['2B', t['2b']], ['SB', t.sb]
   ];
   document.getElementById('heroCard').innerHTML = cards.map(([l, v]) =>
     `<div class="stat-card"><div class="label">${l}</div><div class="value">${v}</div></div>`
@@ -447,12 +444,4 @@ function renderHero() {
 
 init();
 
-// Tab switching
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.tab).classList.add('active');
-  });
-});
+// Pitching is now on its own page (pitching.html)
