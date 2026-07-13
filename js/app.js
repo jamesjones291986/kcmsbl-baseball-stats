@@ -434,8 +434,10 @@ function renderHero() {
 
   const cards = [
     [`${currentYear} Season`, `${t.g} G`], ['AVG', t.avg.toFixed(3)],
-    ['OPS', t.ops.toFixed(3)], ['Hits', t.h], ['HR', t.hr],
-    ['RBI', t.rbi], ['Runs', t.r], ['2B', t['2b']], ['SB', t.sb]
+    ['OBP', t.obp.toFixed(3)], ['OPS', t.ops.toFixed(3)],
+    ['HR', t.hr], ['RBI', t.rbi], ['R', t.r],
+    ['2B', t['2b']], ['3B', t['3b']], ['SB', t.sb],
+    ['BB', t.bb], ['K', t.k]
   ];
   document.getElementById('heroCard').innerHTML = cards.map(([l, v]) =>
     `<div class="stat-card"><div class="label">${l}</div><div class="value">${v}</div></div>`
