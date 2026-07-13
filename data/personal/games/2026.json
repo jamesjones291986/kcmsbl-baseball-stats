@@ -279,5 +279,31 @@
     "sb": 0,
     "s": 0,
     "time": "6:30pm"
+  },
+  {
+    "date": "2026-07-12",
+    "team": "Federal Blues",
+    "opponent": "Killer Bees",
+    "field": "Royal",
+    "time": "8:15pm",
+    "result": "W 7-3",
+    "ab": 3,
+    "h": 1,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 0,
+    "r": 1,
+    "bb": 0,
+    "k": 1,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": {
+      "ip": 4,
+      "h": 5,
+      "er": 0,
+      "k": 3
+    }
   }
 ]
