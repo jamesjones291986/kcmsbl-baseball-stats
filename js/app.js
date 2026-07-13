@@ -48,6 +48,7 @@ function aggregatePitching(games, year) {
     t.g++;
     t.ip += p.ip || 0;
     t.h += p.h || 0;
+    t.r += p.r || 0;
     t.er += p.er || 0;
     t.k += p.k || 0;
     t.bb += p.bb || 0;
