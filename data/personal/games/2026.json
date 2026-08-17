@@ -445,5 +445,25 @@
     "hb": 0,
     "sb": 0,
     "s": 0
+  },
+  {
+    "date": "2026-08-16",
+    "team": "Federal Blues",
+    "opponent": "Ducks",
+    "field": "Macken Park",
+    "time": "6:00pm",
+    "result": "W 12-2",
+    "ab": 2,
+    "h": 2,
+    "2b": 1,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 2,
+    "r": 2,
+    "bb": 1,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0
   }
 ]
