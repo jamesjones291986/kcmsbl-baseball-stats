@@ -45,6 +45,21 @@ function aggregateGames(games, year) {
   return rows;
 }
 
+// Baseball IP math: 5.1 = 5⅓, 5.2 = 5⅔
+function ipToThirds(ip) {
+  const whole = Math.floor(ip);
+  const frac = Math.round((ip - whole) * 10);
+  return whole * 3 + frac;
+}
+function thirdsToIp(thirds) {
+  const whole = Math.floor(thirds / 3);
+  const remainder = thirds % 3;
+  return whole + remainder * 0.1;
+}
+function addIP(a, b) {
+  return thirdsToIp(ipToThirds(a) + ipToThirds(b));
+}
+
 function aggregatePitching(games, year) {
   const teams = {};
   games.forEach(g => {
@@ -53,7 +68,7 @@ function aggregatePitching(games, year) {
     if (!teams[g.team]) teams[g.team] = { year, team: g.team, age: 40, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
     const t = teams[g.team];
     t.g++;
-    t.ip += p.ip || 0;
+    t.ip = addIP(t.ip, p.ip || 0);
     t.h += p.h || 0;
     t.r += p.r || 0;
     t.er += p.er || 0;
@@ -65,15 +80,15 @@ function aggregatePitching(games, year) {
     if (p.gs) t.gs++;
   });
   const rows = Object.values(teams).map(t => {
-    t.era = t.ip > 0 ? +((t.er / (t.ip / 7)).toFixed(2)) : 0;
-    t.whip = t.ip > 0 ? +(((t.h + t.bb) / t.ip).toFixed(2)) : 0;
+    const _ipReal = ipToThirds(t.ip) / 3; t.era = _ipReal > 0 ? +((t.er / (_ipReal / 7)).toFixed(2)) : 0;
+    t.whip = _ipReal > 0 ? +(((t.h + t.bb) / _ipReal).toFixed(2)) : 0;
     return t;
   });
   if (rows.length > 1) {
     const total = { year, team: 'Total', age: rows[0].age, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
-    rows.forEach(r => ['g','ip','h','er','r','k','bb','w','l','s','gs','cg','sho'].forEach(k => total[k] += r[k]));
-    total.era = total.ip > 0 ? +((total.er / (total.ip / 7)).toFixed(2)) : 0;
-    total.whip = total.ip > 0 ? +(((total.h + total.bb) / total.ip).toFixed(2)) : 0;
+    rows.forEach(r => { ['g','h','er','r','k','bb','w','l','s','gs','cg','sho'].forEach(k => total[k] += r[k]); total.ip = addIP(total.ip, r.ip); });
+    const _tipReal = ipToThirds(total.ip) / 3; total.era = _tipReal > 0 ? +((total.er / (_tipReal / 7)).toFixed(2)) : 0;
+    total.whip = _tipReal > 0 ? +(((total.h + total.bb) / _tipReal).toFixed(2)) : 0;
     rows.push(total);
   }
   return rows;

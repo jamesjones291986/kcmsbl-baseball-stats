@@ -1,6 +1,24 @@
 // pitching.js — dedicated pitching page logic
 let pitching = [];
 
+// Baseball IP math: 5.1 = 5⅓ innings, 5.2 = 5⅔ innings
+// Convert to thirds for math, then back to baseball notation for display
+function ipToThirds(ip) {
+  const whole = Math.floor(ip);
+  const frac = Math.round((ip - whole) * 10);
+  return whole * 3 + frac;
+}
+
+function thirdsToIp(thirds) {
+  const whole = Math.floor(thirds / 3);
+  const remainder = thirds % 3;
+  return whole + remainder * 0.1;
+}
+
+function addIP(a, b) {
+  return thirdsToIp(ipToThirds(a) + ipToThirds(b));
+}
+
 function aggregatePitching(games, year) {
   const teams = {};
   games.forEach(g => {
@@ -9,7 +27,7 @@ function aggregatePitching(games, year) {
     if (!teams[g.team]) teams[g.team] = { year, team: g.team, age: 40, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
     const t = teams[g.team];
     t.g++;
-    t.ip += p.ip || 0;
+    t.ip = addIP(t.ip, p.ip || 0);
     t.h += p.h || 0;
     t.r += p.r || 0;
     t.er += p.er || 0;
@@ -21,15 +39,20 @@ function aggregatePitching(games, year) {
     if (p.gs) t.gs++;
   });
   const rows = Object.values(teams).map(t => {
-    t.era = t.ip > 0 ? +((t.er / (t.ip / 7)).toFixed(2)) : 0;
-    t.whip = t.ip > 0 ? +(((t.h + t.bb) / t.ip).toFixed(2)) : 0;
+    const ipReal = ipToThirds(t.ip) / 3;
+    t.era = ipReal > 0 ? +((t.er / (ipReal / 7)).toFixed(2)) : 0;
+    t.whip = ipReal > 0 ? +(((t.h + t.bb) / ipReal).toFixed(2)) : 0;
     return t;
   });
   if (rows.length > 1) {
     const total = { year, team: 'Total', age: rows[0].age, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
-    rows.forEach(r => ['g','ip','h','er','r','k','bb','w','l','s','gs','cg','sho'].forEach(k => total[k] += r[k]));
-    total.era = total.ip > 0 ? +((total.er / (total.ip / 7)).toFixed(2)) : 0;
-    total.whip = total.ip > 0 ? +(((total.h + total.bb) / total.ip).toFixed(2)) : 0;
+    rows.forEach(r => {
+      ['g','h','er','r','k','bb','w','l','s','gs','cg','sho'].forEach(k => total[k] += r[k]);
+      total.ip = addIP(total.ip, r.ip);
+    });
+    const ipReal = ipToThirds(total.ip) / 3;
+    total.era = ipReal > 0 ? +((total.er / (ipReal / 7)).toFixed(2)) : 0;
+    total.whip = ipReal > 0 ? +(((total.h + total.bb) / ipReal).toFixed(2)) : 0;
     rows.push(total);
   }
   return rows;
@@ -55,9 +78,13 @@ function renderPitchingHero() {
   const currentYear = GAME_YEARS[GAME_YEARS.length - 1];
   const current = pitching.filter(s => s.year === currentYear && s.team !== 'Total');
   const t = { g:0, w:0, l:0, s:0, ip:0, er:0, r:0, k:0, bb:0, h:0 };
-  current.forEach(s => { Object.keys(t).forEach(k => t[k] += s[k] || 0); });
-  t.era = t.ip ? (t.er * 7) / t.ip : 0;
-  t.whip = t.ip ? (t.bb + t.h) / t.ip : 0;
+  current.forEach(s => {
+    ['g','w','l','s','er','r','k','bb','h'].forEach(k => t[k] += s[k] || 0);
+    t.ip = addIP(t.ip, s.ip || 0);
+  });
+  const ipReal = ipToThirds(t.ip) / 3;
+  t.era = ipReal ? (t.er * 7) / ipReal : 0;
+  t.whip = ipReal ? (t.bb + t.h) / ipReal : 0;
 
   const cards = [
     [`${currentYear} Season`, `${t.g} G`], ['ERA', t.era.toFixed(2)],
@@ -119,12 +146,14 @@ function renderPitchingCareer() {
     if (!teams[s.team]) teams[s.team] = { team: s.team, yearsSet: new Set(), g:0, w:0, l:0, s:0, ip:0, gs:0, cg:0, sho:0, er:0, r:0, k:0, bb:0, h:0 };
     const t = teams[s.team];
     t.yearsSet.add(s.year);
-    ['g','w','l','s','ip','gs','cg','sho','er','r','k','bb','h'].forEach(k => t[k] += s[k] || 0);
+    ['g','w','l','s','gs','cg','sho','er','r','k','bb','h'].forEach(k => t[k] += s[k] || 0);
+    t.ip = addIP(t.ip, s.ip || 0);
   });
   const data = Object.values(teams).map(t => {
     t.years = t.yearsSet.size;
-    t.era = t.ip ? (t.er * 7) / t.ip : 0;
-    t.whip = t.ip ? (t.bb + t.h) / t.ip : 0;
+    const ipReal = ipToThirds(t.ip) / 3;
+    t.era = ipReal ? (t.er * 7) / ipReal : 0;
+    t.whip = ipReal ? (t.bb + t.h) / ipReal : 0;
     delete t.yearsSet;
     return t;
   });
@@ -144,10 +173,12 @@ function renderPitchingTotals() {
   const yearsSet = new Set();
   indiv.forEach(s => {
     yearsSet.add(s.year);
-    Object.keys(t).forEach(k => t[k] += s[k] || 0);
+    ['g','w','l','s','gs','cg','sho','er','r','k','bb','h'].forEach(k => t[k] += s[k] || 0);
+    t.ip = addIP(t.ip, s.ip || 0);
   });
-  t.era = t.ip ? (t.er * 7) / t.ip : 0;
-  t.whip = t.ip ? (t.bb + t.h) / t.ip : 0;
+  const ipReal = ipToThirds(t.ip) / 3;
+  t.era = ipReal ? (t.er * 7) / ipReal : 0;
+  t.whip = ipReal ? (t.bb + t.h) / ipReal : 0;
 
   const cards = [
     ['Years', yearsSet.size], ['Games', t.g], ['ERA', t.era.toFixed(2)],
