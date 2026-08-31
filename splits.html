@@ -63,7 +63,8 @@
 
   <script src="js/config.js"></script>
   <script>
-    // GAME_YEARS loaded from config.js
+    // GAME_LOG_YEARS loaded from config.js — every year with a game log,
+    // including partial ones (2020-2021 are CH A's only)
     let allGames = [];
     let currentSplit = 'field';
     let sortCol = 'avg';
@@ -198,9 +199,9 @@
 
     async function init() {
       const results = await Promise.all(
-        GAME_YEARS.map(y => fetch(`data/personal/games/${y}.json`).then(r => r.ok ? r.json() : []).catch(() => []))
+        GAME_LOG_YEARS.map(y => fetch(`data/personal/games/${y}.json`).then(r => r.ok ? r.json() : []).catch(() => []))
       );
-      GAME_YEARS.forEach((y, i) => {
+      GAME_LOG_YEARS.forEach((y, i) => {
         results[i].forEach(g => allGames.push({...g, year: y}));
       });
       populateFilters();
