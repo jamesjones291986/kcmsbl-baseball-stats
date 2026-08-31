@@ -467,6 +467,37 @@
     "s": 0
   },
   {
+    "date": "2026-08-23",
+    "team": "Federal Blues",
+    "opponent": "Hitmen",
+    "field": "Fenway",
+    "time": "5:00pm",
+    "result": "W 6-4",
+    "ab": 0,
+    "h": 0,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 0,
+    "r": 0,
+    "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": {
+      "ip": 4,
+      "h": 4,
+      "er": 2,
+      "r": 4,
+      "bb": 1,
+      "k": 6,
+      "hbp": 1,
+      "gs": 1,
+      "w": 1
+    }
+  },
+  {
     "date": "2026-08-28",
     "team": "KCMSBL All-Stars",
     "opponent": "KCNABA All-Stars",
