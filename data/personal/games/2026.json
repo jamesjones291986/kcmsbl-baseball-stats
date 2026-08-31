@@ -498,6 +498,26 @@
     }
   },
   {
+    "date": "2026-08-26",
+    "team": "CH A's",
+    "opponent": "Pirates",
+    "field": "Fenway",
+    "time": "6:30pm",
+    "result": "W 8-4",
+    "ab": 3,
+    "h": 1,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 1,
+    "r": 0,
+    "bb": 0,
+    "k": 0,
+    "hb": 1,
+    "sb": 0,
+    "s": 0
+  },
+  {
     "date": "2026-08-28",
     "team": "KCMSBL All-Stars",
     "opponent": "KCNABA All-Stars",
