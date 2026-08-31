@@ -2,9 +2,11 @@
 
 ## Adding a New Game
 
-Only two files need updating:
+Only one file needs updating: the game log. Batting **and** pitching season
+totals for years in `GAME_YEARS` are auto-computed from the game log at load
+time — do **not** edit `pitching.json` for those years (it is ignored for them).
 
-### 1. `data/personal/games/2026.json` (game log)
+### `data/personal/games/2026.json` (game log)
 
 Add a new entry with this format:
 
@@ -33,29 +35,31 @@ Add a new entry with this format:
 ```
 
 - Include `"pitching"` object only if pitched that game
-- `s` = sacrifice
-- `hb` = hit by pitch
+- Pitching fields: `ip`, `h`, `er`, `r`, `bb`, `k`. Add `gs: 1` if started,
+  and `w: 1` / `l: 1` / `s: 1` for a decision. These are summed per team by the
+  app to produce season pitching lines (G, IP, ERA, WHIP, W-L-S, GS, etc.).
+- `ip` uses baseball notation: `5.1` = 5⅓ innings, `5.2` = 5⅔ innings.
+- `s` (top level) = sacrifice; `hb` = hit by pitch
 - `time` = game start time (e.g. "6:30pm", "8:45pm") — used for time-of-day splits
-- The app auto-computes batting season totals from game logs for years in `GAME_YEARS`
+- The app auto-computes batting **and** pitching season totals from game logs
+  for years in `GAME_YEARS`. A new team name simply appears as its own line.
 
-### 2. `data/personal/pitching.json` (only if pitched)
+### `data/personal/pitching.json` — historical only
 
-Manually update the team line and Total line for the current year:
-- Increment `g` (games)
-- Add `ip`, `h`, `er`, `k`, `bb` to running totals
-- Recalculate `era`: `(er * 7) / ip` (7-inning games)
-- Recalculate `whip`: `(bb + h) / ip`
-- Update `gs` only if started
-- Update `w`/`l`/`s` for decisions
+This file holds pitching stats for seasons **before** `GAME_YEARS` (pre-2022).
+Rows whose year is in `GAME_YEARS` are filtered out at load time and replaced by
+values computed from the game log, so editing them has no effect. Only touch
+this file to correct historical (pre-`GAME_YEARS`) seasons.
 
 ## What's Automatic vs Manual
 
 | Data | Source | Auto? |
 |------|--------|-------|
-| Batting season stats | Computed from game logs | ✅ Yes |
+| Batting season stats (`GAME_YEARS`) | Computed from game logs | ✅ Yes |
 | Batting career/totals | Computed from all seasons | ✅ Yes |
-| Pitching season stats | `pitching.json` | ❌ Manual |
-| Pitching career/totals | Computed from pitching.json | ✅ Yes |
+| Pitching season stats (`GAME_YEARS`) | Computed from game logs | ✅ Yes |
+| Pitching career/totals | Computed from all seasons | ✅ Yes |
+| Batting/pitching before `GAME_YEARS` | `seasons.json` / `pitching.json` | ❌ Manual |
 
 ## Key Details
 
@@ -70,4 +74,6 @@ Manually update the team line and Total line for the current year:
 
 1. Create `data/personal/games/YYYY.json` (empty array `[]`)
 2. Add the year to `GAME_YEARS` in both `js/app.js` and `gamelogs/index.html`
-3. Add initial pitching entries in `pitching.json` for each team
+
+That's it — batting and pitching lines (including new teams) are generated from
+the game log automatically. No `pitching.json` setup is needed for the new year.
