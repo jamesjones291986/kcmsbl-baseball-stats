@@ -437,7 +437,8 @@
       "k": 3,
       "w": 1,
       "r": 1,
-      "bb": 1
+      "bb": 1,
+      "cg": 1
     }
   },
   {
@@ -613,8 +614,8 @@
       "h": 1,
       "er": 0,
       "k": 2,
-      "r": 0,
-      "bb": 0
+      "r": 1,
+      "bb": 1
     }
   },
   {
@@ -712,7 +713,9 @@
       "k": 5,
       "w": 1,
       "r": 0,
-      "bb": 2
+      "bb": 2,
+      "cg": 1,
+      "sho": 1
     }
   },
   {
@@ -741,7 +744,8 @@
       "k": 8,
       "w": 1,
       "r": 2,
-      "bb": 0
+      "bb": 0,
+      "cg": 1
     }
   },
   {
@@ -763,6 +767,37 @@
     "sb": 0,
     "s": 0,
     "team": "CH A's"
+  },
+  {
+    "date": "2024-09-08",
+    "team": "Federal Blues",
+    "opponent": "KC Vice",
+    "field": "",
+    "time": "",
+    "result": "W 10-0",
+    "ab": 0,
+    "h": 0,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 0,
+    "r": 0,
+    "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": {
+      "ip": 5,
+      "h": 4,
+      "er": 0,
+      "r": 0,
+      "bb": 1,
+      "k": 3,
+      "w": 1,
+      "cg": 1,
+      "sho": 1
+    }
   },
   {
     "date": "2024-09-12",
@@ -807,9 +842,9 @@
       "ip": 2,
       "h": 1,
       "er": 0,
-      "k": 1,
-      "r": 0,
-      "bb": 2
+      "k": 2,
+      "r": 1,
+      "bb": 1
     }
   },
   {
@@ -877,7 +912,8 @@
       "k": 3,
       "l": 1,
       "r": 3,
-      "bb": 2
+      "bb": 2,
+      "cg": 1
     },
     "team": "CH A's"
   },
@@ -1041,26 +1077,6 @@
   {
     "date": "2024-10-17",
     "team": "WS Royals",
-    "opponent": "Sonoma County Mariners",
-    "field": "Salt River R5",
-    "time": "9:30am",
-    "result": "L 4-1",
-    "ab": 3,
-    "h": 0,
-    "2b": 0,
-    "3b": 0,
-    "hr": 0,
-    "rbi": 0,
-    "r": 0,
-    "bb": 1,
-    "k": 0,
-    "hb": 0,
-    "sb": 0,
-    "s": 0
-  },
-  {
-    "date": "2024-10-17",
-    "team": "WS Royals",
     "opponent": "Seattle Pirates",
     "field": "Salt River Rockies #3",
     "time": "1:30pm",
@@ -1073,6 +1089,26 @@
     "rbi": 0,
     "r": 0,
     "bb": 0,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0
+  },
+  {
+    "date": "2024-10-17",
+    "team": "WS Royals",
+    "opponent": "Sonoma County Mariners",
+    "field": "Salt River R5",
+    "time": "9:30am",
+    "result": "L 4-1",
+    "ab": 3,
+    "h": 0,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 0,
+    "r": 0,
+    "bb": 1,
     "k": 0,
     "hb": 0,
     "sb": 0,
