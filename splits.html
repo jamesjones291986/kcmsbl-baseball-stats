@@ -34,6 +34,7 @@
         <button class="split-tab" onclick="showSplit('daynight', this)">Day / Night</button>
         <button class="split-tab" onclick="showSplit('team', this)">By Team</button>
         <button class="split-tab" onclick="showSplit('time', this)">By Time</button>
+        <button class="split-tab" onclick="showSplit('season', this)">Regular / Playoff</button>
       </div>
       <div class="table-wrap">
         <table id="splitsTable">
@@ -163,6 +164,9 @@
         case 'daynight': keyFn = g => getDayNight(g); break;
         case 'team': keyFn = g => g.team || 'Unknown'; break;
         case 'time': keyFn = g => g.time || 'Unknown'; break;
+        // A game is playoff only when explicitly flagged; the absence of the flag
+        // means regular season, so the 23 existing entries need no edit.
+        case 'season': keyFn = g => g.playoff ? 'Playoff' : 'Regular'; break;
       }
 
       const rows = computeSplits(filtered, keyFn);
