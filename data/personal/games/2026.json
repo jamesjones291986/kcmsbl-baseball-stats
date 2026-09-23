@@ -640,5 +640,34 @@
     "hb": 0,
     "sb": 0,
     "s": 0
+  },
+  {
+    "date": "2026-09-20",
+    "team": "Federal Blues",
+    "opponent": "Rays",
+    "field": "Royal",
+    "time": "7:30pm",
+    "result": "W 4-3",
+    "playoff": true,
+    "ab": 3,
+    "h": 1,
+    "2b": 0,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 0,
+    "r": 1,
+    "bb": 1,
+    "k": 0,
+    "hb": 0,
+    "sb": 0,
+    "s": 0,
+    "pitching": {
+      "ip": 4,
+      "h": 5,
+      "er": 1,
+      "r": 2,
+      "bb": 1,
+      "k": 5
+    }
   }
 ]
