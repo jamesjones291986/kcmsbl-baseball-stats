@@ -25,6 +25,12 @@
       <label>Team:
         <select id="teamFilter"><option value="">All</option></select>
       </label>
+      <label>Opponent:
+        <select id="opponentFilter"><option value="">All</option></select>
+      </label>
+      <label>Field:
+        <select id="fieldFilter"><option value="">All</option></select>
+      </label>
     </section>
 
     <section id="gamelog">
@@ -73,6 +79,8 @@
       render();
       document.getElementById('yearFilter').addEventListener('change', render);
       document.getElementById('teamFilter').addEventListener('change', render);
+      document.getElementById('opponentFilter').addEventListener('change', render);
+      document.getElementById('fieldFilter').addEventListener('change', render);
     }
 
     function populateFilters() {
@@ -82,14 +90,26 @@
       years.forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; yf.appendChild(o); });
       const tf = document.getElementById('teamFilter');
       teams.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; tf.appendChild(o); });
+
+      const opponents = [...new Set(allGames.map(g => g.opponent).filter(Boolean))].sort();
+      const of = document.getElementById('opponentFilter');
+      opponents.forEach(op => { const o = document.createElement('option'); o.value = op; o.textContent = op; of.appendChild(o); });
+
+      const fields = [...new Set(allGames.map(g => g.field).filter(Boolean))].sort();
+      const ff = document.getElementById('fieldFilter');
+      fields.forEach(f => { const o = document.createElement('option'); o.value = f; o.textContent = f; ff.appendChild(o); });
     }
 
     function render() {
       const year = document.getElementById('yearFilter').value;
       const team = document.getElementById('teamFilter').value;
+      const opponent = document.getElementById('opponentFilter').value;
+      const field = document.getElementById('fieldFilter').value;
       const filtered = allGames.filter(g => {
         if (year && g.year !== +year) return false;
         if (team && g.team !== team) return false;
+        if (opponent && g.opponent !== opponent) return false;
+        if (field && g.field !== field) return false;
         return true;
       });
 

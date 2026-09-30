@@ -25,9 +25,16 @@
       <label>Team:
         <select id="teamFilter"><option value="">All</option></select>
       </label>
+      <label>Min games:
+        <input id="minGames" type="number" min="1" step="1" placeholder="1" style="width:60px">
+      </label>
     </section>
 
     <section id="splits">
+      <div id="statMode" style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <button class="split-tab active" onclick="showMode('batting', this)">Batting</button>
+        <button class="split-tab" onclick="showMode('pitching', this)">Pitching</button>
+      </div>
       <div id="splitTabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
         <button class="split-tab active" onclick="showSplit('field', this)">By Field</button>
         <button class="split-tab" onclick="showSplit('opponent', this)">By Opponent</button>
@@ -38,7 +45,7 @@
       </div>
       <div class="table-wrap">
         <table id="splitsTable">
-          <thead><tr>
+          <thead id="splitsHead"><tr>
             <th class="sortable" data-col="label">Split</th>
             <th class="sortable" data-col="g">G</th>
             <th class="sortable" data-col="ab">AB</th>
@@ -68,8 +75,30 @@
     // including partial ones (2020-2021 are CH A's only)
     let allGames = [];
     let currentSplit = 'field';
+    let statMode = 'batting';
     let sortCol = 'avg';
     let sortDir = 'desc'; // desc = highest first
+
+    // Column headers per stat mode. `key` matches the row object field; `def`
+    // is the default sort column when switching into that mode.
+    const MODE_COLUMNS = {
+      batting: {
+        def: 'avg',
+        cols: [
+          ['label','Split'],['g','G'],['ab','AB'],['h','H'],['doubles','2B'],
+          ['triples','3B'],['hr','HR'],['rbi','RBI'],['r','R'],['bb','BB'],
+          ['k','K'],['sb','SB'],['avg','AVG'],['obp','OBP'],['slg','SLG'],['ops','OPS']
+        ]
+      },
+      pitching: {
+        def: 'era',
+        cols: [
+          ['label','Split'],['g','G'],['gs','GS'],['ip','IP'],['h','H'],
+          ['r','R'],['er','ER'],['bb','BB'],['k','K'],['w','W'],['l','L'],
+          ['sv','SV'],['era','ERA'],['whip','WHIP']
+        ]
+      }
+    };
 
     // Sort header click handler
     document.addEventListener('click', function(e) {
@@ -141,6 +170,68 @@
       return rows.sort((a, b) => b.avg - a.avg);
     }
 
+    // IP is stored in baseball notation (5.1 = 5⅓, 5.2 = 5⅔). Convert to a real
+    // number of innings for math, then back to notation for display.
+    function ipToOuts(ip) {
+      const whole = Math.trunc(ip);
+      const frac = Math.round((ip - whole) * 10); // 0, 1, or 2
+      return whole * 3 + frac;
+    }
+    function outsToIp(outs) {
+      const whole = Math.trunc(outs / 3);
+      const rem = outs % 3;
+      return whole + rem / 10; // back to x.0 / x.1 / x.2 notation
+    }
+
+    function computePitchingSplits(games, keyFn) {
+      const groups = {};
+      games.forEach(g => {
+        if (!g.pitching) return; // pitching splits only include games pitched
+        const key = keyFn(g);
+        if (!key) return;
+        (groups[key] = groups[key] || []).push(g);
+      });
+      const rows = [];
+      for (const [label, gms] of Object.entries(groups)) {
+        const outs = gms.reduce((s, g) => s + ipToOuts(g.pitching.ip || 0), 0);
+        const ipReal = outs / 3;
+        const h = gms.reduce((s, g) => s + (g.pitching.h || 0), 0);
+        const r = gms.reduce((s, g) => s + (g.pitching.r || 0), 0);
+        const er = gms.reduce((s, g) => s + (g.pitching.er || 0), 0);
+        const bb = gms.reduce((s, g) => s + (g.pitching.bb || 0), 0);
+        const k = gms.reduce((s, g) => s + (g.pitching.k || 0), 0);
+        const gs = gms.reduce((s, g) => s + (g.pitching.gs || 0), 0);
+        const w = gms.reduce((s, g) => s + (g.pitching.w || 0), 0);
+        const l = gms.reduce((s, g) => s + (g.pitching.l || 0), 0);
+        const sv = gms.reduce((s, g) => s + (g.pitching.s || 0), 0);
+        // KCMSBL uses 7-inning games, so ERA is scaled to 7 (matches game log page).
+        const era = ipReal ? (er * 7) / ipReal : 0;
+        const whip = ipReal ? (h + bb) / ipReal : 0;
+        rows.push({
+          label, g: gms.length, gs, ip: outsToIp(outs), _ipReal: ipReal,
+          h, r, er, bb, k, w, l, sv, era, whip
+        });
+      }
+      return rows;
+    }
+
+    function showMode(mode, btn) {
+      statMode = mode;
+      document.querySelectorAll('#statMode .split-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      sortCol = MODE_COLUMNS[mode].def;
+      sortDir = 'desc';
+      renderHead();
+      renderSplits();
+    }
+
+    function renderHead() {
+      const tr = MODE_COLUMNS[statMode].cols.map(([col, label]) =>
+        `<th class="sortable" data-col="${col}">${label}</th>`
+      ).join('');
+      document.getElementById('splitsHead').innerHTML = `<tr>${tr}</tr>`;
+    }
+
     function showSplit(type, btn) {
       currentSplit = type;
       document.querySelectorAll('.split-tab').forEach(t => t.classList.remove('active'));
@@ -169,7 +260,12 @@
         case 'season': keyFn = g => g.playoff ? 'Playoff' : 'Regular'; break;
       }
 
-      const rows = computeSplits(filtered, keyFn);
+      let rows = statMode === 'pitching'
+        ? computePitchingSplits(filtered, keyFn)
+        : computeSplits(filtered, keyFn);
+      // Minimum games threshold — hide split groups with fewer than N games.
+      const minG = parseInt(document.getElementById('minGames').value, 10);
+      if (minG > 1) rows = rows.filter(r => r.g >= minG);
       // Sort
       rows.sort((a, b) => {
         const av = a[sortCol], bv = b[sortCol];
@@ -184,12 +280,23 @@
         th.textContent = th.textContent.replace(/ [▼▲]$/, '') + arrow;
       });
       const tbody = document.querySelector('#splitsTable tbody');
-      tbody.innerHTML = rows.map(r => `<tr>
-        <td style="text-align:left;font-weight:500">${r.label}</td>
-        <td>${r.g}</td><td>${r.ab}</td><td>${r.h}</td><td>${r.doubles}</td><td>${r.triples}</td><td>${r.hr}</td>
-        <td>${r.rbi}</td><td>${r.r}</td><td>${r.bb}</td><td>${r.k}</td><td>${r.sb}</td>
-        <td><strong>${r.avg.toFixed(3)}</strong></td><td>${r.obp.toFixed(3)}</td><td>${r.slg.toFixed(3)}</td><td>${r.ops.toFixed(3)}</td>
-      </tr>`).join('') || '<tr><td colspan="16" style="text-align:center;color:#888">No data</td></tr>';
+      if (statMode === 'pitching') {
+        const colspan = MODE_COLUMNS.pitching.cols.length;
+        tbody.innerHTML = rows.map(r => `<tr>
+          <td style="text-align:left;font-weight:500">${r.label}</td>
+          <td>${r.g}</td><td>${r.gs}</td><td>${r.ip.toFixed(1)}</td><td>${r.h}</td>
+          <td>${r.r}</td><td>${r.er}</td><td>${r.bb}</td><td>${r.k}</td>
+          <td>${r.w}</td><td>${r.l}</td><td>${r.sv}</td>
+          <td><strong>${r.era.toFixed(2)}</strong></td><td>${r.whip.toFixed(2)}</td>
+        </tr>`).join('') || `<tr><td colspan="${colspan}" style="text-align:center;color:#888">No data</td></tr>`;
+      } else {
+        tbody.innerHTML = rows.map(r => `<tr>
+          <td style="text-align:left;font-weight:500">${r.label}</td>
+          <td>${r.g}</td><td>${r.ab}</td><td>${r.h}</td><td>${r.doubles}</td><td>${r.triples}</td><td>${r.hr}</td>
+          <td>${r.rbi}</td><td>${r.r}</td><td>${r.bb}</td><td>${r.k}</td><td>${r.sb}</td>
+          <td><strong>${r.avg.toFixed(3)}</strong></td><td>${r.obp.toFixed(3)}</td><td>${r.slg.toFixed(3)}</td><td>${r.ops.toFixed(3)}</td>
+        </tr>`).join('') || '<tr><td colspan="16" style="text-align:center;color:#888">No data</td></tr>';
+      }
     }
 
     function populateFilters() {
@@ -209,9 +316,11 @@
         results[i].forEach(g => allGames.push({...g, year: y}));
       });
       populateFilters();
+      renderHead();
       renderSplits();
       document.getElementById('yearFilter').addEventListener('change', renderSplits);
       document.getElementById('teamFilter').addEventListener('change', renderSplits);
+      document.getElementById('minGames').addEventListener('input', renderSplits);
     }
 
     init();
