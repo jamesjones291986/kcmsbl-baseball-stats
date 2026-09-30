@@ -669,5 +669,26 @@
       "bb": 1,
       "k": 5
     }
+  },
+  {
+    "date": "2026-09-29",
+    "team": "CH A's",
+    "opponent": "Astros",
+    "field": "Royal",
+    "time": "6:30pm",
+    "result": "L 6-14",
+    "playoff": true,
+    "ab": 3,
+    "h": 2,
+    "2b": 1,
+    "3b": 0,
+    "hr": 0,
+    "rbi": 2,
+    "r": 0,
+    "bb": 0,
+    "k": 1,
+    "hb": 0,
+    "sb": 0,
+    "s": 0
   }
 ]
