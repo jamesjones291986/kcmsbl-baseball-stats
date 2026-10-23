@@ -42,7 +42,7 @@
         <div class="table-wrap">
           <table id="battingTable">
             <thead><tr>
-              <th>Year</th><th>Age</th><th>G</th><th>AVG</th><th>H</th><th>AB</th>
+              <th>Year</th><th>Team</th><th>Age</th><th>G</th><th>AVG</th><th>H</th><th>AB</th>
               <th>HR</th><th>RBI</th><th>OBP</th><th>SLG</th><th>OPS</th>
               <th>2B</th><th>3B</th><th>SB</th><th>R</th><th>BB</th><th>K</th>
               <th>HBP</th><th>W</th><th>L</th><th>Division</th><th>Note</th>
@@ -59,7 +59,7 @@
         <div class="table-wrap">
           <table id="pitchingTable">
             <thead><tr>
-              <th>Year</th><th>Age</th><th>G</th><th>ERA</th><th>W</th><th>L</th>
+              <th>Year</th><th>Team</th><th>Age</th><th>G</th><th>ERA</th><th>W</th><th>L</th>
               <th>SV</th><th>WHIP</th><th>IP</th><th>GS</th><th>CG</th><th>SHO</th>
               <th>ER</th><th>R</th><th>K</th><th>BB</th><th>H</th>
             </tr></thead>
@@ -276,7 +276,7 @@
       const tbody = document.querySelector('#battingTable tbody');
       tbody.innerHTML = rows.map(s => {
         const cls = s.note && s.note.toLowerCase().includes('champion') ? 'champ-row' : '';
-        return `<tr class="${cls}"><td>${s.year}</td><td>${s.age}</td><td>${s.g}</td><td>${fmt(s.avg,3)}</td><td>${s.h}</td><td>${s.ab}</td><td>${s.hr}</td><td>${s.rbi}</td><td>${fmt(s.obp,3)}</td><td>${fmt(s.slg,3)}</td><td>${fmt(s.ops,3)}</td><td>${s['2b']}</td><td>${s['3b']}</td><td>${s.sb}</td><td>${s.r}</td><td>${s.bb}</td><td>${s.k}</td><td>${s.hb}</td><td>${s.w}</td><td>${s.l}</td><td style="text-align:left">${s.division||''}</td><td style="text-align:left">${s.note||''}</td></tr>`;
+        return `<tr class="${cls}"><td>${s.year}</td><td style="text-align:left">${s.team||''}</td><td>${s.age}</td><td>${s.g}</td><td>${fmt(s.avg,3)}</td><td>${s.h}</td><td>${s.ab}</td><td>${s.hr}</td><td>${s.rbi}</td><td>${fmt(s.obp,3)}</td><td>${fmt(s.slg,3)}</td><td>${fmt(s.ops,3)}</td><td>${s['2b']}</td><td>${s['3b']}</td><td>${s.sb}</td><td>${s.r}</td><td>${s.bb}</td><td>${s.k}</td><td>${s.hb}</td><td>${s.w}</td><td>${s.l}</td><td style="text-align:left">${s.division||''}</td><td style="text-align:left">${s.note||''}</td></tr>`;
       }).join('');
 
       const t = {g:0,h:0,ab:0,hr:0,rbi:0,'3b':0,'2b':0,sb:0,r:0,k:0,bb:0,hb:0,w:0,l:0};
@@ -286,13 +286,16 @@
       const tb = t.h + t['2b'] + 2*t['3b'] + 3*t.hr;
       t.slg = t.ab ? tb/t.ab : 0;
       t.ops = t.obp + t.slg;
-      const cards = [['Seasons',rows.length],['Games',t.g],['AVG',t.avg.toFixed(3)],['Hits',t.h],['AB',t.ab],['HR',t.hr],['RBI',t.rbi],['OBP',t.obp.toFixed(3)],['SLG',t.slg.toFixed(3)],['OPS',t.ops.toFixed(3)],['2B',t['2b']],['3B',t['3b']],['SB',t.sb],['Runs',t.r],['BB',t.bb],['K',t.k],['HBP',t.hb],['Wins',t.w],['Losses',t.l]];
+      // Count tournaments, not rows: playing for two teams in one World Series is still
+      // one World Series appearance.
+      const nSeasons = new Set(rows.map(s => s.year)).size;
+      const cards = [['Seasons',nSeasons],['Games',t.g],['AVG',t.avg.toFixed(3)],['Hits',t.h],['AB',t.ab],['HR',t.hr],['RBI',t.rbi],['OBP',t.obp.toFixed(3)],['SLG',t.slg.toFixed(3)],['OPS',t.ops.toFixed(3)],['2B',t['2b']],['3B',t['3b']],['SB',t.sb],['Runs',t.r],['BB',t.bb],['K',t.k],['HBP',t.hb],['Wins',t.w],['Losses',t.l]];
       document.getElementById('battingTotalsCard').innerHTML = cards.map(([l,v]) => `<div class="stat-card"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('');
     }
 
     function renderPitching(rows) {
       const tbody = document.querySelector('#pitchingTable tbody');
-      tbody.innerHTML = rows.map(s => `<tr><td>${s.year}</td><td>${s.age}</td><td>${s.g}</td><td>${s.era.toFixed(2)}</td><td>${s.w}</td><td>${s.l}</td><td>${s.s}</td><td>${s.whip.toFixed(2)}</td><td>${s.ip}</td><td>${s.gs}</td><td>${s.cg}</td><td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td><td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td></tr>`).join('');
+      tbody.innerHTML = rows.map(s => `<tr><td>${s.year}</td><td style="text-align:left">${s.team||''}</td><td>${s.age}</td><td>${s.g}</td><td>${s.era.toFixed(2)}</td><td>${s.w}</td><td>${s.l}</td><td>${s.s}</td><td>${s.whip.toFixed(2)}</td><td>${s.ip}</td><td>${s.gs}</td><td>${s.cg}</td><td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td><td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td></tr>`).join('');
 
       const t = {g:0,w:0,l:0,s:0,gs:0,cg:0,sho:0,er:0,r:0,k:0,bb:0,h:0,ip:0};
       rows.forEach(s => Object.keys(t).forEach(k => t[k] += s[k]||0));
