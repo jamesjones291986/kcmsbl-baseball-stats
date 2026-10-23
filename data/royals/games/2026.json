@@ -11,41 +11,238 @@
       "home": "Madison Butterbats",
       "away": "Kansas City Blues",
       "linescore": {
-        "away": [0, 0, 8, 0, 0, 6, 0, 0, 0],
-        "home": [0, 0, 3, 0, 1, 0, 2, 0, 2]
+        "away": [
+          0,
+          0,
+          8,
+          0,
+          0,
+          6,
+          0,
+          0,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          3,
+          0,
+          1,
+          0,
+          2,
+          0,
+          2
+        ]
       },
       "result": "W",
       "score": "14-8",
       "batting": {
         "away": [
-          {"name": "Seth Gossett",    "ab": 3, "r": 2, "h": 1, "rbi": 0, "bb": 2, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Ricardo Garcia",  "ab": 5, "r": 1, "h": 2, "rbi": 1, "bb": 0, "k": 1, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Eric Spooner",    "ab": 3, "r": 1, "h": 0, "rbi": 0, "bb": 1, "k": 1, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Kevin Sears",     "ab": 4, "r": 1, "h": 2, "rbi": 1, "bb": 0, "k": 1, "2b": 1, "3b": 0, "hr": 0},
-          {"name": "Drew Vertes",     "ab": 4, "r": 1, "h": 0, "rbi": 0, "bb": 0, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Brendan Donelon", "ab": 4, "r": 2, "h": 1, "rbi": 0, "bb": 0, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Dave Thomas",     "ab": 4, "r": 2, "h": 3, "rbi": 1, "bb": 0, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Mike Donelon",    "ab": 4, "r": 2, "h": 3, "rbi": 0, "bb": 0, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Paul Ellefson",   "ab": 1, "r": 0, "h": 0, "rbi": 0, "bb": 1, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "James Jones",     "ab": 0, "r": 0, "h": 0, "rbi": 1, "bb": 2, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Will Vestal",     "ab": 2, "r": 0, "h": 1, "rbi": 0, "bb": 0, "k": 1, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Kevin Alexander", "ab": 2, "r": 0, "h": 0, "rbi": 0, "bb": 1, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Jeremy Slabaugh", "ab": 3, "r": 0, "h": 0, "rbi": 0, "bb": 0, "k": 0, "2b": 0, "3b": 0, "hr": 0},
-          {"name": "Johnny Brown",    "ab": 2, "r": 1, "h": 1, "rbi": 2, "bb": 0, "k": 0, "2b": 0, "3b": 0, "hr": 0}
+          {
+            "name": "Seth Gossett",
+            "ab": 3,
+            "r": 2,
+            "h": 1,
+            "rbi": 0,
+            "bb": 2,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 5,
+            "r": 1,
+            "h": 2,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Eric Spooner",
+            "ab": 3,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Kevin Sears",
+            "ab": 4,
+            "r": 1,
+            "h": 2,
+            "rbi": 1,
+            "bb": 0,
+            "k": 1,
+            "2b": 1,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Drew Vertes",
+            "ab": 4,
+            "r": 1,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 4,
+            "r": 2,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Dave Thomas",
+            "ab": 4,
+            "r": 2,
+            "h": 3,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Mike Donelon",
+            "ab": 4,
+            "r": 2,
+            "h": 3,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Paul Ellefson",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 0,
+            "r": 0,
+            "h": 0,
+            "rbi": 1,
+            "bb": 2,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Paul Ellefson"
+          },
+          {
+            "name": "Will Vestal",
+            "ab": 2,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Kevin Alexander",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Will Vestal"
+          },
+          {
+            "name": "Jeremy Slabaugh",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Johnny Brown",
+            "ab": 2,
+            "r": 1,
+            "h": 1,
+            "rbi": 2,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
         ],
         "home": []
       },
       "pitching": {
         "away": [
-          {"name": "Johnny Brown", "decision": "W", "ip": 5.0, "h": 5, "r": 4, "er": 2, "bb": 3, "k": 2, "hbp": 1},
-          {"name": "Dave Thomas",  "decision": "S", "ip": 4.0, "h": 6, "r": 4, "er": 2, "bb": 3, "k": 1, "hbp": 0}
+          {
+            "name": "Johnny Brown",
+            "decision": "W",
+            "ip": 5.0,
+            "h": 5,
+            "r": 4,
+            "er": 2,
+            "bb": 3,
+            "k": 2,
+            "hbp": 1
+          },
+          {
+            "name": "Dave Thomas",
+            "decision": "S",
+            "ip": 4.0,
+            "h": 6,
+            "r": 4,
+            "er": 2,
+            "bb": 3,
+            "k": 1,
+            "hbp": 0
+          }
         ],
         "home": []
       },
       "notes": {
-        "2b": ["Sears"]
-      },
-      "lineup_notes": "Jones subbed in for Ellefson in the 9 spot after 2 PA; Alexander subbed in for Vestal in the 10 spot after 2 PA."
+        "2b": [
+          "Sears"
+        ]
+      }
     }
   ]
 }

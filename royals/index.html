@@ -231,7 +231,14 @@
       if (batters && batters.length) {
         html += '<h4>Batting</h4><div class="table-wrap"><table><thead><tr><th style="text-align:left">Name</th><th>AB</th><th>R</th><th>H</th><th>RBI</th><th>BB</th><th>K</th></tr></thead><tbody>';
         batters.forEach(b => {
-          html += `<tr><td style="text-align:left">${b.name}</td><td>${b.ab}</td><td>${b.r}</td><td>${b.h}</td><td>${b.rbi}</td><td>${b.bb}</td><td>${b.k}</td></tr>`;
+          // A batter with `sub_for` entered the game in that lineup spot, so indent him
+          // under the man he replaced rather than listing him as another starter.
+          const isSub = !!b.sub_for;
+          const nameCell = isSub
+            ? `<span style="padding-left:1.25rem;color:#9ca3af">&#8627; ${b.name}</span>`
+            : b.name;
+          const title = isSub ? ` title="in for ${b.sub_for}"` : '';
+          html += `<tr${title}><td style="text-align:left">${nameCell}</td><td>${b.ab}</td><td>${b.r}</td><td>${b.h}</td><td>${b.rbi}</td><td>${b.bb}</td><td>${b.k}</td></tr>`;
         });
         const tot = batters.reduce((t, b) => { ['ab','r','h','rbi','bb','k'].forEach(k => t[k] += b[k]||0); return t; }, {ab:0,r:0,h:0,rbi:0,bb:0,k:0});
         html += `<tr class="total-row"><td style="text-align:left">Totals</td><td>${tot.ab}</td><td>${tot.r}</td><td>${tot.h}</td><td>${tot.rbi}</td><td>${tot.bb}</td><td>${tot.k}</td></tr>`;
