@@ -727,6 +727,241 @@
           "Brown"
         ]
       }
+    },
+    {
+      "date": "2026-10-22",
+      "time": "7:30pm",
+      "venue": "Tempe Diablo Stadium",
+      "phase": "Pool Play",
+      "home": "Kansas City Blues",
+      "away": "New Mexico Mariachis",
+      "linescore": {
+        "away": [
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          1
+        ],
+        "home": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0
+        ]
+      },
+      "result": "L",
+      "score": "2-5",
+      "batting": {
+        "away": [],
+        "home": [
+          {
+            "name": "Johnny Brown",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Johnny Brown"
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Kevin Sears",
+            "ab": 2,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Eric Spooner",
+            "ab": 2,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 1,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Kevin Alexander",
+            "ab": 3,
+            "r": 0,
+            "h": 2,
+            "rbi": 1,
+            "bb": 0,
+            "k": 0,
+            "2b": 1,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Mike Donelon",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Drew Vertes",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Mike Donelon"
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jeremy Slabaugh",
+            "ab": 3,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Paul Ellefson",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Dave Thomas",
+            "ab": 2,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Paul Ellefson"
+          },
+          {
+            "name": "Will Vestal",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Seth Gossett",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Will Vestal"
+          }
+        ]
+      },
+      "pitching": {
+        "away": [],
+        "home": [
+          {
+            "name": "Dave Thomas",
+            "decision": "L",
+            "ip": 7.0,
+            "h": 6,
+            "r": 5,
+            "er": 5,
+            "bb": 2,
+            "k": 4,
+            "hbp": 1
+          }
+        ]
+      },
+      "notes": {
+        "2b": [
+          "Spooner",
+          "Alexander"
+        ],
+        "sb": [
+          "Garcia"
+        ],
+        "sh": [
+          "Jones"
+        ]
+      }
     }
   ]
 }
