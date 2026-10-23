@@ -243,6 +243,250 @@
           "Sears"
         ]
       }
+    },
+    {
+      "date": "2026-10-21",
+      "time": "1:30pm",
+      "venue": "Salt River Rockies #5",
+      "phase": "Pool Play",
+      "home": "Kansas City Blues",
+      "away": "Seattle Giants",
+      "linescore": {
+        "away": [
+          8,
+          5,
+          5,
+          0,
+          0,
+          0
+        ],
+        "home": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "result": "L",
+      "score": "1-18",
+      "batting": {
+        "away": [],
+        "home": [
+          {
+            "name": "Eric Spooner",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Johnny Brown",
+            "ab": 1,
+            "r": 1,
+            "h": 1,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 2,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 1,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jeremy Slabaugh",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Drew Vertes",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Mike Donelon",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Kevin Alexander",
+            "ab": 1,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Paul Ellefson",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Will Vestal",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Seth Gossett",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 1,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Kevin Sears",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Dave Thomas",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
+        ]
+      },
+      "pitching": {
+        "away": [],
+        "home": [
+          {
+            "name": "Drew Vertes",
+            "decision": "L",
+            "ip": 1.0,
+            "h": 6,
+            "r": 8,
+            "er": 8,
+            "bb": 1,
+            "k": 1,
+            "hbp": 2
+          },
+          {
+            "name": "Jeremy Slabaugh",
+            "decision": "",
+            "ip": 3.0,
+            "h": 3,
+            "r": 10,
+            "er": 7,
+            "bb": 5,
+            "k": 2,
+            "hbp": 2
+          },
+          {
+            "name": "Seth Gossett",
+            "decision": "",
+            "ip": 2.0,
+            "h": 1,
+            "r": 0,
+            "er": 0,
+            "bb": 2,
+            "k": 2,
+            "hbp": 1
+          }
+        ]
+      },
+      "notes": {
+        "2b": [
+          "Jones"
+        ]
+      }
     }
   ]
 }

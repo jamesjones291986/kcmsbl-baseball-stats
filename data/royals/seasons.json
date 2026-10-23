@@ -7,7 +7,7 @@
     {"year":2022,"team":"WS Royals","age":36,"g":7,"avg":0.333,"h":7,"ab":21,"hr":0,"rbi":0,"obp":0.417,"3b":0,"2b":0,"sb":0,"at":0,"sbPct":null,"s":0,"r":2,"k":0,"bb":2,"hb":1,"slg":0.333,"ops":0.750,"w":5,"l":2,"division":"25+ National","note":"Champions"},
     {"year":2023,"team":"WS Royals","age":37,"g":4,"avg":0.308,"h":4,"ab":13,"hr":0,"rbi":2,"obp":0.400,"3b":0,"2b":0,"sb":0,"at":0,"sbPct":null,"s":0,"r":2,"k":3,"bb":2,"hb":0,"slg":0.308,"ops":0.708,"w":2,"l":4,"division":"25+ National","note":""},
     {"year":2024,"team":"WS Blues","age":38,"g":5,"avg":0.308,"h":4,"ab":13,"hr":0,"rbi":3,"obp":0.471,"3b":0,"2b":0,"sb":0,"at":0,"sbPct":null,"s":0,"r":3,"k":1,"bb":3,"hb":1,"slg":0.308,"ops":0.778,"w":1,"l":4,"division":"25+ Cactus","note":"Renamed to Blues"},
-    {"year":2026,"team":"WS Blues","age":40,"g":1,"avg":0.000,"h":0,"ab":0,"hr":0,"rbi":1,"obp":1.000,"3b":0,"2b":0,"sb":0,"at":0,"sbPct":null,"s":0,"r":0,"k":0,"bb":2,"hb":0,"slg":0.000,"ops":1.000,"w":1,"l":0,"division":"25+ Cactus","note":"In progress — 1 of 5 pool games"},
+    {"year":2026,"team":"WS Blues","age":40,"g":2,"avg":0.500,"h":1,"ab":2,"hr":0,"rbi":1,"obp":0.750,"3b":0,"2b":1,"sb":0,"at":0,"sbPct":null,"s":0,"r":0,"k":0,"bb":2,"hb":0,"slg":1.000,"ops":1.750,"w":1,"l":1,"division":"25+ Cactus","note":"In progress — 2 of 5 pool games"},
     {"year":2026,"team":"WS Hustlers","age":40,"g":1,"avg":0.000,"h":0,"ab":1,"hr":0,"rbi":0,"obp":0.000,"3b":0,"2b":0,"sb":0,"at":0,"sbPct":null,"s":0,"r":0,"k":0,"bb":0,"hb":0,"slg":0.000,"ops":0.000,"w":1,"l":0,"division":"40+ Central","note":"Pitched 10/20; in progress — 1 of 6 pool games"}
   ],
   "pitching": [
