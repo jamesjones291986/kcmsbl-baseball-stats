@@ -282,7 +282,10 @@
       const t = {g:0,h:0,ab:0,hr:0,rbi:0,'3b':0,'2b':0,sb:0,r:0,k:0,bb:0,hb:0,w:0,l:0};
       rows.forEach(s => Object.keys(t).forEach(k => t[k] += s[k]||0));
       t.avg = t.ab ? t.h/t.ab : 0;
-      t.obp = (t.ab+t.bb+t.hb) ? (t.h+t.bb+t.hb)/(t.ab+t.bb+t.hb) : 0;
+      // Sac flies belong in the OBP denominator; sac bunts do not. Rows carry `sf` as
+      // the fly subset of `s` (total SAC), so rows without it behave exactly as before.
+      t.sf = rows.reduce((n,s) => n + (s.sf||0), 0);
+      t.obp = (t.ab+t.bb+t.hb+t.sf) ? (t.h+t.bb+t.hb)/(t.ab+t.bb+t.hb+t.sf) : 0;
       const tb = t.h + t['2b'] + 2*t['3b'] + 3*t.hr;
       t.slg = t.ab ? tb/t.ab : 0;
       t.ops = t.obp + t.slg;
