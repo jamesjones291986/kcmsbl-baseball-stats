@@ -7,152 +7,138 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <header>
-    <h1>📋 Game Logs</h1>
-    <nav>
+  <header class="site-header">
+    <a class="brand" href="../">⚾ Baseball Stats</a>
+    <nav aria-label="Main">
       <a href="../">Hitting</a>
       <a href="../pitching.html">Pitching</a>
+      <a href="./" aria-current="page">Game Logs</a>
       <a href="../splits.html">Splits</a>
       <a href="../royals/">World Series</a>
     </nav>
   </header>
 
   <main>
-    <section id="filters">
-      <label>Year:
-        <select id="yearFilter"><option value="">All</option></select>
-      </label>
-      <label>Team:
-        <select id="teamFilter"><option value="">All</option></select>
-      </label>
-      <label>Opponent:
-        <select id="opponentFilter"><option value="">All</option></select>
-      </label>
-      <label>Field:
-        <select id="fieldFilter"><option value="">All</option></select>
-      </label>
-    </section>
+    <h1 class="page-title">Game Logs</h1>
 
-    <section id="gamelog">
-      <h2>Game Log</h2>
+    <div class="toolbar filters">
+      <label>Year <select id="yearFilter"><option value="">All</option></select></label>
+      <label>Team <select id="teamFilter"><option value="">All</option></select></label>
+      <label>Opponent <select id="opponentFilter"><option value="">All</option></select></label>
+      <label>Field <select id="fieldFilter"><option value="">All</option></select></label>
+      <button type="button" class="chip" id="moreToggle" aria-pressed="false">More stats</button>
+    </div>
+
+    <section aria-labelledby="battingTitle">
+      <div class="section-head"><h2 id="battingTitle">Batting</h2><span class="meta" id="battingMeta"></span></div>
       <div class="table-wrap">
-        <table id="gamelogTable">
-          <thead><tr>
-            <th>Date</th><th>Team</th><th>Opponent</th><th>Field</th><th>Result</th>
-            <th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th>
-            <th>RBI</th><th>R</th><th>BB</th><th>K</th><th>HBP</th>
-            <th>SB</th><th>SAC</th><th>AVG</th><th>OBP</th><th>OPS</th>
-          </tr></thead>
-          <tbody></tbody>
-        </table>
+        <table id="gamelogTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
       </div>
     </section>
 
-    <section id="pitchingLog" style="display:none">
-      <h2>Pitching Log</h2>
+    <section id="pitchingLog" aria-labelledby="pitchingTitle" hidden>
+      <div class="section-head"><h2 id="pitchingTitle">Pitching</h2><span class="meta" id="pitchingMeta"></span></div>
       <div class="table-wrap">
-        <table id="pitchingLogTable">
-          <thead><tr>
-            <th>Date</th><th>Team</th><th>Opponent</th><th>Result</th>
-            <th>IP</th><th>H</th><th>R</th><th>ER</th><th>K</th><th>ERA</th><th>WHIP</th>
-          </tr></thead>
-          <tbody></tbody>
-        </table>
+        <table id="pitchingLogTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
       </div>
+      <p class="footnote">ERA is runs per 7 innings.</p>
     </section>
   </main>
 
   <script src="../js/config.js"></script>
+  <script src="../js/stats.js"></script>
   <script>
-    // GAME_LOG_YEARS loaded from config.js — every year with a game log,
-    // including partial ones (2020-2021 are CH A's only)
+    const B_COLS = [
+      ['when', 'Date'], ['team', 'Team'], ['opponent', 'Opponent'], ['field', 'Field', 1], ['result', 'Result'],
+      ['ab', 'AB'], ['r', 'R'], ['h', 'H'], ['2b', '2B', 1], ['3b', '3B', 1], ['hr', 'HR'], ['rbi', 'RBI'],
+      ['bb', 'BB'], ['k', 'K'], ['hb', 'HBP', 1], ['sb', 'SB', 1], ['s', 'SAC', 1],
+      ['avg', 'AVG'], ['obp', 'OBP'], ['slg', 'SLG'], ['ops', 'OPS'],
+    ];
+    const P_COLS = [
+      ['when', 'Date'], ['team', 'Team'], ['opponent', 'Opponent'], ['result', 'Result'],
+      ['ip', 'IP'], ['h', 'H'], ['r', 'R'], ['er', 'ER'], ['bb', 'BB'], ['k', 'K'], ['era', 'ERA'], ['whip', 'WHIP'],
+    ];
+    const RATE = new Set(['avg', 'obp', 'slg', 'ops']);
+    const bSort = { col: 'when', dir: 'desc' }, pSort = { col: 'when', dir: 'desc' };
     let allGames = [];
 
+    function head(cols) {
+      return '<tr>' + cols.map(([k, l, x]) => `<th data-col="${k}"${x ? ' class="x"' : ''}>${l}</th>`).join('') + '</tr>';
+    }
+    function td(k, v, x) { return `<td${x ? ' class="x"' : ''}>${v}</td>`; }
+    function bCell([k, , x], r) {
+      if (k === 'when') return td(k, esc(r.date), x);
+      if (k === 'result') return td(k, resultHtml(r.result), x);
+      if (['team', 'opponent', 'field'].includes(k)) return td(k, esc(r[k] || ''), x);
+      if (RATE.has(k)) return td(k, fmtAvg(r[k]), x);
+      return td(k, num(r[k]), x);
+    }
+    function pCell([k, , x], r) {
+      if (k === 'ip') return td(k, fmtOuts(r.outs), x);
+      if (k === 'era' || k === 'whip') return td(k, fmtRate(r[k]), x);
+      return bCell([k, , x], r);
+    }
+
     async function init() {
-      const results = await Promise.all(
-        GAME_LOG_YEARS.map(y => fetch(`../data/personal/games/${y}.json`).then(r => r.ok ? r.json() : []).catch(() => []))
-      );
-      GAME_LOG_YEARS.forEach((y, i) => {
-        results[i].forEach(g => allGames.push({...g, year: y}));
+      setupMoreToggle();
+      const results = await Promise.all(GAME_LOG_YEARS.map(y => tryLoadJSON(`../data/personal/games/${y}.json`)));
+      results.forEach((res, i) => {
+        if (res.error) showError(`Could not load the ${GAME_LOG_YEARS[i]} game log (${res.error}).`);
+        (res.data || []).forEach(g => allGames.push({ ...g, year: GAME_LOG_YEARS[i], when: gameKey(g) }));
       });
       populateFilters();
+      ['yearFilter', 'teamFilter', 'opponentFilter', 'fieldFilter'].forEach(id =>
+        document.getElementById(id).addEventListener('change', render));
+      bindSort(document.querySelector('#gamelogTable thead'), bSort, render);
+      bindSort(document.querySelector('#pitchingLogTable thead'), pSort, render);
       render();
-      document.getElementById('yearFilter').addEventListener('change', render);
-      document.getElementById('teamFilter').addEventListener('change', render);
-      document.getElementById('opponentFilter').addEventListener('change', render);
-      document.getElementById('fieldFilter').addEventListener('change', render);
     }
 
     function populateFilters() {
-      const years = [...new Set(allGames.map(g => g.year))].sort();
-      const teams = [...new Set(allGames.map(g => g.team))].sort();
-      const yf = document.getElementById('yearFilter');
-      years.forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; yf.appendChild(o); });
-      const tf = document.getElementById('teamFilter');
-      teams.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; tf.appendChild(o); });
-
-      const opponents = [...new Set(allGames.map(g => g.opponent).filter(Boolean))].sort();
-      const of = document.getElementById('opponentFilter');
-      opponents.forEach(op => { const o = document.createElement('option'); o.value = op; o.textContent = op; of.appendChild(o); });
-
-      const fields = [...new Set(allGames.map(g => g.field).filter(Boolean))].sort();
-      const ff = document.getElementById('fieldFilter');
-      fields.forEach(f => { const o = document.createElement('option'); o.value = f; o.textContent = f; ff.appendChild(o); });
+      const add = (id, vals) => { const s = document.getElementById(id); vals.forEach(v => s.add(new Option(v, v))); };
+      const uniq = f => [...new Set(allGames.map(f).filter(Boolean))].sort();
+      add('yearFilter', [...new Set(allGames.map(g => g.year))].sort((a, b) => b - a));
+      add('teamFilter', uniq(g => g.team));
+      add('opponentFilter', uniq(g => g.opponent));
+      add('fieldFilter', uniq(g => g.field));
     }
 
     function render() {
-      const year = document.getElementById('yearFilter').value;
-      const team = document.getElementById('teamFilter').value;
-      const opponent = document.getElementById('opponentFilter').value;
-      const field = document.getElementById('fieldFilter').value;
-      const filtered = allGames.filter(g => {
-        if (year && g.year !== +year) return false;
-        if (team && g.team !== team) return false;
-        if (opponent && g.opponent !== opponent) return false;
-        if (field && g.field !== field) return false;
-        return true;
-      });
+      const v = id => document.getElementById(id).value;
+      const year = +v('yearFilter') || null, team = v('teamFilter'), opp = v('opponentFilter'), field = v('fieldFilter');
+      const games = allGames.filter(g => (!year || g.year === year) && (!team || g.team === team)
+        && (!opp || g.opponent === opp) && (!field || g.field === field));
 
       // Batting
-      const tbody = document.querySelector('#gamelogTable tbody');
-      tbody.innerHTML = filtered.map(g => {
-        const avg = g.ab ? (g.h / g.ab).toFixed(3) : '-';
-        const pa = g.ab + (g.bb || 0) + (g.hb || 0);
-        const obp = pa ? ((g.h + (g.bb || 0) + (g.hb || 0)) / pa).toFixed(3) : '-';
-        const tb = g.h + (g['2b'] || 0) + 2 * (g['3b'] || 0) + 3 * (g.hr || 0);
-        const slg = g.ab ? tb / g.ab : 0;
-        const ops = pa ? (parseFloat(obp) + slg).toFixed(3) : '-';
-        const cls = g.result && g.result.startsWith('W') ? 'color:#4caf50' : g.result && g.result.startsWith('L') ? 'color:#e94560' : '';
-        return `<tr>
-          <td style="text-align:left">${g.date}</td><td style="text-align:left">${g.team}</td>
-          <td style="text-align:left">${g.opponent}</td><td style="text-align:left">${g.field || ''}</td>
-          <td style="${cls}">${g.result || ''}</td>
-          <td>${g.ab}</td><td>${g.h}</td><td>${g['2b']}</td><td>${g['3b']}</td><td>${g.hr}</td>
-          <td>${g.rbi}</td><td>${g.r}</td><td>${g.bb}</td><td>${g.k}</td><td>${g.hb}</td>
-          <td>${g.sb}</td><td>${g.s}</td><td>${avg}</td><td>${obp}</td><td>${ops}</td>
-        </tr>`;
-      }).join('');
+      const bRows = games.map(g => withRates({ ...g }));
+      const bt = document.querySelector('#gamelogTable thead');
+      bt.innerHTML = head(B_COLS); markSort(bt, bSort);
+      document.querySelector('#gamelogTable tbody').innerHTML =
+        sortRows(bRows, bSort).map(r => `<tr>${B_COLS.map(c => bCell(c, r)).join('')}</tr>`).join('')
+        || `<tr><td colspan="${B_COLS.length}" class="empty">No games match.</td></tr>`;
+      const tot = sumBatting(games.map(g => ({ ...g, w: resultLetter(g.result) === 'W' ? 1 : 0, l: resultLetter(g.result) === 'L' ? 1 : 0 })));
+      document.querySelector('#gamelogTable tfoot').innerHTML = games.length ? `<tr class="total-row">${B_COLS.map(c =>
+        c[0] === 'when' ? `<td>Totals</td>` : c[0] === 'result' ? `<td>${tot.w}-${tot.l}</td>`
+        : ['team', 'opponent', 'field'].includes(c[0]) ? `<td${c[2] ? ' class="x"' : ''}></td>` : bCell(c, tot)).join('')}</tr>` : '';
+      document.getElementById('battingMeta').textContent = `${games.length} games`;
 
       // Pitching
-      const pitched = filtered.filter(g => g.pitching);
-      const pitchSection = document.getElementById('pitchingLog');
-      if (pitched.length) {
-        pitchSection.style.display = '';
-        const ptbody = document.querySelector('#pitchingLogTable tbody');
-        ptbody.innerHTML = pitched.map(g => {
-          const p = g.pitching;
-          const era = p.ip ? ((p.er * 7) / p.ip).toFixed(2) : '-';
-          const whip = p.ip ? ((p.h + (p.bb || 0)) / p.ip).toFixed(2) : '-';
-          const cls = g.result && g.result.startsWith('W') ? 'color:#4caf50' : g.result && g.result.startsWith('L') ? 'color:#e94560' : '';
-          return `<tr>
-            <td style="text-align:left">${g.date}</td><td style="text-align:left">${g.team}</td>
-            <td style="text-align:left">${g.opponent}</td><td style="${cls}">${g.result || ''}</td>
-            <td>${p.ip}</td><td>${p.h}</td><td>${p.r || 0}</td><td>${p.er}</td><td>${p.k}</td><td>${era}</td><td>${whip}</td>
-          </tr>`;
-        }).join('');
-      } else {
-        pitchSection.style.display = 'none';
-      }
+      const pitched = games.filter(g => g.pitching);
+      document.getElementById('pitchingLog').hidden = !pitched.length;
+      if (!pitched.length) return;
+      const pRows = pitched.map(g => {
+        const p = g.pitching, outs = ipToOuts(p.ip);
+        return { ...g, outs, ip: p.ip, h: p.h || 0, r: p.r || 0, er: p.er || 0, bb: p.bb || 0, k: p.k || 0,
+          era: eraOf(p.er || 0, outs), whip: whipOf(p.h || 0, p.bb || 0, outs) };
+      });
+      const pt = document.querySelector('#pitchingLogTable thead');
+      pt.innerHTML = head(P_COLS); markSort(pt, pSort);
+      document.querySelector('#pitchingLogTable tbody').innerHTML =
+        sortRows(pRows, pSort).map(r => `<tr>${P_COLS.map(c => pCell(c, r)).join('')}</tr>`).join('');
+      const ptot = sumPitching(pitched.map(g => ({ ...g.pitching })));
+      document.querySelector('#pitchingLogTable tfoot').innerHTML = `<tr class="total-row">${P_COLS.map(c =>
+        c[0] === 'when' ? '<td>Totals</td>' : ['team', 'opponent', 'result'].includes(c[0]) ? '<td></td>' : pCell(c, ptot)).join('')}</tr>`;
+      document.getElementById('pitchingMeta').textContent = `${pitched.length} games`;
     }
 
     init();

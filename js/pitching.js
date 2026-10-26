@@ -1,213 +1,144 @@
-// pitching.js — dedicated pitching page logic
-let pitching = [];
+// Pitching page.
 
-// Baseball IP math: 5.1 = 5⅓ innings, 5.2 = 5⅔ innings
-// Convert to thirds for math, then back to baseball notation for display
-function ipToThirds(ip) {
-  const whole = Math.floor(ip);
-  const frac = Math.round((ip - whole) * 10);
-  return whole * 3 + frac;
+const P_COLS = [
+  ['year', 'Year'], ['team', 'Team'], ['age', 'Age', 1], ['g', 'G'], ['gs', 'GS'], ['w', 'W'],
+  ['l', 'L'], ['s', 'SV'], ['ip', 'IP'], ['h', 'H'], ['r', 'R'], ['er', 'ER'], ['bb', 'BB'],
+  ['k', 'K'], ['era', 'ERA'], ['whip', 'WHIP'], ['cg', 'CG', 1], ['sho', 'SHO', 1],
+];
+const P_CAREER_COLS = [['team', 'Team'], ['years', 'Yrs'], ...P_COLS.slice(3)];
+
+let teamSeasons = [];
+const expanded = new Set();
+let expandAll = false;
+const seasonSort = { col: 'year', dir: 'asc' };
+const careerSort = { col: 'ip', dir: 'desc' };
+
+function pcell([key, , extra], row) {
+  let v = row[key];
+  if (key === 'era' || key === 'whip') v = fmtRate(v);
+  else if (key === 'ip') v = fmtOuts(row.outs);
+  else if (key === 'team' || key === 'year') v = esc(v);
+  else v = num(v);
+  return `<td${extra ? ' class="x"' : ''}>${v}</td>`;
 }
-
-function thirdsToIp(thirds) {
-  const whole = Math.floor(thirds / 3);
-  const remainder = thirds % 3;
-  return whole + remainder * 0.1;
-}
-
-function addIP(a, b) {
-  return thirdsToIp(ipToThirds(a) + ipToThirds(b));
+function phead(cols) {
+  return '<tr>' + cols.map(([key, label, extra]) => `<th data-col="${key}"${extra ? ' class="x"' : ''}>${label}</th>`).join('') + '</tr>';
 }
 
 function aggregatePitching(games, year) {
-  const teams = {};
-  games.forEach(g => {
-    if (!g.pitching) return;
-    const p = g.pitching;
-    if (!teams[g.team]) teams[g.team] = { year, team: g.team, age: 40, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
-    const t = teams[g.team];
-    t.g++;
-    t.ip = addIP(t.ip, p.ip || 0);
-    t.h += p.h || 0;
-    t.r += p.r || 0;
-    t.er += p.er || 0;
-    t.k += p.k || 0;
-    t.bb += p.bb || 0;
-    if (p.w) t.w++;
-    if (p.l) t.l++;
-    if (p.s) t.s++;
-    if (p.gs) t.gs++;
-  });
-  const rows = Object.values(teams).map(t => {
-    const ipReal = ipToThirds(t.ip) / 3;
-    t.era = ipReal > 0 ? +((t.er / (ipReal / 7)).toFixed(2)) : 0;
-    t.whip = ipReal > 0 ? +(((t.h + t.bb) / ipReal).toFixed(2)) : 0;
-    return t;
-  });
-  if (rows.length > 1) {
-    const total = { year, team: 'Total', age: rows[0].age, g:0, ip:0, h:0, er:0, r:0, k:0, bb:0, w:0, l:0, s:0, gs:0, cg:0, sho:0 };
-    rows.forEach(r => {
-      ['g','h','er','r','k','bb','w','l','s','gs','cg','sho'].forEach(k => total[k] += r[k]);
-      total.ip = addIP(total.ip, r.ip);
-    });
-    const ipReal = ipToThirds(total.ip) / 3;
-    total.era = ipReal > 0 ? +((total.er / (ipReal / 7)).toFixed(2)) : 0;
-    total.whip = ipReal > 0 ? +(((total.h + total.bb) / ipReal).toFixed(2)) : 0;
-    rows.push(total);
-  }
-  return rows;
-}
-
-function fmtIP(ip) {
-  const whole = Math.floor(ip);
-  const frac = Math.round((ip - whole) * 10);
-  if (frac === 3) return whole + '.1';
-  if (frac === 7) return whole + '.2';
-  return ip % 1 === 0 ? whole + '.0' : ip.toFixed(1);
-}
-
-let expandedPitchingYears = new Set();
-
-function togglePitchingYear(year) {
-  if (expandedPitchingYears.has(year)) expandedPitchingYears.delete(year);
-  else expandedPitchingYears.add(year);
-  renderPitching();
-}
-
-function renderPitchingHero() {
-  const currentYear = GAME_YEARS[GAME_YEARS.length - 1];
-  const current = pitching.filter(s => s.year === currentYear && s.team !== 'Total');
-  const t = { g:0, w:0, l:0, s:0, ip:0, er:0, r:0, k:0, bb:0, h:0 };
-  current.forEach(s => {
-    ['g','w','l','s','er','r','k','bb','h'].forEach(k => t[k] += s[k] || 0);
-    t.ip = addIP(t.ip, s.ip || 0);
-  });
-  const ipReal = ipToThirds(t.ip) / 3;
-  t.era = ipReal ? (t.er * 7) / ipReal : 0;
-  t.whip = ipReal ? (t.bb + t.h) / ipReal : 0;
-
-  const cards = [
-    [`${currentYear} Season`, `${t.g} G`], ['ERA', t.era.toFixed(2)],
-    ['W-L', `${t.w}-${t.l}`], ['S', t.s], ['WHIP', t.whip.toFixed(2)],
-    ['IP', fmtIP(t.ip)], ['K', t.k], ['BB', t.bb], ['H', t.h]
-  ];
-  document.getElementById('pitchingHeroCard').innerHTML = cards.map(([l, v]) =>
-    `<div class="stat-card"><div class="label">${l}</div><div class="value">${v}</div></div>`
-  ).join('');
-}
-
-function renderPitching() {
-  const showAll = document.getElementById('hidePitchingTotals').checked;
-  const tbody = document.querySelector('#pitchingTable tbody');
-
-  const byYear = {};
-  pitching.forEach(s => {
-    if (!byYear[s.year]) byYear[s.year] = { total: null, teams: [] };
-    if (s.team === 'Total') byYear[s.year].total = s;
-    else byYear[s.year].teams.push(s);
-  });
-
-  let html = '';
-  Object.keys(byYear).sort((a, b) => a - b).forEach(year => {
-    const { total, teams } = byYear[year];
-    const hasMultipleTeams = teams.length > 1 && total;
-    const expanded = expandedPitchingYears.has(+year) || showAll;
-
-    const renderRow = (s, prefix, clickable) => {
-      const cls = clickable ? 'total-row expandable' : '';
-      const style = clickable ? 'cursor:pointer' : (!prefix ? 'background:#1a1a2e' : '');
-      const onclick = clickable ? `onclick="togglePitchingYear(${year})"` : '';
-      return `<tr class="${cls}" style="${style}" ${onclick}>
-        <td>${prefix || ''}${prefix ? ' ' + s.year : s.year}</td><td>${s.team}</td><td>${s.age}</td>
-        <td>${s.g}</td><td>${s.era.toFixed(2)}</td><td>${s.w}</td>
-        <td>${s.l}</td><td>${s.s}</td><td>${s.whip.toFixed(2)}</td>
-        <td>${fmtIP(s.ip)}</td><td>${s.gs}</td><td>${s.cg}</td>
-        <td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td>
-        <td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td>
-      </tr>`;
-    };
-
-    if (hasMultipleTeams && !expanded) {
-      html += renderRow(total, '▶', true);
-    } else if (hasMultipleTeams && expanded) {
-      html += renderRow(total, '▼', true);
-      teams.forEach(s => { html += renderRow(s, '', false); });
-    } else {
-      teams.forEach(s => { html += renderRow(s, '', false); });
-    }
-  });
-  tbody.innerHTML = html;
-}
-
-function renderPitchingCareer() {
-  const indiv = pitching.filter(s => s.team !== 'Total');
-  const teams = {};
-  indiv.forEach(s => {
-    if (!teams[s.team]) teams[s.team] = { team: s.team, yearsSet: new Set(), g:0, w:0, l:0, s:0, ip:0, gs:0, cg:0, sho:0, er:0, r:0, k:0, bb:0, h:0 };
-    const t = teams[s.team];
-    t.yearsSet.add(s.year);
-    ['g','w','l','s','gs','cg','sho','er','r','k','bb','h'].forEach(k => t[k] += s[k] || 0);
-    t.ip = addIP(t.ip, s.ip || 0);
-  });
-  const data = Object.values(teams).map(t => {
-    t.years = t.yearsSet.size;
-    const ipReal = ipToThirds(t.ip) / 3;
-    t.era = ipReal ? (t.er * 7) / ipReal : 0;
-    t.whip = ipReal ? (t.bb + t.h) / ipReal : 0;
-    delete t.yearsSet;
-    return t;
-  });
-  const tbody = document.querySelector('#pitchingCareerTable tbody');
-  tbody.innerHTML = data.map(t => `<tr>
-    <td>${t.team}</td><td>${t.years}</td><td>${t.g}</td>
-    <td>${t.era.toFixed(2)}</td><td>${t.w}</td><td>${t.l}</td>
-    <td>${t.s}</td><td>${t.whip.toFixed(2)}</td><td>${fmtIP(t.ip)}</td>
-    <td>${t.gs}</td><td>${t.cg}</td><td>${t.sho}</td>
-    <td>${t.er}</td><td>${t.r}</td><td>${t.k}</td><td>${t.bb}</td><td>${t.h}</td>
-  </tr>`).join('');
-}
-
-function renderPitchingTotals() {
-  const indiv = pitching.filter(s => s.team !== 'Total');
-  const t = { g:0, w:0, l:0, s:0, ip:0, gs:0, cg:0, sho:0, er:0, r:0, k:0, bb:0, h:0 };
-  const yearsSet = new Set();
-  indiv.forEach(s => {
-    yearsSet.add(s.year);
-    ['g','w','l','s','gs','cg','sho','er','r','k','bb','h'].forEach(k => t[k] += s[k] || 0);
-    t.ip = addIP(t.ip, s.ip || 0);
-  });
-  const ipReal = ipToThirds(t.ip) / 3;
-  t.era = ipReal ? (t.er * 7) / ipReal : 0;
-  t.whip = ipReal ? (t.bb + t.h) / ipReal : 0;
-
-  const cards = [
-    ['Years', yearsSet.size], ['Games', t.g], ['ERA', t.era.toFixed(2)],
-    ['W', t.w], ['L', t.l], ['S', t.s], ['WHIP', t.whip.toFixed(2)],
-    ['IP', fmtIP(t.ip)], ['GS', t.gs], ['CG', t.cg], ['SHO', t.sho],
-    ['ER', t.er], ['R', t.r], ['K', t.k], ['BB', t.bb], ['H', t.h]
-  ];
-
-  document.getElementById('pitchingTotalsCard').innerHTML = cards.map(([label, val]) =>
-    `<div class="stat-card"><div class="label">${label}</div><div class="value">${val}</div></div>`
-  ).join('');
+  const byTeam = {};
+  games.filter(g => g.pitching).forEach(g => (byTeam[g.team] = byTeam[g.team] || []).push({ ...g.pitching, g: 1 }));
+  return Object.entries(byTeam).map(([team, lines]) => sumPitching(lines, { year, team, age: ageFor(year) }));
 }
 
 async function init() {
-  const [pitchingRes, ...gameResults] = await Promise.all([
-    fetch('data/personal/pitching.json').then(r => r.json()),
-    ...GAME_YEARS.map(y => fetch(`data/personal/games/${y}.json`).then(r => r.ok ? r.json() : []).catch(() => []))
-  ]);
+  setupMoreToggle();
+  let stored;
+  try { stored = await loadJSON('data/personal/pitching.json'); }
+  catch (e) { showError('Could not load pitching stats: ' + e.message); return; }
 
-  pitching = pitchingRes.filter(p => !GAME_YEARS.includes(p.year));
-  GAME_YEARS.forEach((y, i) => {
-    pitching.push(...aggregatePitching(gameResults[i], y));
+  const logs = await Promise.all(GAME_YEARS.map(y => tryLoadJSON(`data/personal/games/${y}.json`)));
+  const fromLogs = new Set();
+  logs.forEach((res, i) => {
+    const y = GAME_YEARS[i];
+    if (res.data && res.data.length) { teamSeasons.push(...aggregatePitching(res.data, y)); fromLogs.add(y); }
+    else if (res.error) showError(`Could not load the ${y} game log (${res.error}). Showing stored ${y} totals instead.`);
+  });
+  // Stored ERA/WHIP/IP totals are ignored; everything is recomputed from the counts.
+  stored.forEach(r => {
+    if (fromLogs.has(r.year) || r.team === 'Total') return;
+    teamSeasons.push(sumPitching([r], { year: r.year, team: r.team, age: r.age }));
   });
 
-  renderPitchingHero();
-  renderPitching();
-  renderPitchingCareer();
-  renderPitchingTotals();
-  document.getElementById('hidePitchingTotals').addEventListener('change', renderPitching);
+  bindSort(document.querySelector('#pitchingTable thead'), seasonSort, renderSeasons);
+  bindSort(document.querySelector('#pitchingCareerTable thead'), careerSort, renderCareer);
+  document.getElementById('expandAll').addEventListener('click', e => {
+    expandAll = !expandAll;
+    e.target.setAttribute('aria-pressed', String(expandAll));
+    e.target.textContent = expandAll ? 'Collapse years' : 'Expand all years';
+    renderSeasons();
+  });
+  document.querySelector('#pitchingTable tbody').addEventListener('click', e => {
+    const btn = e.target.closest('button.expand');
+    if (!btn) return;
+    const y = +btn.dataset.year;
+    expanded.has(y) ? expanded.delete(y) : expanded.add(y);
+    renderSeasons();
+  });
+
+  renderHero();
+  renderSeasons();
+  renderCareer();
+}
+
+function yearRows() {
+  const byYear = {};
+  teamSeasons.forEach(r => (byYear[r.year] = byYear[r.year] || []).push(r));
+  return Object.entries(byYear).map(([year, teams]) => {
+    year = +year;
+    teams.sort((a, b) => b.outs - a.outs);
+    if (teams.length === 1) return { ...teams[0], teams };
+    const t = sumPitching(teams, { year, age: teams[0].age });
+    t.team = teams.map(x => x.team).join(', ');
+    t.teams = teams;
+    return t;
+  });
+}
+
+function row(r, opts = {}) {
+  const cells = P_COLS.map(col => {
+    if (col[0] === 'year') {
+      if (opts.sub) return '<td></td>';
+      if (opts.expandable) return `<td><button class="expand" data-year="${r.year}" aria-expanded="${opts.open}" aria-label="${opts.open ? 'Hide' : 'Show'} ${r.year} teams">${opts.open ? '▾' : '▸'}</button>${r.year}</td>`;
+    }
+    if (col[0] === 'team' && r.teams && r.teams.length > 2) {
+      const names = r.teams.map(t => t.team);
+      return `<td title="${esc(names.join(', '))}">${esc(names.slice(0, 2).join(', '))} <span class="more-teams">+${names.length - 2}</span></td>`;
+    }
+    return pcell(col, r);
+  }).join('');
+  return `<tr${opts.sub ? ' class="sub-row"' : ''}>${cells}</tr>`;
+}
+
+function renderSeasons() {
+  const thead = document.querySelector('#pitchingTable thead');
+  thead.innerHTML = phead(P_COLS);
+  markSort(thead, seasonSort);
+  let html = '';
+  if (seasonSort.col === 'year') {
+    sortRows(yearRows(), seasonSort).forEach(y => {
+      const multi = y.teams.length > 1, open = multi && (expandAll || expanded.has(y.year));
+      html += row(y, { expandable: multi, open });
+      if (open) y.teams.forEach(t => html += row(t, { sub: true }));
+    });
+  } else {
+    sortRows(teamSeasons.slice(), seasonSort).forEach(r => html += row(r));
+  }
+  document.querySelector('#pitchingTable tbody').innerHTML = html;
+}
+
+function renderCareer() {
+  const byTeam = {};
+  teamSeasons.forEach(s => (byTeam[s.team] = byTeam[s.team] || []).push(s));
+  const rows = Object.entries(byTeam).map(([team, ss]) => sumPitching(ss, { team, years: new Set(ss.map(s => s.year)).size }));
+  const thead = document.querySelector('#pitchingCareerTable thead');
+  thead.innerHTML = phead(P_CAREER_COLS);
+  markSort(thead, careerSort);
+  document.querySelector('#pitchingCareerTable tbody').innerHTML =
+    sortRows(rows, careerSort).map(r => `<tr>${P_CAREER_COLS.map(c => pcell(c, r)).join('')}</tr>`).join('');
+  const total = sumPitching(teamSeasons, { team: 'Career', years: new Set(teamSeasons.map(s => s.year)).size });
+  document.querySelector('#pitchingCareerTable tfoot').innerHTML =
+    `<tr class="total-row">${P_CAREER_COLS.map(c => pcell(c, total)).join('')}</tr>`;
+}
+
+function renderHero() {
+  const year = Math.max(...teamSeasons.map(s => s.year));
+  const t = sumPitching(teamSeasons.filter(s => s.year === year));
+  document.getElementById('heroTitle').textContent = `${year} season`;
+  document.getElementById('heroCard').innerHTML = [
+    ['Games', t.g], ['W-L', `${t.w}-${t.l}`], ['ERA', fmtRate(t.era)], ['WHIP', fmtRate(t.whip)],
+    ['IP', fmtOuts(t.outs)], ['K', t.k], ['BB', t.bb],
+  ].map(([l, v]) => `<div class="stat-card"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('');
 }
 
 init();

@@ -63,17 +63,25 @@ this file to correct historical (pre-`GAME_YEARS`) seasons.
 
 ## Key Details
 
-- `seasons.json` — historical batting (pre-2026). Years in `GAME_YEARS` are excluded from this file at load time.
-- `GAME_YEARS` in `js/app.js` and `gamelogs/index.html` controls which years use game log aggregation.
-- ERA uses 7 innings (not 9) since this is KCMSBL.
-- Age for 2026 season: 40.
+- `seasons.json` / `pitching.json` — historical seasons. Rows for years in
+  `GAME_YEARS` are replaced by game-log totals at load time.
+- All settings live in `js/config.js`: `GAME_YEARS`, `GAME_LOG_YEARS`, `WS_YEARS`,
+  `BIRTH_YEAR` (ages are computed as year − BIRTH_YEAR), `ERA_INNINGS` (7), and
+  `SEASON_NOTES` for game-log years.
+- All stat math is in `js/stats.js` and shared by every page. Stored AVG/OBP/SLG/OPS,
+  ERA and WHIP values are ignored; the pages recompute them from the counts.
+- ERA is per 7 innings everywhere, including the World Series pages.
+- OBP = (H + BB + HBP) / (AB + BB + HBP + SF). Add `sf` to a game when a sacrifice was a fly.
+- Innings are always baseball notation (5.1 = 5⅓), in game logs and season files alike.
+- Results are our score first: "W 9-2", "L 3-5".
 - Teams: "Federal Blues", "CH A's", etc. Use exact team name strings.
 - Fields: "Royal", "Fenway", etc.
 
 ## Starting a New Season
 
 1. Create `data/personal/games/YYYY.json` (empty array `[]`)
-2. Add the year to `GAME_YEARS` in both `js/app.js` and `gamelogs/index.html`
+2. Add the year to `GAME_YEARS` and `GAME_LOG_YEARS` in `js/config.js`
+3. For a World Series year, add `data/royals/games/YYYY.json` and the year to `WS_YEARS`
 
 That's it — batting and pitching lines (including new teams) are generated from
-the game log automatically. No `pitching.json` setup is needed for the new year.
+the game log automatically.

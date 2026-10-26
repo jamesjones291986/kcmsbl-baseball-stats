@@ -5,466 +5,316 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>World Series - Baseball Stats</title>
   <link rel="stylesheet" href="../css/style.css">
-  <style>
-    .game-filters { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
-    .game-filters select {
-      background: #374151; color: #e5e7eb; border: 1px solid #4b5563;
-      padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem;
-    }
-    .game-filters label { font-weight: 600; font-size: 0.85rem; }
-    #boxScore { margin-top: 1.5rem; }
-    #boxScore h3 { color: #e5e7eb; margin-bottom: 0.5rem; font-size: 1.1rem; }
-    #boxScore p { color: #9ca3af; font-size: 0.85rem; margin-bottom: 1rem; }
-    #boxScore table { margin-bottom: 1rem; }
-    #boxScore h4 { color: #e94560; font-size: 0.9rem; margin: 1rem 0 0.5rem; }
-    .record-summary { color: #9ca3af; font-size: 0.85rem; margin-bottom: 1rem; }
-    .record-summary span { color: #e94560; font-weight: 700; }
-    a.player-link { color: inherit; text-decoration: none; border-bottom: 1px dotted #6b7280; }
-    a.player-link:hover { color: #e94560; border-bottom-color: #e94560; }
-  </style>
 </head>
 <body>
-  <header>
-    <h1>👑 World Series</h1>
-    <nav>
-      <a href="../">Personal Stats</a>
+  <header class="site-header">
+    <a class="brand" href="../">⚾ Baseball Stats</a>
+    <nav aria-label="Main">
+      <a href="../">Hitting</a>
+      <a href="../pitching.html">Pitching</a>
+      <a href="../gamelogs/">Game Logs</a>
+      <a href="../splits.html">Splits</a>
+      <a href="./" aria-current="page">World Series</a>
     </nav>
   </header>
 
   <main>
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="tab-stats">My Stats</button>
-      <button class="tab-btn" data-tab="tab-team">Team Stats</button>
-      <button class="tab-btn" data-tab="tab-games">Game Log</button>
+    <h1 class="page-title">World Series</h1>
+
+    <div class="tabs" role="tablist" aria-label="World Series views">
+      <button type="button" role="tab" id="t-stats" aria-controls="tab-stats" aria-selected="true">My Stats</button>
+      <button type="button" role="tab" id="t-team" aria-controls="tab-team" aria-selected="false" tabindex="-1">Team Stats</button>
+      <button type="button" role="tab" id="t-games" aria-controls="tab-games" aria-selected="false" tabindex="-1">Game Log</button>
+      <button type="button" class="chip tabs-aside" id="moreToggle" aria-pressed="false">More stats</button>
     </div>
 
-    <div id="tab-stats" class="tab-content active">
-      <section id="batting">
-        <h2>Batting by Season</h2>
-        <div class="table-wrap">
-          <table id="battingTable">
-            <thead><tr>
-              <th>Year</th><th>Team</th><th>Age</th><th>G</th><th>AVG</th><th>H</th><th>AB</th>
-              <th>HR</th><th>RBI</th><th>OBP</th><th>SLG</th><th>OPS</th>
-              <th>2B</th><th>3B</th><th>SB</th><th>R</th><th>BB</th><th>K</th>
-              <th>HBP</th><th>W</th><th>L</th><th>Division</th><th>Note</th>
-            </tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <h2>Batting Totals</h2>
-        <div id="battingTotalsCard" class="totals-card-grid"></div>
+    <div id="tab-stats" role="tabpanel" aria-labelledby="t-stats">
+      <section aria-labelledby="myBatTitle">
+        <div class="section-head"><h2 id="myBatTitle">Batting by Season</h2></div>
+        <div class="table-wrap"><table id="battingTable"><thead></thead><tbody></tbody><tfoot></tfoot></table></div>
       </section>
-
-      <section id="pitching">
-        <h2>Pitching by Season</h2>
-        <div class="table-wrap">
-          <table id="pitchingTable">
-            <thead><tr>
-              <th>Year</th><th>Team</th><th>Age</th><th>G</th><th>ERA</th><th>W</th><th>L</th>
-              <th>SV</th><th>WHIP</th><th>IP</th><th>GS</th><th>CG</th><th>SHO</th>
-              <th>ER</th><th>R</th><th>K</th><th>BB</th><th>H</th>
-            </tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <h2>Pitching Totals</h2>
-        <div id="pitchingTotalsCard" class="totals-card-grid"></div>
+      <section aria-labelledby="myPitchTitle">
+        <div class="section-head"><h2 id="myPitchTitle">Pitching by Season</h2></div>
+        <div class="table-wrap"><table id="pitchingTable"><thead></thead><tbody></tbody><tfoot></tfoot></table></div>
+        <p class="footnote">ERA is runs per 7 innings on every page.</p>
       </section>
     </div>
 
-    <div id="tab-team" class="tab-content">
-      <section>
-        <div class="game-filters">
-          <label>Season:
-            <select id="teamSeasonFilter"><option value="">Career</option></select>
-          </label>
-          <label>View:
-            <select id="teamViewFilter">
-              <option value="batting">Batting</option>
-              <option value="pitching">Pitching</option>
-            </select>
-          </label>
+    <div id="tab-team" role="tabpanel" aria-labelledby="t-team" hidden>
+      <div class="toolbar filters">
+        <label>Season <select id="teamSeasonFilter"><option value="">Career</option></select></label>
+        <div class="segmented" id="teamView" role="group" aria-label="Stat type">
+          <button type="button" data-view="batting" aria-pressed="true">Batting</button>
+          <button type="button" data-view="pitching" aria-pressed="false">Pitching</button>
         </div>
-        <div class="record-summary" id="teamSeasonInfo"></div>
-        <div class="table-wrap">
-          <table id="teamStatsTable">
-            <thead id="teamStatsHead"></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
+        <span class="meta" id="teamSeasonInfo"></span>
+      </div>
+      <div class="table-wrap"><table id="teamStatsTable"><thead></thead><tbody></tbody><tfoot></tfoot></table></div>
     </div>
 
-    <div id="tab-games" class="tab-content">
-      <section id="gamelog">
-        <div class="game-filters">
-          <label>Season:
-            <select id="seasonFilter"><option value="">All Seasons</option></select>
-          </label>
-          <label>Phase:
-            <select id="phaseFilter"><option value="">All Phases</option></select>
-          </label>
-        </div>
-        <div class="record-summary" id="recordSummary"></div>
-        <div class="table-wrap">
-          <table id="gamelogTable">
-            <thead><tr>
-              <th>Date</th><th>Phase</th><th>Opponent</th><th>Result</th><th>Score</th><th>Venue</th>
-            </tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div id="boxScore"></div>
-      </section>
+    <div id="tab-games" role="tabpanel" aria-labelledby="t-games" hidden>
+      <div class="toolbar filters">
+        <label>Season <select id="seasonFilter"><option value="">All seasons</option></select></label>
+        <label>Phase <select id="phaseFilter"><option value="">All phases</option></select></label>
+        <span class="meta" id="recordSummary"></span>
+      </div>
+      <div class="table-wrap"><table id="gamelogTable"><thead><tr>
+        <th>Date</th><th>Phase</th><th>Opponent</th><th>Result</th><th>Venue</th>
+      </tr></thead><tbody></tbody></table></div>
+      <div id="boxScore" class="box-score" tabindex="-1"></div>
     </div>
   </main>
 
+  <script src="../js/config.js"></script>
+  <script src="../js/stats.js"></script>
   <script src="ws-common.js"></script>
   <script>
     let allSeasons = [];
+    const RATE = new Set(['avg', 'obp', 'slg', 'ops']);
+
+    function th(cols) { return '<tr>' + cols.map(([k, l, x]) => `<th data-col="${k}"${x ? ' class="x"' : ''}>${l}</th>`).join('') + '</tr>'; }
+    function td(v, x) { return `<td${x ? ' class="x"' : ''}>${v}</td>`; }
+    function statCell([k, , x], r, season) {
+      if (k === 'name') return td(r.isTotal ? esc(r.name) : playerLink(r.name, season), x);
+      if (['year', 'team', 'division'].includes(k)) return td(esc(r[k] ?? ''), x);
+      if (k === 'note') return `<td class="note">${esc(r.note || '')}</td>`;
+      if (RATE.has(k)) return td(fmtAvg(r[k]), x);
+      if (k === 'era' || k === 'whip') return td(fmtRate(r[k]), x);
+      if (k === 'ip') return td(fmtOuts(r.outs), x);
+      return td(num(r[k]), x);
+    }
+
+    // ---------- Tabs ----------
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    function selectTab(tab, focus) {
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tab.focus();
+    }
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => selectTab(t));
+      t.addEventListener('keydown', e => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) selectTab(tabs[(i + d + tabs.length) % tabs.length], true);
+      });
+    });
 
     async function init() {
-      const [personalRes, gameResults] = await Promise.all([
-        fetch('../data/royals/seasons.json'), loadSeasons()
-      ]);
-      const personal = await personalRes.json();
-      renderBatting(personal.batting);
-      renderPitching(personal.pitching);
-
-      for (const data of gameResults) {
-        if (data) allSeasons.push(data);
-      }
-      populateSeasonFilter();
-      renderGameLog();
-      populateTeamSeasonFilter();
-      renderTeamStats();
+      setupMoreToggle();
+      let personal;
+      try { [personal, allSeasons] = await Promise.all([loadJSON('../data/royals/seasons.json'), loadSeasons()]); }
+      catch (e) { showError('Could not load World Series stats: ' + e.message); return; }
+      renderMyBatting(personal.batting);
+      renderMyPitching(personal.pitching);
+      setupTeamStats();
+      setupGameLog();
       openLinkedBox();
     }
 
-    // index.html?season=2026&date=2026-10-21&time=9:00am opens that game's box score,
-    // which is how the player page links back to a specific game.
+    // ---------- My Stats ----------
+    const MY_BAT = [['year', 'Year'], ['team', 'Team'], ['division', 'Division', 1], ['age', 'Age', 1], ['g', 'G'],
+      ['ab', 'AB'], ['r', 'R'], ['h', 'H'], ['2b', '2B', 1], ['3b', '3B', 1], ['hr', 'HR'], ['rbi', 'RBI'],
+      ['bb', 'BB'], ['k', 'K'], ['hb', 'HBP', 1], ['sb', 'SB', 1], ['avg', 'AVG'], ['obp', 'OBP'], ['slg', 'SLG'],
+      ['ops', 'OPS'], ['w', 'W', 1], ['l', 'L', 1], ['note', 'Note']];
+    const MY_PITCH = [['year', 'Year'], ['team', 'Team'], ['age', 'Age', 1], ['g', 'G'], ['gs', 'GS'], ['w', 'W'],
+      ['l', 'L'], ['s', 'SV'], ['ip', 'IP'], ['h', 'H'], ['r', 'R'], ['er', 'ER'], ['bb', 'BB'], ['k', 'K'],
+      ['era', 'ERA'], ['whip', 'WHIP'], ['cg', 'CG', 1], ['sho', 'SHO', 1]];
+
+    function renderMyBatting(rows) {
+      const data = rows.map(r => withRates({ ...r }));
+      document.querySelector('#battingTable thead').innerHTML = th(MY_BAT);
+      document.querySelector('#battingTable tbody').innerHTML = data.map(r =>
+        `<tr${isChamp(r.note) ? ' class="champ-row"' : ''}>${MY_BAT.map(c => statCell(c, r)).join('')}</tr>`).join('');
+      // Playing for two teams in one World Series is still one World Series.
+      const t = sumBatting(data, { year: 'Career', team: `${new Set(data.map(r => r.year)).size} World Series` });
+      document.querySelector('#battingTable tfoot').innerHTML =
+        `<tr class="total-row">${MY_BAT.map(c => ['division', 'age', 'note'].includes(c[0]) ? td('', c[2]) : statCell(c, t)).join('')}</tr>`;
+    }
+
+    function renderMyPitching(rows) {
+      const data = rows.map(r => sumPitching([r], { year: r.year, team: r.team, age: r.age }));
+      document.querySelector('#pitchingTable thead').innerHTML = th(MY_PITCH);
+      document.querySelector('#pitchingTable tbody').innerHTML =
+        data.map(r => `<tr>${MY_PITCH.map(c => statCell(c, r)).join('')}</tr>`).join('');
+      const t = sumPitching(data, { year: 'Career', team: '' });
+      document.querySelector('#pitchingTable tfoot').innerHTML =
+        `<tr class="total-row">${MY_PITCH.map(c => c[0] === 'age' ? td('', 1) : statCell(c, t)).join('')}</tr>`;
+    }
+
+    // ---------- Team Stats ----------
+    const TEAM_BAT = [['name', 'Name'], ['g', 'G'], ['ab', 'AB'], ['r', 'R'], ['h', 'H'], ['2b', '2B', 1], ['3b', '3B', 1],
+      ['hr', 'HR'], ['rbi', 'RBI'], ['bb', 'BB'], ['k', 'K'], ['sb', 'SB', 1], ['hb', 'HBP', 1],
+      ['avg', 'AVG'], ['obp', 'OBP'], ['slg', 'SLG'], ['ops', 'OPS']];
+    const TEAM_PITCH = [['name', 'Name'], ['g', 'G'], ['w', 'W'], ['l', 'L'], ['s', 'SV'], ['ip', 'IP'], ['h', 'H'],
+      ['r', 'R'], ['er', 'ER'], ['bb', 'BB'], ['k', 'K'], ['era', 'ERA'], ['whip', 'WHIP']];
+    let teamView = 'batting';
+    const teamSort = { col: 'h', dir: 'desc' };
+
+    function setupTeamStats() {
+      const sel = document.getElementById('teamSeasonFilter');
+      allSeasons.forEach(s => sel.add(new Option(`${s.season} — ${s.team} (${s.division})`, s.season)));
+      sel.addEventListener('change', renderTeamStats);
+      document.getElementById('teamView').addEventListener('click', e => {
+        const b = e.target.closest('button[data-view]'); if (!b) return;
+        teamView = b.dataset.view;
+        document.querySelectorAll('#teamView button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+        teamSort.col = teamView === 'batting' ? 'h' : 'ip'; teamSort.dir = 'desc';
+        renderTeamStats();
+      });
+      bindSort(document.querySelector('#teamStatsTable thead'), teamSort, renderTeamStats);
+      renderTeamStats();
+    }
+
+    function renderTeamStats() {
+      const season = document.getElementById('teamSeasonFilter').value;
+      const seasons = season ? allSeasons.filter(s => s.season === +season) : allSeasons;
+      document.getElementById('teamSeasonInfo').textContent = season && seasons.length
+        ? `${seasons[0].team} — ${seasons[0].division}` : 'All seasons';
+      const players = {};
+      seasons.forEach(s => s.games.forEach(g => {
+        const side = ourSide(g);
+        if (teamView === 'batting') {
+          (g.batting[side] || []).forEach(b => {
+            const p = players[b.name] = players[b.name] || [];
+            p.push({ ...b, g: 1, sb: noteCount(g, 'sb', b.name), hbp: noteCount(g, 'hbp', b.name), sf: noteCount(g, 'sf', b.name) });
+          });
+        } else {
+          (g.pitching[side] || []).forEach(p => {
+            (players[p.name] = players[p.name] || []).push({ ...p, g: 1,
+              w: p.decision === 'W' ? 1 : 0, l: p.decision === 'L' ? 1 : 0, s: p.decision === 'S' ? 1 : 0 });
+          });
+        }
+      }));
+      const cols = teamView === 'batting' ? TEAM_BAT : TEAM_PITCH;
+      const agg = lines => teamView === 'batting'
+        ? sumBatting(lines.map(l => ({ ...l, hb: l.hbp })))
+        : sumPitching(lines);
+      const rows = Object.entries(players).map(([name, lines]) => ({ ...agg(lines), name }));
+      const thead = document.querySelector('#teamStatsTable thead');
+      thead.innerHTML = th(cols); markSort(thead, teamSort);
+      document.querySelector('#teamStatsTable tbody').innerHTML =
+        sortRows(rows, teamSort).map(r => `<tr>${cols.map(c => statCell(c, r, season)).join('')}</tr>`).join('');
+      const total = { ...agg(Object.values(players).flat()), name: 'Team', isTotal: true };
+      total.g = new Set(seasons.flatMap(s => s.games.map(g => g.date + g.time))).size;
+      document.querySelector('#teamStatsTable tfoot').innerHTML =
+        `<tr class="total-row">${cols.map(c => statCell(c, total)).join('')}</tr>`;
+    }
+
+    // ---------- Game Log + box score ----------
+    function setupGameLog() {
+      const sel = document.getElementById('seasonFilter');
+      allSeasons.forEach(s => sel.add(new Option(`${s.season} — ${s.division}`, s.season)));
+      sel.addEventListener('change', () => { renderGameLog(); clearBox(); });
+      document.getElementById('phaseFilter').addEventListener('change', () => { renderGameLog(); clearBox(); });
+      document.querySelector('#gamelogTable tbody').addEventListener('click', e => {
+        const a = e.target.closest('a.box-link') || e.target.closest('tr')?.querySelector('a.box-link');
+        if (!a) return;
+        e.preventDefault();
+        openBox(+a.dataset.season, a.dataset.date, a.dataset.time);
+      });
+      renderGameLog();
+    }
+
+    function renderGameLog() {
+      const season = +document.getElementById('seasonFilter').value || null;
+      let rows = [];
+      allSeasons.forEach(s => {
+        if (season && s.season !== season) return;
+        s.games.forEach(g => rows.push({ ...g, opponent: opponentOf(g), seasonYear: s.season }));
+      });
+      const pf = document.getElementById('phaseFilter'), keep = pf.value;
+      pf.innerHTML = '<option value="">All phases</option>';
+      [...new Set(rows.map(r => r.phase).filter(Boolean))].forEach(p => pf.add(new Option(p, p)));
+      pf.value = keep;
+      if (pf.value) rows = rows.filter(r => r.phase === pf.value);
+      rows.sort((a, b) => gameKey(a).localeCompare(gameKey(b)));
+      const w = rows.filter(r => r.result === 'W').length, l = rows.filter(r => r.result === 'L').length;
+      document.getElementById('recordSummary').textContent = `${w}-${l} in ${rows.length} games`;
+      document.querySelector('#gamelogTable tbody').innerHTML = rows.map(g => `<tr class="clickable">
+          <td><a class="box-link" href="${esc(boxUrl(g.seasonYear, g.date, g.time))}" data-season="${g.seasonYear}"
+            data-date="${esc(g.date)}" data-time="${esc(g.time)}">${esc(g.date)}</a></td>
+          <td>${esc(g.phase || '')}</td><td>${esc(g.opponent)}</td>
+          <td>${resultHtml(`${g.result} ${g.score}`)}</td><td>${esc(g.venue)}</td></tr>`).join('');
+    }
+
+    function clearBox() { document.getElementById('boxScore').innerHTML = ''; }
+
+    function openBox(season, date, time) {
+      if (!showBox(season, date, time)) return;
+      history.replaceState(null, '', boxUrl(season, date, time));
+      const box = document.getElementById('boxScore');
+      box.scrollIntoView({ behavior: 'smooth' });
+      box.focus({ preventScroll: true });
+    }
+
+    // index.html?season=2026&date=2026-10-21&time=9:00am opens that box score; the
+    // player page links back to games this way.
     function openLinkedBox() {
       const q = new URLSearchParams(location.search);
       const season = +q.get('season'), date = q.get('date'), time = q.get('time');
       if (!season || !date) return;
-      document.querySelector('.tab-btn[data-tab="tab-games"]').click();
+      selectTab(document.getElementById('t-games'));
       document.getElementById('seasonFilter').value = season;
       renderGameLog();
-      showBox(season, date, time);
-      document.getElementById('boxScore').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function fmt(v, d) { return v == null ? '-' : d ? v.toFixed(3) : v; }
-
-    function populateSeasonFilter() {
-      const sel = document.getElementById('seasonFilter');
-      allSeasons.forEach(s => {
-        const o = document.createElement('option');
-        o.value = s.season;
-        o.textContent = s.season + ' — ' + s.division;
-        sel.appendChild(o);
-      });
-      sel.addEventListener('change', renderGameLog);
-      document.getElementById('phaseFilter').addEventListener('change', renderGameLog);
-    }
-
-    function renderGameLog() {
-      const seasonFilter = document.getElementById('seasonFilter').value;
-      const phaseFilter = document.getElementById('phaseFilter').value;
-      const tbody = document.querySelector('#gamelogTable tbody');
-      let rows = [];
-      allSeasons.forEach(s => {
-        if (seasonFilter && s.season !== +seasonFilter) return;
-        s.games.forEach(g => {
-          const isHome = ourSide(g) === 'home';
-          const opponent = isHome ? g.away : g.home;
-          rows.push({...g, opponent, seasonYear: s.season});
-        });
-      });
-
-      // Populate phase filter
-      const phases = [...new Set(rows.map(r => r.phase).filter(Boolean))];
-      const pf = document.getElementById('phaseFilter');
-      const currentPhase = pf.value;
-      pf.innerHTML = '<option value="">All Phases</option>';
-      phases.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; pf.appendChild(o); });
-      pf.value = currentPhase;
-
-      if (phaseFilter) rows = rows.filter(r => r.phase === phaseFilter);
-
-      // Record summary
-      const wins = rows.filter(r => r.result === 'W').length;
-      const losses = rows.filter(r => r.result === 'L').length;
-      document.getElementById('recordSummary').innerHTML = `<span>${wins}W - ${losses}L</span> (${rows.length} games)`;
-
-      tbody.innerHTML = rows.map((g, i) => {
-        const cls = g.result === 'W' ? 'style="color:#4caf50"' : g.result === 'L' ? 'style="color:#e94560"' : '';
-        return `<tr style="cursor:pointer" onclick="showBox(${g.seasonYear},'${g.date}','${g.time}')">
-          <td style="text-align:left">${g.date}</td>
-          <td>${g.phase||''}</td>
-          <td style="text-align:left">${g.opponent}</td>
-          <td ${cls}>${g.result}</td>
-          <td>${g.score}</td>
-          <td style="text-align:left">${g.venue}</td>
-        </tr>`;
-      }).join('');
-      document.getElementById('boxScore').innerHTML = '';
+      openBox(season, date, time);
     }
 
     function showBox(year, date, time) {
       const season = allSeasons.find(s => s.season === year);
-      const game = season.games.find(g => g.date === date && g.time === time);
-      if (!game) return;
-      const isHome = ourSide(game) === 'home';
-      const us = isHome ? 'home' : 'away';
-      const them = isHome ? 'away' : 'home';
+      const game = season && season.games.find(g => g.date === date && g.time === time);
+      if (!game) return false;
+      const us = ourSide(game);
+      let html = `<h3>${esc(game.away)} @ ${esc(game.home)}</h3>
+        <p class="meta">${esc(game.date)} · ${esc(game.time)} · ${esc(game.venue)}${game.phase ? ' · ' + esc(game.phase) : ''}</p>`;
 
-      let html = `<h3>${game.away} @ ${game.home}</h3>`;
-      html += `<p>${game.date} • ${game.time} • ${game.venue}${game.phase ? ' • ' + game.phase : ''}</p>`;
-
-      // Linescore
       const innings = Math.max(game.linescore.away.length, game.linescore.home.length);
-      html += '<div class="table-wrap"><table><thead><tr><th style="text-align:left">Team</th>';
-      for (let i = 1; i <= innings; i++) html += '<th>' + i + '</th>';
+      html += '<div class="table-wrap"><table class="linescore"><thead><tr><th>Team</th>';
+      for (let i = 1; i <= innings; i++) html += `<th>${i}</th>`;
       html += '<th>R</th><th>H</th></tr></thead><tbody>';
-      [['away', game.away], ['home', game.home]].forEach(([key, name]) => {
-        const ls = game.linescore[key];
-        const isUs = key === us;
-        html += `<tr${isUs ? ' style="font-weight:600"' : ''}>`;
-        html += `<td style="text-align:left">${name}</td>`;
-        for (let i = 0; i < innings; i++) html += '<td>' + (ls[i] ?? '') + '</td>';
-        const r = ls.reduce((a, b) => a + b, 0);
-        const batters = game.batting[key] || [];
-        const h = batters.reduce((a, b) => a + (b.h || 0), 0);
-        html += '<td><strong>' + r + '</strong></td><td>' + (batters.length ? h : '-') + '</td></tr>';
+      let lineRuns = {};
+      ['away', 'home'].forEach(key => {
+        const ls = game.linescore[key], batters = game.batting[key] || [];
+        lineRuns[key] = ls.reduce((a, b) => a + b, 0);
+        html += `<tr${key === us ? ' class="us"' : ''}><td>${esc(game[key])}</td>`
+          + Array.from({ length: innings }, (_, i) => `<td>${ls[i] ?? ''}</td>`).join('')
+          + `<td><strong>${lineRuns[key]}</strong></td><td>${batters.length ? batters.reduce((a, b) => a + (b.h || 0), 0) : '-'}</td></tr>`;
       });
       html += '</tbody></table></div>';
+      const [ours, theirs] = String(game.score).split('-').map(Number);
+      if (lineRuns[us] !== ours || lineRuns[us === 'home' ? 'away' : 'home'] !== theirs)
+        html += `<p class="footnote">Inning-by-inning scoring is incomplete for this game; the final was ${esc(game.score)}.</p>`;
 
-      // Batting
-      const batters = game.batting[us];
-      if (batters && batters.length) {
-        html += '<h4>Batting</h4><div class="table-wrap"><table><thead><tr><th style="text-align:left">Name</th><th>AB</th><th>R</th><th>H</th><th>RBI</th><th>BB</th><th>K</th></tr></thead><tbody>';
+      const batters = game.batting[us] || [];
+      if (batters.length) {
+        html += '<h4>Batting</h4><div class="table-wrap"><table><thead><tr><th>Name</th><th>AB</th><th>R</th><th>H</th><th>RBI</th><th>BB</th><th>K</th></tr></thead><tbody>';
         batters.forEach(b => {
-          // A batter with `sub_for` entered the game in that lineup spot, so indent him
-          // under the man he replaced rather than listing him as another starter.
-          const isSub = !!b.sub_for;
-          const nameCell = isSub
-            ? `<span style="padding-left:1.25rem;color:#9ca3af">&#8627; ${playerLink(b.name, year)}</span>`
-            : playerLink(b.name, year);
-          const title = isSub ? ` title="in for ${b.sub_for}"` : '';
-          html += `<tr${title}><td style="text-align:left">${nameCell}</td><td>${b.ab}</td><td>${b.r}</td><td>${b.h}</td><td>${b.rbi}</td><td>${b.bb}</td><td>${b.k}</td></tr>`;
+          // A batter with sub_for entered in that lineup spot, so he's indented under the man he replaced.
+          const name = b.sub_for
+            ? `<span class="sub" title="In for ${esc(b.sub_for)}">↳ ${playerLink(b.name, year)}</span>` : playerLink(b.name, year);
+          html += `<tr><td>${name}</td>${['ab', 'r', 'h', 'rbi', 'bb', 'k'].map(k => `<td>${num(b[k])}</td>`).join('')}</tr>`;
         });
-        const tot = batters.reduce((t, b) => { ['ab','r','h','rbi','bb','k'].forEach(k => t[k] += b[k]||0); return t; }, {ab:0,r:0,h:0,rbi:0,bb:0,k:0});
-        html += `<tr class="total-row"><td style="text-align:left">Totals</td><td>${tot.ab}</td><td>${tot.r}</td><td>${tot.h}</td><td>${tot.rbi}</td><td>${tot.bb}</td><td>${tot.k}</td></tr>`;
-        html += '</tbody></table></div>';
+        const t = batters.reduce((t, b) => { ['ab', 'r', 'h', 'rbi', 'bb', 'k'].forEach(k => t[k] += b[k] || 0); return t; }, { ab: 0, r: 0, h: 0, rbi: 0, bb: 0, k: 0 });
+        html += `</tbody><tfoot><tr class="total-row"><td>Totals</td>${['ab', 'r', 'h', 'rbi', 'bb', 'k'].map(k => `<td>${t[k]}</td>`).join('')}</tr></tfoot></table></div>`;
       }
-
-      // Pitching
-      const pitchers = game.pitching[us];
-      if (pitchers && pitchers.length) {
-        html += '<h4>Pitching</h4><div class="table-wrap"><table><thead><tr><th style="text-align:left">Name</th><th>Dec</th><th>IP</th><th>H</th><th>R</th><th>ER</th><th>BB</th><th>K</th></tr></thead><tbody>';
+      const pitchers = game.pitching[us] || [];
+      if (pitchers.length) {
+        html += '<h4>Pitching</h4><div class="table-wrap"><table><thead><tr><th>Name</th><th>Dec</th><th>IP</th><th>H</th><th>R</th><th>ER</th><th>BB</th><th>K</th></tr></thead><tbody>';
         pitchers.forEach(p => {
-          html += `<tr><td style="text-align:left">${playerLink(p.name, year)}</td><td>${p.decision||''}</td><td>${p.ip}</td><td>${p.h}</td><td>${p.r}</td><td>${p.er}</td><td>${p.bb}</td><td>${p.k}</td></tr>`;
+          html += `<tr><td>${playerLink(p.name, year)}</td><td>${esc(p.decision || '')}</td><td>${fmtOuts(ipToOuts(p.ip))}</td>`
+            + ['h', 'r', 'er', 'bb', 'k'].map(k => `<td>${num(p[k])}</td>`).join('') + '</tr>';
         });
         html += '</tbody></table></div>';
       }
-
-      // Notes
-      if (game.notes) {
-        const parts = [];
-        if (game.notes['2b']?.length) parts.push('2B: ' + game.notes['2b'].join(', '));
-        if (game.notes['3b']?.length) parts.push('3B: ' + game.notes['3b'].join(', '));
-        if (game.notes.hr?.length) parts.push('HR: ' + game.notes.hr.join(', '));
-        if (game.notes.sb?.length) parts.push('SB: ' + game.notes.sb.join(', '));
-        if (game.notes.cs?.length) parts.push('CS: ' + game.notes.cs.join(', '));
-        if (game.notes.errors?.length) parts.push('E: ' + game.notes.errors.join(', '));
-        if (game.notes.hbp?.length) parts.push('HBP: ' + game.notes.hbp.join(', '));
-        if (game.notes.sh?.length) parts.push('SH: ' + game.notes.sh.join(', '));
-        if (game.notes.sf?.length) parts.push('SF: ' + game.notes.sf.join(', '));
-        if (parts.length) html += '<p style="margin-top:0.5rem;color:#9ca3af;font-size:0.8rem">' + parts.join(' &nbsp;|&nbsp; ') + '</p>';
-      }
-
+      const LABELS = { '2b': '2B', '3b': '3B', hr: 'HR', sb: 'SB', cs: 'CS', errors: 'E', hbp: 'HBP', sh: 'SH', sf: 'SF' };
+      const parts = Object.entries(LABELS).filter(([k]) => game.notes?.[k]?.length)
+        .map(([k, l]) => `<span><b>${l}:</b> ${game.notes[k].map(esc).join(', ')}</span>`);
+      if (parts.length) html += `<p class="box-notes">${parts.join('')}</p>`;
       document.getElementById('boxScore').innerHTML = html;
-    }
-
-    function renderBatting(rows) {
-      const tbody = document.querySelector('#battingTable tbody');
-      tbody.innerHTML = rows.map(s => {
-        const cls = s.note && s.note.toLowerCase().includes('champion') ? 'champ-row' : '';
-        return `<tr class="${cls}"><td>${s.year}</td><td style="text-align:left">${s.team||''}</td><td>${s.age}</td><td>${s.g}</td><td>${fmt(s.avg,3)}</td><td>${s.h}</td><td>${s.ab}</td><td>${s.hr}</td><td>${s.rbi}</td><td>${fmt(s.obp,3)}</td><td>${fmt(s.slg,3)}</td><td>${fmt(s.ops,3)}</td><td>${s['2b']}</td><td>${s['3b']}</td><td>${s.sb}</td><td>${s.r}</td><td>${s.bb}</td><td>${s.k}</td><td>${s.hb}</td><td>${s.w}</td><td>${s.l}</td><td style="text-align:left">${s.division||''}</td><td style="text-align:left">${s.note||''}</td></tr>`;
-      }).join('');
-
-      const t = {g:0,h:0,ab:0,hr:0,rbi:0,'3b':0,'2b':0,sb:0,r:0,k:0,bb:0,hb:0,w:0,l:0};
-      rows.forEach(s => Object.keys(t).forEach(k => t[k] += s[k]||0));
-      t.avg = t.ab ? t.h/t.ab : 0;
-      // Sac flies belong in the OBP denominator; sac bunts do not. Rows carry `sf` as
-      // the fly subset of `s` (total SAC), so rows without it behave exactly as before.
-      t.sf = rows.reduce((n,s) => n + (s.sf||0), 0);
-      t.obp = (t.ab+t.bb+t.hb+t.sf) ? (t.h+t.bb+t.hb)/(t.ab+t.bb+t.hb+t.sf) : 0;
-      const tb = t.h + t['2b'] + 2*t['3b'] + 3*t.hr;
-      t.slg = t.ab ? tb/t.ab : 0;
-      t.ops = t.obp + t.slg;
-      // Count tournaments, not rows: playing for two teams in one World Series is still
-      // one World Series appearance.
-      const nSeasons = new Set(rows.map(s => s.year)).size;
-      const cards = [['Seasons',nSeasons],['Games',t.g],['AVG',t.avg.toFixed(3)],['Hits',t.h],['AB',t.ab],['HR',t.hr],['RBI',t.rbi],['OBP',t.obp.toFixed(3)],['SLG',t.slg.toFixed(3)],['OPS',t.ops.toFixed(3)],['2B',t['2b']],['3B',t['3b']],['SB',t.sb],['Runs',t.r],['BB',t.bb],['K',t.k],['HBP',t.hb],['Wins',t.w],['Losses',t.l]];
-      document.getElementById('battingTotalsCard').innerHTML = cards.map(([l,v]) => `<div class="stat-card"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('');
-    }
-
-    function renderPitching(rows) {
-      const tbody = document.querySelector('#pitchingTable tbody');
-      tbody.innerHTML = rows.map(s => `<tr><td>${s.year}</td><td style="text-align:left">${s.team||''}</td><td>${s.age}</td><td>${s.g}</td><td>${fmtRate(s.ip ? s.era : rate(s.er*9, s.ip))}</td><td>${s.w}</td><td>${s.l}</td><td>${s.s}</td><td>${fmtRate(s.ip ? s.whip : rate(s.bb+s.h, s.ip))}</td><td>${s.ip}</td><td>${s.gs}</td><td>${s.cg}</td><td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td><td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td></tr>`).join('');
-
-      const t = {g:0,w:0,l:0,s:0,gs:0,cg:0,sho:0,er:0,r:0,k:0,bb:0,h:0,ip:0};
-      rows.forEach(s => Object.keys(t).forEach(k => t[k] += s[k]||0));
-      t.era = rate(t.er*9, t.ip);
-      t.whip = rate(t.bb+t.h, t.ip);
-      const cards = [['Games',t.g],['ERA',fmtRate(t.era)],['W',t.w],['L',t.l],['SV',t.s],['WHIP',fmtRate(t.whip)],['IP',t.ip],['GS',t.gs],['CG',t.cg],['SHO',t.sho],['ER',t.er],['R',t.r],['K',t.k],['BB',t.bb],['H',t.h]];
-      document.getElementById('pitchingTotalsCard').innerHTML = cards.map(([l,v]) => `<div class="stat-card"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('');
-    }
-
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
-      });
-    });
-
-    // Team Stats
-    function populateTeamSeasonFilter() {
-      const sel = document.getElementById('teamSeasonFilter');
-      allSeasons.forEach(s => {
-        const o = document.createElement('option');
-        o.value = s.season;
-        o.textContent = s.season + ' — ' + s.team + ' (' + s.division + ')';
-        sel.appendChild(o);
-      });
-      sel.addEventListener('change', renderTeamStats);
-      document.getElementById('teamViewFilter').addEventListener('change', renderTeamStats);
-    }
-
-    let teamSortCol = 'h';
-    let teamSortAsc = false;
-
-    function renderTeamStats() {
-      const seasonVal = document.getElementById('teamSeasonFilter').value;
-      const view = document.getElementById('teamViewFilter').value;
-
-      const filtered = seasonVal ? allSeasons.filter(s => s.season === +seasonVal) : allSeasons;
-      const info = document.getElementById('teamSeasonInfo');
-      if (seasonVal && filtered.length) {
-        info.innerHTML = `<span>${filtered[0].team}</span> — ${filtered[0].division}`;
-      } else {
-        info.innerHTML = `<span>Career Totals</span> — All Seasons`;
-      }
-
-      if (view === 'batting') renderTeamBatting(filtered);
-      else renderTeamPitching(filtered);
-    }
-
-    function renderTeamBatting(seasons) {
-      const players = {};
-      seasons.forEach(s => {
-        s.games.forEach(g => {
-          const isHome = ourSide(g) === 'home';
-          const side = isHome ? 'home' : 'away';
-          (g.batting[side] || []).forEach(b => {
-            if (!players[b.name]) players[b.name] = {name:b.name,g:0,ab:0,r:0,h:0,rbi:0,bb:0,k:0,'2b':0,'3b':0,hr:0,sb:0,hbp:0,sf:0};
-            const p = players[b.name];
-            p.g++;
-            ['ab','r','h','rbi','bb','k','2b','3b','hr'].forEach(k => p[k] += b[k]||0);
-            p.sb += noteCount(g, 'sb', b.name);
-            p.hbp += noteCount(g, 'hbp', b.name);
-            p.sf += noteCount(g, 'sf', b.name);
-          });
-        });
-      });
-
-      let data = Object.values(players);
-      data.forEach(p => {
-        p.avg = p.ab ? p.h / p.ab : 0;
-        p.obp = obp(p);
-        p.slg = slg(p);
-        p.ops = p.obp + p.slg;
-      });
-
-      data.sort((a, b) => {
-        const cmp = cmpVal(a[teamSortCol], b[teamSortCol]);
-        return teamSortAsc ? cmp : -cmp;
-      });
-
-      const thead = document.getElementById('teamStatsHead');
-      const cols = [['name','Name'],['g','G'],['avg','AVG'],['h','H'],['ab','AB'],['hr','HR'],['rbi','RBI'],['obp','OBP'],['slg','SLG'],['ops','OPS'],['2b','2B'],['3b','3B'],['r','R'],['bb','BB'],['k','K'],['sb','SB'],['hbp','HBP']];
-      thead.innerHTML = '<tr>' + cols.map(([col,label]) => {
-        const cls = teamSortCol === col ? (teamSortAsc ? 'sort-asc' : 'sort-desc') : '';
-        return `<th class="${cls}" onclick="sortTeam('${col}')">${label}</th>`;
-      }).join('') + '</tr>';
-
-      const tbody = document.querySelector('#teamStatsTable tbody');
-      tbody.innerHTML = data.map(p => `<tr>
-        <td style="text-align:left">${playerLink(p.name, seasonFilterVal())}</td><td>${p.g}</td><td>${p.avg.toFixed(3)}</td>
-        <td>${p.h}</td><td>${p.ab}</td><td>${p.hr}</td><td>${p.rbi}</td>
-        <td>${p.obp.toFixed(3)}</td><td>${p.slg.toFixed(3)}</td><td>${p.ops.toFixed(3)}</td>
-        <td>${p['2b']}</td><td>${p['3b']}</td><td>${p.r}</td><td>${p.bb}</td><td>${p.k}</td><td>${p.sb}</td><td>${p.hbp}</td>
-      </tr>`).join('');
-    }
-
-    function renderTeamPitching(seasons) {
-      const players = {};
-      seasons.forEach(s => {
-        s.games.forEach(g => {
-          const isHome = ourSide(g) === 'home';
-          const side = isHome ? 'home' : 'away';
-          (g.pitching[side] || []).forEach(p => {
-            if (!players[p.name]) players[p.name] = {name:p.name,g:0,w:0,l:0,s:0,ip:0,h:0,r:0,er:0,bb:0,k:0};
-            const pl = players[p.name];
-            pl.g++;
-            pl.outs = (pl.outs || 0) + ipToOuts(p.ip || 0);
-            ['h','r','er','bb','k'].forEach(k => pl[k] += p[k]||0);
-            if (p.decision === 'W') pl.w++;
-            if (p.decision === 'L') pl.l++;
-            if (p.decision === 'S') pl.s++;
-          });
-        });
-      });
-
-      let data = Object.values(players);
-      data.forEach(p => {
-        p.ip = outsToIp(p.outs || 0);
-        p.era = rate(p.er * 9, (p.outs || 0) / 3);
-        p.whip = rate(p.bb + p.h, (p.outs || 0) / 3);
-      });
-
-      data.sort((a, b) => {
-        const cmp = cmpVal(a[teamSortCol], b[teamSortCol]);
-        return teamSortAsc ? cmp : -cmp;
-      });
-
-      const thead = document.getElementById('teamStatsHead');
-      const cols = [['name','Name'],['g','G'],['era','ERA'],['w','W'],['l','L'],['s','SV'],['whip','WHIP'],['ip','IP'],['h','H'],['r','R'],['er','ER'],['bb','BB'],['k','K']];
-      thead.innerHTML = '<tr>' + cols.map(([col,label]) => {
-        const cls = teamSortCol === col ? (teamSortAsc ? 'sort-asc' : 'sort-desc') : '';
-        return `<th class="${cls}" onclick="sortTeam('${col}')">${label}</th>`;
-      }).join('') + '</tr>';
-
-      const tbody = document.querySelector('#teamStatsTable tbody');
-      tbody.innerHTML = data.map(p => `<tr>
-        <td style="text-align:left">${playerLink(p.name, seasonFilterVal())}</td><td>${p.g}</td><td>${fmtRate(p.era)}</td>
-        <td>${p.w}</td><td>${p.l}</td><td>${p.s}</td><td>${fmtRate(p.whip)}</td>
-        <td>${p.ip.toFixed(1)}</td><td>${p.h}</td><td>${p.r}</td><td>${p.er}</td><td>${p.bb}</td><td>${p.k}</td>
-      </tr>`).join('');
-    }
-
-    function seasonFilterVal() { return document.getElementById('teamSeasonFilter').value; }
-
-    function sortTeam(col) {
-      if (teamSortCol === col) teamSortAsc = !teamSortAsc;
-      else { teamSortCol = col; teamSortAsc = col === 'name'; }
-      renderTeamStats();
+      return true;
     }
 
     init();
