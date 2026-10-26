@@ -21,4 +21,7 @@ const SEASON_NOTES = {
   '2025|Federal Blues': 'Lost Champ',
   '2025|CH A\'s': 'Lost Champ',
   '2025|Total': 'LC - Blues/A\'s',
+  '2026|Federal Blues': 'Lost Champ',
+  '2026|CH A\'s': 'Lost Champ',
+  '2026|Total': 'LC - Blues/A\'s',
 };
