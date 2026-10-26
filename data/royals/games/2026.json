@@ -962,6 +962,238 @@
           "Jones"
         ]
       }
+    },
+    {
+      "date": "2026-10-23",
+      "time": "10:00am",
+      "venue": "Indian School #2",
+      "phase": "Pool Play",
+      "home": "Kansas City Blues",
+      "away": "Utah Blues",
+      "linescore": {
+        "away": [
+          0,
+          0,
+          0,
+          2,
+          5,
+          5,
+          0,
+          3
+        ],
+        "home": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "result": "L",
+      "score": "1-15",
+      "batting": {
+        "away": [],
+        "home": [
+          {
+            "name": "Johnny Brown",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Brendan Donelon",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Johnny Brown"
+          },
+          {
+            "name": "Kevin Alexander",
+            "ab": 4,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 0,
+            "k": 3,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "James Jones",
+            "ab": 3,
+            "r": 0,
+            "h": 3,
+            "rbi": 0,
+            "bb": 1,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Kevin Sears",
+            "ab": 4,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Mike Donelon",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 1,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Eric Spooner",
+            "ab": 2,
+            "r": 0,
+            "h": 1,
+            "rbi": 0,
+            "bb": 1,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Ricardo Garcia",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 1,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Drew Vertes",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Seth Gossett",
+            "ab": 0,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 2,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Drew Vertes"
+          },
+          {
+            "name": "Paul Ellefson",
+            "ab": 1,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 1,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          },
+          {
+            "name": "Jeremy Slabaugh",
+            "ab": 2,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 0,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0,
+            "sub_for": "Paul Ellefson"
+          },
+          {
+            "name": "Will Vestal",
+            "ab": 3,
+            "r": 0,
+            "h": 0,
+            "rbi": 0,
+            "bb": 0,
+            "k": 2,
+            "2b": 0,
+            "3b": 0,
+            "hr": 0
+          }
+        ]
+      },
+      "pitching": {
+        "away": [],
+        "home": [
+          {
+            "name": "Drew Vertes",
+            "decision": "L",
+            "ip": 7.1,
+            "h": 11,
+            "r": 15,
+            "er": 6,
+            "bb": 6,
+            "k": 2,
+            "hbp": 3
+          },
+          {
+            "name": "Kevin Alexander",
+            "decision": "",
+            "ip": 0.2,
+            "h": 0,
+            "r": 0,
+            "er": 0,
+            "bb": 0,
+            "k": 0,
+            "hbp": 0
+          }
+        ]
+      },
+      "notes": {
+        "sb": [
+          "Sears",
+          "Garcia"
+        ],
+        "cs": [
+          "Gossett"
+        ]
+      }
     }
   ]
 }

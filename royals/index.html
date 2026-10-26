@@ -142,6 +142,31 @@
 
     function fmt(v, d) { return v == null ? '-' : d ? v.toFixed(3) : v; }
 
+    // ERA and WHIP divide by innings pitched, so a pitcher who recorded no outs has no
+    // defined rate. Returning 0 there would read as a perfect outing, which is the
+    // opposite of what happened. Infinity when runs/baserunners were allowed in zero
+    // innings, null when nothing at all happened (0/0 is undefined, not zero).
+    // Innings use baseball notation: 7.1 means 7 and one third, not 7.1 innings. Sum
+    // and divide in outs, or 7.1 + 0.2 comes out as 7.3 instead of 8.0.
+    function ipToOuts(ip) { const w = Math.trunc(ip); return w * 3 + Math.round((ip - w) * 10); }
+    function outsToIp(outs) { return Math.trunc(outs / 3) + (outs % 3) / 10; }
+
+    function rate(numerator, ip) {
+      if (ip > 0) return numerator / ip;
+      return numerator > 0 ? Infinity : null;
+    }
+    function fmtRate(v) {
+      if (v == null) return '-';
+      return Number.isFinite(v) ? v.toFixed(2) : 'INF';
+    }
+    // Infinity - Infinity is NaN, which makes a subtraction comparator misbehave, so
+    // compare with explicit operators and treat null as the bottom of the range.
+    function cmpVal(a, b) {
+      const x = a == null ? -Infinity : a, y = b == null ? -Infinity : b;
+      if (typeof x === 'string' || typeof y === 'string') return String(x).localeCompare(String(y));
+      return x === y ? 0 : (x < y ? -1 : 1);
+    }
+
     function populateSeasonFilter() {
       const sel = document.getElementById('seasonFilter');
       allSeasons.forEach(s => {
@@ -298,13 +323,13 @@
 
     function renderPitching(rows) {
       const tbody = document.querySelector('#pitchingTable tbody');
-      tbody.innerHTML = rows.map(s => `<tr><td>${s.year}</td><td style="text-align:left">${s.team||''}</td><td>${s.age}</td><td>${s.g}</td><td>${s.era.toFixed(2)}</td><td>${s.w}</td><td>${s.l}</td><td>${s.s}</td><td>${s.whip.toFixed(2)}</td><td>${s.ip}</td><td>${s.gs}</td><td>${s.cg}</td><td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td><td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td></tr>`).join('');
+      tbody.innerHTML = rows.map(s => `<tr><td>${s.year}</td><td style="text-align:left">${s.team||''}</td><td>${s.age}</td><td>${s.g}</td><td>${fmtRate(s.ip ? s.era : rate(s.er*9, s.ip))}</td><td>${s.w}</td><td>${s.l}</td><td>${s.s}</td><td>${fmtRate(s.ip ? s.whip : rate(s.bb+s.h, s.ip))}</td><td>${s.ip}</td><td>${s.gs}</td><td>${s.cg}</td><td>${s.sho}</td><td>${s.er}</td><td>${s.r}</td><td>${s.k}</td><td>${s.bb}</td><td>${s.h}</td></tr>`).join('');
 
       const t = {g:0,w:0,l:0,s:0,gs:0,cg:0,sho:0,er:0,r:0,k:0,bb:0,h:0,ip:0};
       rows.forEach(s => Object.keys(t).forEach(k => t[k] += s[k]||0));
-      t.era = t.ip ? (t.er*9)/t.ip : 0;
-      t.whip = t.ip ? (t.bb+t.h)/t.ip : 0;
-      const cards = [['Games',t.g],['ERA',t.era.toFixed(2)],['W',t.w],['L',t.l],['SV',t.s],['WHIP',t.whip.toFixed(2)],['IP',t.ip],['GS',t.gs],['CG',t.cg],['SHO',t.sho],['ER',t.er],['R',t.r],['K',t.k],['BB',t.bb],['H',t.h]];
+      t.era = rate(t.er*9, t.ip);
+      t.whip = rate(t.bb+t.h, t.ip);
+      const cards = [['Games',t.g],['ERA',fmtRate(t.era)],['W',t.w],['L',t.l],['SV',t.s],['WHIP',fmtRate(t.whip)],['IP',t.ip],['GS',t.gs],['CG',t.cg],['SHO',t.sho],['ER',t.er],['R',t.r],['K',t.k],['BB',t.bb],['H',t.h]];
       document.getElementById('pitchingTotalsCard').innerHTML = cards.map(([l,v]) => `<div class="stat-card"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('');
     }
 
@@ -406,7 +431,8 @@
             if (!players[p.name]) players[p.name] = {name:p.name,g:0,w:0,l:0,s:0,ip:0,h:0,r:0,er:0,bb:0,k:0};
             const pl = players[p.name];
             pl.g++;
-            ['ip','h','r','er','bb','k'].forEach(k => pl[k] += p[k]||0);
+            pl.outs = (pl.outs || 0) + ipToOuts(p.ip || 0);
+            ['h','r','er','bb','k'].forEach(k => pl[k] += p[k]||0);
             if (p.decision === 'W') pl.w++;
             if (p.decision === 'L') pl.l++;
             if (p.decision === 'S') pl.s++;
@@ -416,13 +442,13 @@
 
       let data = Object.values(players);
       data.forEach(p => {
-        p.era = p.ip ? (p.er * 9) / p.ip : 0;
-        p.whip = p.ip ? (p.bb + p.h) / p.ip : 0;
+        p.ip = outsToIp(p.outs || 0);
+        p.era = rate(p.er * 9, (p.outs || 0) / 3);
+        p.whip = rate(p.bb + p.h, (p.outs || 0) / 3);
       });
 
       data.sort((a, b) => {
-        const av = a[teamSortCol] ?? 0, bv = b[teamSortCol] ?? 0;
-        const cmp = typeof av === 'string' ? av.localeCompare(bv) : av - bv;
+        const cmp = cmpVal(a[teamSortCol], b[teamSortCol]);
         return teamSortAsc ? cmp : -cmp;
       });
 
@@ -435,8 +461,8 @@
 
       const tbody = document.querySelector('#teamStatsTable tbody');
       tbody.innerHTML = data.map(p => `<tr>
-        <td style="text-align:left">${p.name}</td><td>${p.g}</td><td>${p.era.toFixed(2)}</td>
-        <td>${p.w}</td><td>${p.l}</td><td>${p.s}</td><td>${p.whip.toFixed(2)}</td>
+        <td style="text-align:left">${p.name}</td><td>${p.g}</td><td>${fmtRate(p.era)}</td>
+        <td>${p.w}</td><td>${p.l}</td><td>${p.s}</td><td>${fmtRate(p.whip)}</td>
         <td>${p.ip.toFixed(1)}</td><td>${p.h}</td><td>${p.r}</td><td>${p.er}</td><td>${p.bb}</td><td>${p.k}</td>
       </tr>`).join('');
     }
