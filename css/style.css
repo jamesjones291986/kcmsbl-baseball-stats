@@ -110,7 +110,10 @@ input[type="number"] { width: 4.5rem; }
 .tabs-aside { margin-left: auto; }
 
 /* ---------- Tables ---------- */
-.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+/* overflow makes .table-wrap the scroll box, so sticky headers pin to it rather
+   than the page. Capping its height lets long tables scroll inside it with the
+   header row (and, on phones, the first column) always in view. */
+.table-wrap { overflow: auto; max-height: 78vh; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
 table { width: 100%; border-collapse: collapse; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
 th, td { padding: 0.5rem 0.65rem; text-align: right; white-space: nowrap; }
 td { border-top: 1px solid var(--border); }

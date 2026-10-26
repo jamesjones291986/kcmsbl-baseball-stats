@@ -43,6 +43,7 @@
     <div id="tab-team" role="tabpanel" aria-labelledby="t-team" hidden>
       <div class="toolbar filters">
         <label>Season <select id="teamSeasonFilter"><option value="">Career</option></select></label>
+        <label>Min games <input id="teamMinGames" type="number" min="1" step="1" value="1"></label>
         <div class="segmented" id="teamView" role="group" aria-label="Stat type">
           <button type="button" data-view="batting" aria-pressed="true">Batting</button>
           <button type="button" data-view="pitching" aria-pressed="false">Pitching</button>
@@ -158,6 +159,7 @@
       const sel = document.getElementById('teamSeasonFilter');
       allSeasons.forEach(s => sel.add(new Option(`${s.season} — ${s.team} (${s.division})`, s.season)));
       sel.addEventListener('change', renderTeamStats);
+      document.getElementById('teamMinGames').addEventListener('input', renderTeamStats);
       document.getElementById('teamView').addEventListener('click', e => {
         const b = e.target.closest('button[data-view]'); if (!b) return;
         teamView = b.dataset.view;
@@ -193,15 +195,21 @@
       const agg = lines => teamView === 'batting'
         ? sumBatting(lines.map(l => ({ ...l, hb: l.hbp })))
         : sumPitching(lines);
-      const rows = Object.entries(players).map(([name, lines]) => ({ ...agg(lines), name }));
+      const minG = parseInt(document.getElementById('teamMinGames').value, 10) || 1;
+      const all = Object.entries(players).map(([name, lines]) => ({ ...agg(lines), name }));
+      const rows = all.filter(r => r.g >= minG);
       const thead = document.querySelector('#teamStatsTable thead');
       thead.innerHTML = th(cols); markSort(thead, teamSort);
       document.querySelector('#teamStatsTable tbody').innerHTML =
-        sortRows(rows, teamSort).map(r => `<tr>${cols.map(c => statCell(c, r, season)).join('')}</tr>`).join('');
+        sortRows(rows, teamSort).map(r => `<tr>${cols.map(c => statCell(c, r, season)).join('')}</tr>`).join('')
+        || `<tr><td colspan="${cols.length}" class="empty">No players with ${minG}+ games.</td></tr>`;
+      // The Team row is always the whole team, whatever the filter hides.
       const total = { ...agg(Object.values(players).flat()), name: 'Team', isTotal: true };
       total.g = new Set(seasons.flatMap(s => s.games.map(g => g.date + g.time))).size;
       document.querySelector('#teamStatsTable tfoot').innerHTML =
         `<tr class="total-row">${cols.map(c => statCell(c, total)).join('')}</tr>`;
+      document.getElementById('teamSeasonInfo').textContent += minG > 1
+        ? ` · ${rows.length} of ${all.length} players with ${minG}+ games` : ` · ${all.length} players`;
     }
 
     // ---------- Game Log + box score ----------
