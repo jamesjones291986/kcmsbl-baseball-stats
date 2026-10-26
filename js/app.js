@@ -5,13 +5,22 @@ let sortAsc = true;
 
 // GAME_YEARS loaded from js/config.js
 
+// OBP = (H + BB + HBP) / (AB + BB + HBP + SF). Sac flies count against OBP; sac bunts
+// do not. `sf` is the fly subset of `s` (all sacrifices), and rows without it are
+// unaffected.
+function calcObp(t) {
+  const d = t.ab + t.bb + t.hb + (t.sf || 0);
+  return d ? (t.h + t.bb + t.hb) / d : 0;
+}
+
+
 function aggregateGames(games, year) {
   const teams = {};
   games.forEach(g => {
-    if (!teams[g.team]) teams[g.team] = { year, team: g.team, age: 40, g:0, h:0, ab:0, hr:0, rbi:0, '2b':0, '3b':0, sb:0, at:0, s:0, r:0, k:0, bb:0, hb:0, w:0, l:0, note:'', additional:'' };
+    if (!teams[g.team]) teams[g.team] = { year, team: g.team, age: 40, g:0, h:0, ab:0, hr:0, rbi:0, '2b':0, '3b':0, sb:0, at:0, s:0, sf:0, r:0, k:0, bb:0, hb:0, w:0, l:0, note:'', additional:'' };
     const t = teams[g.team];
     t.g++;
-    ['h','ab','hr','rbi','2b','3b','sb','s','r','k','bb','hb'].forEach(k => t[k] += g[k] || 0);
+    ['h','ab','hr','rbi','2b','3b','sb','s','sf','r','k','bb','hb'].forEach(k => t[k] += g[k] || 0);
     if (g.result) {
       if (g.result.startsWith('W')) t.w++;
       else if (g.result.startsWith('L')) t.l++;
@@ -19,17 +28,17 @@ function aggregateGames(games, year) {
   });
   const rows = Object.values(teams).map(t => {
     t.avg = t.ab ? t.h / t.ab : 0;
-    t.obp = (t.ab + t.bb + t.hb) ? (t.h + t.bb + t.hb) / (t.ab + t.bb + t.hb) : 0;
+    t.obp = calcObp(t);
     const tb = t.h + t['2b'] + 2 * t['3b'] + 3 * t.hr;
     t.slg = t.ab ? tb / t.ab : 0;
     t.ops = t.obp + t.slg;
     return t;
   });
   if (rows.length > 1) {
-    const total = { year, team: 'Total', age: rows[0].age, g:0, h:0, ab:0, hr:0, rbi:0, '2b':0, '3b':0, sb:0, at:0, s:0, r:0, k:0, bb:0, hb:0, w:0, l:0, note:'', additional:'' };
-    rows.forEach(r => ['g','h','ab','hr','rbi','2b','3b','sb','at','s','r','k','bb','hb','w','l'].forEach(k => total[k] += r[k]));
+    const total = { year, team: 'Total', age: rows[0].age, g:0, h:0, ab:0, hr:0, rbi:0, '2b':0, '3b':0, sb:0, at:0, s:0, sf:0, r:0, k:0, bb:0, hb:0, w:0, l:0, note:'', additional:'' };
+    rows.forEach(r => ['g','h','ab','hr','rbi','2b','3b','sb','at','s','sf','r','k','bb','hb','w','l'].forEach(k => total[k] += r[k]));
     total.avg = total.ab ? total.h / total.ab : 0;
-    total.obp = (total.ab + total.bb + total.hb) ? (total.h + total.bb + total.hb) / (total.ab + total.bb + total.hb) : 0;
+    total.obp = calcObp(total);
     const tb = total.h + total['2b'] + 2 * total['3b'] + 3 * total.hr;
     total.slg = total.ab ? tb / total.ab : 0;
     total.ops = total.obp + total.slg;
@@ -252,15 +261,15 @@ function calcCareer() {
   const indiv = seasons.filter(s => s.team !== 'Total');
   const teams = {};
   indiv.forEach(s => {
-    if (!teams[s.team]) teams[s.team] = { team: s.team, yearsSet: new Set(), g:0, h:0, ab:0, hr:0, rbi:0, '3b':0, '2b':0, sb:0, at:0, s:0, r:0, k:0, bb:0, hb:0, w:0, l:0 };
+    if (!teams[s.team]) teams[s.team] = { team: s.team, yearsSet: new Set(), g:0, h:0, ab:0, hr:0, rbi:0, '3b':0, '2b':0, sb:0, at:0, s:0, sf:0, r:0, k:0, bb:0, hb:0, w:0, l:0 };
     const t = teams[s.team];
     t.yearsSet.add(s.year);
-    ['g','h','ab','hr','rbi','3b','2b','sb','at','s','r','k','bb','hb','w','l'].forEach(k => t[k] += s[k] || 0);
+    ['g','h','ab','hr','rbi','3b','2b','sb','at','s','sf','r','k','bb','hb','w','l'].forEach(k => t[k] += s[k] || 0);
   });
   return Object.values(teams).map(t => {
     t.years = t.yearsSet.size;
     t.avg = t.ab ? t.h / t.ab : 0;
-    t.obp = (t.ab + t.bb + t.hb) ? (t.h + t.bb + t.hb) / (t.ab + t.bb + t.hb) : 0;
+    t.obp = calcObp(t);
     const tb = t.h + t['2b'] + 2 * t['3b'] + 3 * t.hr;
     t.slg = t.ab ? tb / t.ab : 0;
     t.ops = t.obp + t.slg;
@@ -287,14 +296,14 @@ function renderCareer() {
 
 function renderTotals() {
   const indiv = seasons.filter(s => s.team !== 'Total');
-  const t = { g:0, h:0, ab:0, hr:0, rbi:0, '3b':0, '2b':0, sb:0, at:0, s:0, r:0, k:0, bb:0, hb:0, w:0, l:0 };
+  const t = { g:0, h:0, ab:0, hr:0, rbi:0, '3b':0, '2b':0, sb:0, at:0, s:0, sf:0, r:0, k:0, bb:0, hb:0, w:0, l:0 };
   const yearsSet = new Set();
   indiv.forEach(s => {
     yearsSet.add(s.year);
     Object.keys(t).forEach(k => t[k] += s[k] || 0);
   });
   t.avg = t.ab ? t.h / t.ab : 0;
-  t.obp = (t.ab + t.bb + t.hb) ? (t.h + t.bb + t.hb) / (t.ab + t.bb + t.hb) : 0;
+  t.obp = calcObp(t);
   const tb = t.h + t['2b'] + 2 * t['3b'] + 3 * t.hr;
   t.slg = t.ab ? tb / t.ab : 0;
   t.ops = t.obp + t.slg;
@@ -446,10 +455,10 @@ function renderHero() {
   // Show current season stats (most recent GAME_YEAR) in the hero card
   const currentYear = GAME_YEARS[GAME_YEARS.length - 1];
   const currentSeasons = seasons.filter(s => s.year === currentYear && s.team !== 'Total');
-  const t = { g:0, h:0, ab:0, hr:0, rbi:0, '3b':0, '2b':0, sb:0, r:0, k:0, bb:0, hb:0 };
+  const t = { g:0, h:0, ab:0, hr:0, rbi:0, '3b':0, '2b':0, sb:0, sf:0, r:0, k:0, bb:0, hb:0 };
   currentSeasons.forEach(s => { Object.keys(t).forEach(k => t[k] += s[k] || 0); });
   t.avg = t.ab ? t.h / t.ab : 0;
-  t.obp = (t.ab + t.bb + t.hb) ? (t.h + t.bb + t.hb) / (t.ab + t.bb + t.hb) : 0;
+  t.obp = calcObp(t);
   const tb = t.h + t['2b'] + 2 * t['3b'] + 3 * t.hr;
   t.slg = t.ab ? tb / t.ab : 0;
   t.ops = t.obp + t.slg;
