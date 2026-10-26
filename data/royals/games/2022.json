@@ -190,8 +190,8 @@
       },
       "notes": {
         "hbp": [
-          "Carrasco",
-          "McFadden"
+          "Josh Carrasco",
+          "Dakota McFadden"
         ]
       }
     },
@@ -372,16 +372,16 @@
       },
       "notes": {
         "2b": [
-          "McFadden"
+          "Dakota McFadden"
         ],
         "hr": [
-          "McFadden"
+          "Dakota McFadden"
         ],
         "sb": [
-          "Almodova"
+          "Breland Almodova"
         ],
         "errors": [
-          "Lyday"
+          "Tre Lyday"
         ]
       }
     },
@@ -572,14 +572,14 @@
       },
       "notes": {
         "2b": [
-          "Almodova"
+          "Breland Almodova"
         ],
         "sh": [
-          "Gonzales"
+          "Emilio Gonzales"
         ],
         "errors": [
-          "Garcia",
-          "Garcia"
+          "Ricardo Garcia",
+          "Ricardo Garcia"
         ]
       }
     },
@@ -768,21 +768,21 @@
       },
       "notes": {
         "hr": [
-          "Almodova",
-          "McFadden"
+          "Breland Almodova",
+          "Dakota McFadden"
         ],
         "sb": [
-          "Gonzales"
+          "Emilio Gonzales"
         ],
         "hbp": [
-          "Lloyd",
-          "Adams",
-          "Jones"
+          "Chris Lloyd",
+          "Brandon Adams",
+          "James Jones"
         ],
         "errors": [
-          "Carrasco",
-          "Carrasco",
-          "Donelon"
+          "Josh Carrasco",
+          "Josh Carrasco",
+          "Brendan Donelon"
         ]
       }
     },
@@ -971,13 +971,13 @@
       },
       "notes": {
         "hbp": [
-          "Gonzales"
+          "Emilio Gonzales"
         ],
         "errors": [
-          "Garcia",
-          "Garcia",
-          "Donelon",
-          "Donelon"
+          "Ricardo Garcia",
+          "Ricardo Garcia",
+          "Brendan Donelon",
+          "Brendan Donelon"
         ]
       }
     },
@@ -1176,20 +1176,20 @@
       },
       "notes": {
         "2b": [
-          "Almodova",
-          "Lloyd",
-          "Carrasco"
+          "Breland Almodova",
+          "Chris Lloyd",
+          "Josh Carrasco"
         ],
         "3b": [
-          "McFadden"
+          "Dakota McFadden"
         ],
         "sb": [
-          "Almodova",
-          "Gonzales",
-          "Solstice"
+          "Breland Almodova",
+          "Emilio Gonzales",
+          "Nathan Solstice"
         ],
         "hbp": [
-          "Gonzales"
+          "Emilio Gonzales"
         ]
       }
     },
@@ -1368,19 +1368,19 @@
       },
       "notes": {
         "2b": [
-          "Lloyd",
-          "Solstice"
+          "Chris Lloyd",
+          "Nathan Solstice"
         ],
         "3b": [
-          "McFadden",
-          "McFadden"
+          "Dakota McFadden",
+          "Dakota McFadden"
         ],
         "cs": [
-          "Lyday"
+          "Tre Lyday"
         ],
         "errors": [
-          "Garcia",
-          "McFadden"
+          "Ricardo Garcia",
+          "Dakota McFadden"
         ]
       }
     }

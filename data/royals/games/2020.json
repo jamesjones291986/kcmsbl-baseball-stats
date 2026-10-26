@@ -226,14 +226,14 @@
       },
       "notes": {
         "sb": [
-          "Lyday"
+          "Tre Lyday"
         ],
         "cs": [
-          "Garcia"
+          "Ricardo Garcia"
         ],
         "errors": [
           "Jones (2)",
-          "Garcia (2)"
+          "Ricardo Garcia (2)"
         ]
       }
     },
@@ -460,26 +460,26 @@
       },
       "notes": {
         "2b": [
-          "Jones",
-          "Webb",
-          "Sanchez"
+          "Chad Jones",
+          "Jackson Webb",
+          "Angel Sanchez"
         ],
         "3b": [
-          "Webb",
-          "Carrasco"
+          "Jackson Webb",
+          "Josh Carrasco"
         ],
         "sb": [
-          "Lyday"
+          "Tre Lyday"
         ],
         "errors": [
-          "Garcia"
+          "Ricardo Garcia"
         ],
         "hbp": [
-          "Sanchez",
-          "Donelon"
+          "Angel Sanchez",
+          "Brendan Donelon"
         ],
         "hb_pitching": [
-          "Wulf (2)"
+          "Jake Wulf (2)"
         ]
       }
     },
@@ -748,20 +748,20 @@
       },
       "notes": {
         "sb": [
-          "McFadden"
+          "Dakota McFadden"
         ],
         "errors": [
           "Jones",
-          "McFadden",
-          "Garcia",
-          "Donelon"
+          "Dakota McFadden",
+          "Ricardo Garcia",
+          "Brendan Donelon"
         ],
         "hbp": [
-          "Jones"
+          "Chad Jones"
         ],
         "hb_pitching": [
-          "Martin",
-          "Barrera"
+          "Tim Martin",
+          "Andres Barrera"
         ]
       }
     },
@@ -976,19 +976,19 @@
       },
       "notes": {
         "sb": [
-          "McFadden"
+          "Dakota McFadden"
         ],
         "errors": [
-          "Carrasco (4)",
-          "McFadden",
-          "Garcia",
-          "Sanchez",
-          "Lyday (2)",
+          "Josh Carrasco (4)",
+          "Dakota McFadden",
+          "Ricardo Garcia",
+          "Angel Sanchez",
+          "Tre Lyday (2)",
           "Jones",
-          "Adams"
+          "Brandon Adams"
         ],
         "hbp": [
-          "Lloyd"
+          "Chris Lloyd"
         ]
       }
     },
@@ -1233,20 +1233,20 @@
       },
       "notes": {
         "2b": [
-          "Lloyd",
-          "Adams"
+          "Chris Lloyd",
+          "Brandon Adams"
         ],
         "3b": [
-          "Jones"
+          "James Jones"
         ],
         "errors": [
-          "McFadden (3)",
-          "Garcia",
-          "Adams (4)",
-          "Donelon"
+          "Dakota McFadden (3)",
+          "Ricardo Garcia",
+          "Brandon Adams (4)",
+          "Brendan Donelon"
         ],
         "hb_pitching": [
-          "Webb"
+          "Jackson Webb"
         ]
       }
     },
@@ -1435,7 +1435,7 @@
       },
       "notes": {
         "sh": [
-          "Carrasco"
+          "Josh Carrasco"
         ]
       }
     }

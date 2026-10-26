@@ -225,16 +225,16 @@
       },
       "notes": {
         "2b": [
-          "Webb",
-          "Carrasco",
-          "Rocha"
+          "Jackson Webb",
+          "Josh Carrasco",
+          "Andy Rocha"
         ],
         "errors": [
           "Jones",
-          "Lyday (2)"
+          "Tre Lyday (2)"
         ],
         "hbp": [
-          "Donelon"
+          "Brendan Donelon"
         ]
       },
       "phase": "pool"
@@ -457,23 +457,23 @@
       },
       "notes": {
         "2b": [
-          "Webb",
-          "Lloyd",
-          "Romo",
-          "Lyday"
+          "Jackson Webb",
+          "Chris Lloyd",
+          "Ronny Romo",
+          "Tre Lyday"
         ],
         "errors": [
           "Jones (3)"
         ],
         "hbp": [
-          "Carrasco",
-          "Deichler"
+          "Josh Carrasco",
+          "Nick Deichler"
         ],
         "sh": [
-          "Romo"
+          "Ronny Romo"
         ],
         "hb_pitching": [
-          "Velazquez"
+          "Angel Velasquez"
         ]
       },
       "phase": "pool"
@@ -730,21 +730,21 @@
       },
       "notes": {
         "2b": [
-          "Webb",
-          "Lazarro",
-          "Carrasco",
-          "Romo",
-          "Deichler",
-          "Barrera"
+          "Jackson Webb",
+          "John Lazarro",
+          "Josh Carrasco",
+          "Ronny Romo",
+          "Nick Deichler",
+          "Andres Barrera"
         ],
         "errors": [
           "Jones"
         ],
         "hbp": [
-          "Lloyd"
+          "Chris Lloyd"
         ],
         "sh": [
-          "Lazarro"
+          "John Lazarro"
         ]
       },
       "phase": "pool"
@@ -971,25 +971,25 @@
       },
       "notes": {
         "2b": [
-          "Lloyd",
-          "Jones"
+          "Chris Lloyd",
+          "James Jones"
         ],
         "sb": [
-          "Lazarro",
-          "Romo"
+          "John Lazarro",
+          "Ronny Romo"
         ],
         "errors": [
           "Jones",
-          "Webb"
+          "Jackson Webb"
         ],
         "hbp": [
-          "Lloyd"
+          "Chris Lloyd"
         ],
         "sh": [
-          "Deichler"
+          "Nick Deichler"
         ],
         "hb_pitching": [
-          "Webb"
+          "Jackson Webb"
         ]
       },
       "phase": "pool"
@@ -1222,27 +1222,27 @@
       },
       "notes": {
         "2b": [
-          "Lloyd",
-          "Carrasco"
+          "Chris Lloyd",
+          "Josh Carrasco"
         ],
         "3b": [
-          "Webb",
-          "Lloyd"
+          "Jackson Webb",
+          "Chris Lloyd"
         ],
         "sb": [
-          "Lazarro",
-          "Carrasco"
+          "John Lazarro",
+          "Josh Carrasco"
         ],
         "errors": [
-          "Carrasco",
-          "Lyday",
-          "Adams"
+          "Josh Carrasco",
+          "Tre Lyday",
+          "Brandon Adams"
         ],
         "hbp": [
-          "Jones"
+          "Chad Jones"
         ],
         "sh": [
-          "Deichler"
+          "Nick Deichler"
         ]
       },
       "phase": "pool"
@@ -1421,13 +1421,13 @@
       },
       "notes": {
         "2b": [
-          "Romo"
+          "Ronny Romo"
         ],
         "errors": [
-          "Deichler"
+          "Nick Deichler"
         ],
         "sh": [
-          "Carrasco"
+          "Josh Carrasco"
         ]
       },
       "phase": "playoff"

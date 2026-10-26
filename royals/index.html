@@ -19,6 +19,8 @@
     #boxScore h4 { color: #e94560; font-size: 0.9rem; margin: 1rem 0 0.5rem; }
     .record-summary { color: #9ca3af; font-size: 0.85rem; margin-bottom: 1rem; }
     .record-summary span { color: #e94560; font-weight: 700; }
+    a.player-link { color: inherit; text-decoration: none; border-bottom: 1px dotted #6b7280; }
+    a.player-link:hover { color: #e94560; border-bottom-color: #e94560; }
   </style>
 </head>
 <body>
@@ -118,14 +120,13 @@
     </div>
   </main>
 
+  <script src="ws-common.js"></script>
   <script>
-    const gameFiles = ['2019','2020','2021','2022','2023','2024','2026'];
     let allSeasons = [];
 
     async function init() {
-      const [personalRes, ...gameResults] = await Promise.all([
-        fetch('../data/royals/seasons.json'),
-        ...gameFiles.map(y => fetch('../data/royals/games/' + y + '.json').then(r => r.ok ? r.json() : null).catch(() => null))
+      const [personalRes, gameResults] = await Promise.all([
+        fetch('../data/royals/seasons.json'), loadSeasons()
       ]);
       const personal = await personalRes.json();
       renderBatting(personal.batting);
@@ -138,34 +139,23 @@
       renderGameLog();
       populateTeamSeasonFilter();
       renderTeamStats();
+      openLinkedBox();
+    }
+
+    // index.html?season=2026&date=2026-10-21&time=9:00am opens that game's box score,
+    // which is how the player page links back to a specific game.
+    function openLinkedBox() {
+      const q = new URLSearchParams(location.search);
+      const season = +q.get('season'), date = q.get('date'), time = q.get('time');
+      if (!season || !date) return;
+      document.querySelector('.tab-btn[data-tab="tab-games"]').click();
+      document.getElementById('seasonFilter').value = season;
+      renderGameLog();
+      showBox(season, date, time);
+      document.getElementById('boxScore').scrollIntoView({ behavior: 'smooth' });
     }
 
     function fmt(v, d) { return v == null ? '-' : d ? v.toFixed(3) : v; }
-
-    // ERA and WHIP divide by innings pitched, so a pitcher who recorded no outs has no
-    // defined rate. Returning 0 there would read as a perfect outing, which is the
-    // opposite of what happened. Infinity when runs/baserunners were allowed in zero
-    // innings, null when nothing at all happened (0/0 is undefined, not zero).
-    // Innings use baseball notation: 7.1 means 7 and one third, not 7.1 innings. Sum
-    // and divide in outs, or 7.1 + 0.2 comes out as 7.3 instead of 8.0.
-    function ipToOuts(ip) { const w = Math.trunc(ip); return w * 3 + Math.round((ip - w) * 10); }
-    function outsToIp(outs) { return Math.trunc(outs / 3) + (outs % 3) / 10; }
-
-    function rate(numerator, ip) {
-      if (ip > 0) return numerator / ip;
-      return numerator > 0 ? Infinity : null;
-    }
-    function fmtRate(v) {
-      if (v == null) return '-';
-      return Number.isFinite(v) ? v.toFixed(2) : 'INF';
-    }
-    // Infinity - Infinity is NaN, which makes a subtraction comparator misbehave, so
-    // compare with explicit operators and treat null as the bottom of the range.
-    function cmpVal(a, b) {
-      const x = a == null ? -Infinity : a, y = b == null ? -Infinity : b;
-      if (typeof x === 'string' || typeof y === 'string') return String(x).localeCompare(String(y));
-      return x === y ? 0 : (x < y ? -1 : 1);
-    }
 
     function populateSeasonFilter() {
       const sel = document.getElementById('seasonFilter');
@@ -187,7 +177,7 @@
       allSeasons.forEach(s => {
         if (seasonFilter && s.season !== +seasonFilter) return;
         s.games.forEach(g => {
-          const isHome = g.home === 'Kansas City Royals' || g.home === 'Kansas City Blues';
+          const isHome = ourSide(g) === 'home';
           const opponent = isHome ? g.away : g.home;
           rows.push({...g, opponent, seasonYear: s.season});
         });
@@ -226,7 +216,7 @@
       const season = allSeasons.find(s => s.season === year);
       const game = season.games.find(g => g.date === date && g.time === time);
       if (!game) return;
-      const isHome = game.home === 'Kansas City Royals' || game.home === 'Kansas City Blues';
+      const isHome = ourSide(game) === 'home';
       const us = isHome ? 'home' : 'away';
       const them = isHome ? 'away' : 'home';
 
@@ -260,8 +250,8 @@
           // under the man he replaced rather than listing him as another starter.
           const isSub = !!b.sub_for;
           const nameCell = isSub
-            ? `<span style="padding-left:1.25rem;color:#9ca3af">&#8627; ${b.name}</span>`
-            : b.name;
+            ? `<span style="padding-left:1.25rem;color:#9ca3af">&#8627; ${playerLink(b.name, year)}</span>`
+            : playerLink(b.name, year);
           const title = isSub ? ` title="in for ${b.sub_for}"` : '';
           html += `<tr${title}><td style="text-align:left">${nameCell}</td><td>${b.ab}</td><td>${b.r}</td><td>${b.h}</td><td>${b.rbi}</td><td>${b.bb}</td><td>${b.k}</td></tr>`;
         });
@@ -275,7 +265,7 @@
       if (pitchers && pitchers.length) {
         html += '<h4>Pitching</h4><div class="table-wrap"><table><thead><tr><th style="text-align:left">Name</th><th>Dec</th><th>IP</th><th>H</th><th>R</th><th>ER</th><th>BB</th><th>K</th></tr></thead><tbody>';
         pitchers.forEach(p => {
-          html += `<tr><td style="text-align:left">${p.name}</td><td>${p.decision||''}</td><td>${p.ip}</td><td>${p.h}</td><td>${p.r}</td><td>${p.er}</td><td>${p.bb}</td><td>${p.k}</td></tr>`;
+          html += `<tr><td style="text-align:left">${playerLink(p.name, year)}</td><td>${p.decision||''}</td><td>${p.ip}</td><td>${p.h}</td><td>${p.r}</td><td>${p.er}</td><td>${p.bb}</td><td>${p.k}</td></tr>`;
         });
         html += '</tbody></table></div>';
       }
@@ -291,6 +281,7 @@
         if (game.notes.errors?.length) parts.push('E: ' + game.notes.errors.join(', '));
         if (game.notes.hbp?.length) parts.push('HBP: ' + game.notes.hbp.join(', '));
         if (game.notes.sh?.length) parts.push('SH: ' + game.notes.sh.join(', '));
+        if (game.notes.sf?.length) parts.push('SF: ' + game.notes.sf.join(', '));
         if (parts.length) html += '<p style="margin-top:0.5rem;color:#9ca3af;font-size:0.8rem">' + parts.join(' &nbsp;|&nbsp; ') + '</p>';
       }
 
@@ -379,13 +370,16 @@
       const players = {};
       seasons.forEach(s => {
         s.games.forEach(g => {
-          const isHome = g.home === 'Kansas City Royals' || g.home === 'Kansas City Blues';
+          const isHome = ourSide(g) === 'home';
           const side = isHome ? 'home' : 'away';
           (g.batting[side] || []).forEach(b => {
-            if (!players[b.name]) players[b.name] = {name:b.name,g:0,ab:0,r:0,h:0,rbi:0,bb:0,k:0,'2b':0,'3b':0,hr:0};
+            if (!players[b.name]) players[b.name] = {name:b.name,g:0,ab:0,r:0,h:0,rbi:0,bb:0,k:0,'2b':0,'3b':0,hr:0,sb:0,hbp:0,sf:0};
             const p = players[b.name];
             p.g++;
             ['ab','r','h','rbi','bb','k','2b','3b','hr'].forEach(k => p[k] += b[k]||0);
+            p.sb += noteCount(g, 'sb', b.name);
+            p.hbp += noteCount(g, 'hbp', b.name);
+            p.sf += noteCount(g, 'sf', b.name);
           });
         });
       });
@@ -393,20 +387,18 @@
       let data = Object.values(players);
       data.forEach(p => {
         p.avg = p.ab ? p.h / p.ab : 0;
-        p.obp = (p.ab+p.bb) ? (p.h+p.bb)/(p.ab+p.bb) : 0;
-        const tb = p.h + p['2b'] + 2*p['3b'] + 3*p.hr;
-        p.slg = p.ab ? tb/p.ab : 0;
+        p.obp = obp(p);
+        p.slg = slg(p);
         p.ops = p.obp + p.slg;
       });
 
       data.sort((a, b) => {
-        const av = a[teamSortCol] ?? 0, bv = b[teamSortCol] ?? 0;
-        const cmp = typeof av === 'string' ? av.localeCompare(bv) : av - bv;
+        const cmp = cmpVal(a[teamSortCol], b[teamSortCol]);
         return teamSortAsc ? cmp : -cmp;
       });
 
       const thead = document.getElementById('teamStatsHead');
-      const cols = [['name','Name'],['g','G'],['avg','AVG'],['h','H'],['ab','AB'],['hr','HR'],['rbi','RBI'],['obp','OBP'],['slg','SLG'],['ops','OPS'],['2b','2B'],['3b','3B'],['r','R'],['bb','BB'],['k','K']];
+      const cols = [['name','Name'],['g','G'],['avg','AVG'],['h','H'],['ab','AB'],['hr','HR'],['rbi','RBI'],['obp','OBP'],['slg','SLG'],['ops','OPS'],['2b','2B'],['3b','3B'],['r','R'],['bb','BB'],['k','K'],['sb','SB'],['hbp','HBP']];
       thead.innerHTML = '<tr>' + cols.map(([col,label]) => {
         const cls = teamSortCol === col ? (teamSortAsc ? 'sort-asc' : 'sort-desc') : '';
         return `<th class="${cls}" onclick="sortTeam('${col}')">${label}</th>`;
@@ -414,10 +406,10 @@
 
       const tbody = document.querySelector('#teamStatsTable tbody');
       tbody.innerHTML = data.map(p => `<tr>
-        <td style="text-align:left">${p.name}</td><td>${p.g}</td><td>${p.avg.toFixed(3)}</td>
+        <td style="text-align:left">${playerLink(p.name, seasonFilterVal())}</td><td>${p.g}</td><td>${p.avg.toFixed(3)}</td>
         <td>${p.h}</td><td>${p.ab}</td><td>${p.hr}</td><td>${p.rbi}</td>
         <td>${p.obp.toFixed(3)}</td><td>${p.slg.toFixed(3)}</td><td>${p.ops.toFixed(3)}</td>
-        <td>${p['2b']}</td><td>${p['3b']}</td><td>${p.r}</td><td>${p.bb}</td><td>${p.k}</td>
+        <td>${p['2b']}</td><td>${p['3b']}</td><td>${p.r}</td><td>${p.bb}</td><td>${p.k}</td><td>${p.sb}</td><td>${p.hbp}</td>
       </tr>`).join('');
     }
 
@@ -425,7 +417,7 @@
       const players = {};
       seasons.forEach(s => {
         s.games.forEach(g => {
-          const isHome = g.home === 'Kansas City Royals' || g.home === 'Kansas City Blues';
+          const isHome = ourSide(g) === 'home';
           const side = isHome ? 'home' : 'away';
           (g.pitching[side] || []).forEach(p => {
             if (!players[p.name]) players[p.name] = {name:p.name,g:0,w:0,l:0,s:0,ip:0,h:0,r:0,er:0,bb:0,k:0};
@@ -461,11 +453,13 @@
 
       const tbody = document.querySelector('#teamStatsTable tbody');
       tbody.innerHTML = data.map(p => `<tr>
-        <td style="text-align:left">${p.name}</td><td>${p.g}</td><td>${fmtRate(p.era)}</td>
+        <td style="text-align:left">${playerLink(p.name, seasonFilterVal())}</td><td>${p.g}</td><td>${fmtRate(p.era)}</td>
         <td>${p.w}</td><td>${p.l}</td><td>${p.s}</td><td>${fmtRate(p.whip)}</td>
         <td>${p.ip.toFixed(1)}</td><td>${p.h}</td><td>${p.r}</td><td>${p.er}</td><td>${p.bb}</td><td>${p.k}</td>
       </tr>`).join('');
     }
+
+    function seasonFilterVal() { return document.getElementById('teamSeasonFilter').value; }
 
     function sortTeam(col) {
       if (teamSortCol === col) teamSortAsc = !teamSortAsc;
